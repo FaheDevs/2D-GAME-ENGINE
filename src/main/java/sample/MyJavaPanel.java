@@ -30,6 +30,7 @@ public class MyJavaPanel extends JPanel {
       String message = MessageFormat.format("Loading image at path {0}", path);
       logger.debug(message);
 
+
     }
     try {
       image = ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));

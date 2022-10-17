@@ -1,5 +1,7 @@
 package sample;
 
+import engines.physics.Direction;
+
 import java.io.Serial;
 import javax.swing.JFrame;
 
@@ -25,6 +27,8 @@ public class MyJavaFrame extends JFrame {
   }
 
   public static void main(String[] args) {
-    new MyJavaFrame();
+    Direction direction = Direction.UP;
+
+    //new MyJavaFrame();
   }
 }
