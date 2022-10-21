@@ -23,14 +23,14 @@ public class ObjectsManager {
     }
 
 
-    public BufferedImage upload (String path  ) throws IOException {
+    public BufferedImage upload(String path ) throws IOException {
         BufferedImage image = null;
         image = ImageIO.read(new File(path));
         return image;
     }
 
     public void setObjectEImage(int i,String path ) throws IOException {
-        this.graphicalObjects[i].image=upload(path);
+        graphicalObjects[i] = new GraphicalObject(upload(path));
     }
 
     public BufferedImage getGraphicalObjects(int i) {

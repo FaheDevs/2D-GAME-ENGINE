@@ -1,19 +1,8 @@
 package engines.physics;
 
 public enum Direction {
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT,
-
-
-    UpRight,
-
-    UpLeft,
-
-    DownRight,
-
-    DownLeft
+    UP, DOWN, RIGHT, LEFT,
+    UpRight, UpLeft, DownRight, DownLeft
 
 
 }
