@@ -1,8 +1,7 @@
 package sample;
 
-import engines.graphics.Engine;
+import engines.physics.Direction;
 
-import java.io.IOException;
 import java.io.Serial;
 import javax.swing.JFrame;
 
@@ -18,16 +17,18 @@ public class MyJavaFrame extends JFrame {
    * Constructs a new visible frame.
    */
 
-  public MyJavaFrame() throws IOException {
+  public MyJavaFrame() {
     setTitle("Main window");
     setSize(400, 400);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    add(new Engine());
+    add(new MyJavaPanel());
     setVisible(true);
   }
 
-  public static void main(String[] args) throws IOException {
-    new MyJavaFrame();
+  public static void main(String[] args) {
+    Direction direction = Direction.UP;
+
+    //new MyJavaFrame();
   }
 }

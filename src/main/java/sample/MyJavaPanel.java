@@ -2,7 +2,6 @@ package sample;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serial;
 import java.text.MessageFormat;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public class MyJavaPanel extends JPanel {
    * Constructs a new panel that draw an image.
    */
 
-  public MyJavaPanel() throws IOException {
+  public MyJavaPanel() {
     Logger logger = LogManager.getLogger(this.getClass());
     logger.debug("Construct a MyJavaPanel");
     String path = "image.png";
@@ -31,13 +30,14 @@ public class MyJavaPanel extends JPanel {
       String message = MessageFormat.format("Loading image at path {0}", path);
       logger.debug(message);
 
-    } try {
+
+    }
+    try {
       image = ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
     } catch (Exception ex) {
       String message = MessageFormat.format("Error: Cannot load image at path: {0}", path);
       logger.error(message, ex);
     }
-
   }
 
   @Override
