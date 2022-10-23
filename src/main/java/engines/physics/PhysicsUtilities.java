@@ -2,7 +2,7 @@ package engines.physics;
 
 public class PhysicsUtilities {
 
-    public static final int STEP= 40 ;
+    public static final int SPEED = 40 ;
     public static final int LEFT= 0 ;
     public static final int RIGHT =1;
     public static final int UP= 2;
