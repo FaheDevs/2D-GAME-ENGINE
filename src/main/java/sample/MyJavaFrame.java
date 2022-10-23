@@ -18,7 +18,11 @@ public class MyJavaFrame extends JFrame implements KeyListener {
     @Serial
     private static final long serialVersionUID = 42L;
 
+    public static final int SCENE_WIDTH=1000;
+    public static final int SCENE_HEIGHT=900;
+
     Engine engine = new Engine();
+
 
 
     /**
@@ -28,7 +32,7 @@ public class MyJavaFrame extends JFrame implements KeyListener {
     public MyJavaFrame() throws IOException {
         this.addKeyListener(this);
         setTitle("Main window");
-        setSize(800, 800);
+        setSize(SCENE_WIDTH, SCENE_HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(engine);

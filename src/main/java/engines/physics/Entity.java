@@ -1,14 +1,38 @@
 package engines.physics;
 
 
-import java.awt.Point;
+import engines.graphics.GraphicsUtilities;
+import sample.MyJavaFrame;
+
+import java.awt.*;
+
+import static engines.physics.PhysicsUtilities.*;
 
 public class Entity {
+
+
+
+
     Point position = new Point();
     int vitesse = 0;
 
+    int x;
+    int y;
+    int width;
+    int height;
+
+
     Direction direction;
 
+
+    public Entity(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Entity() {
+
+    }
 
     public Direction getDirection() {
         return direction;
@@ -18,9 +42,12 @@ public class Entity {
         this.direction = direction;
     }
 
+    public int getX() {
+        return x;
+    }
 
-    public Entity() {
-
+    public int getY() {
+        return y;
     }
 
     public Point getPosition() {
@@ -59,26 +86,25 @@ public class Entity {
 
     }
 
+    public void move(int movement) {
+        int newX = x;
+        int newY = y;
+        if (movement == PhysicsUtilities.UP)
+            newY -= Math.min(STEP, y);
+        else if (movement == DOWN)
+            newY += Math.min(STEP, MyJavaFrame.SCENE_HEIGHT - GraphicsUtilities.IMAGE_HEIGHT - y);
+        moveTo(x, newY);
 
-    public void move(Direction direction) {
-        switch (direction) {
-            case UP -> {
-                up();
+        if (movement == LEFT)
+            newX -= Math.min(STEP, x);
+        else if (movement == RIGHT)
+            newX += Math.min(STEP, MyJavaFrame.SCENE_WIDTH - GraphicsUtilities.IMAGE_WIDTH - x);
+        moveTo(newX, y);
+    }
 
-            }
-            case DOWN -> {
-                down();
-
-            }
-            case RIGHT -> {
-                right();
-
-            }
-            case LEFT -> {
-                left();
-            }
-
-        }
+    public void moveTo(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
 

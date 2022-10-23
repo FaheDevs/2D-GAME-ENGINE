@@ -1,17 +1,17 @@
 package engines.graphics;
 
+import engines.physics.Entity;
+import engines.physics.PhysicsUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serial;
 import java.text.MessageFormat;
-
-import javax.swing.JPanel;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * An extension of javax.swing.JFrame that can draw images.
@@ -19,24 +19,35 @@ import org.apache.logging.log4j.Logger;
 public class Engine extends JPanel implements KeyListener {
     @Serial
     private static final long serialVersionUID = 4242L;
-    private transient BufferedImage image;
-    Rectangle rectangle = new Rectangle(400,100,100,100);
+    public Boolean delete = false;
+    ObjectsManager objectsManager;
+    Entity entity;
 
 
     /**
      * Constructs a new panel that draw an image.
+     *
+     * this panel uses the objectsmanager to extract the image that we want to draw into the panel
+     *
+     * relies the image into the entity
+     *
+     * moves the image
      */
 
-    public Engine() {
+    public Engine() throws IOException {
+
+        entity = new Entity(400, 100);
+        this.objectsManager = new ObjectsManager();
+
         Logger logger = LogManager.getLogger(this.getClass());
         logger.debug("Construct a MyJavaPanel");
-        String path = "src/main/resources/sample/image.png";
+        String path = GraphicsUtilities.assetsPaths.get("ubuntu");
         if (logger.isDebugEnabled()) {
             String message = MessageFormat.format("Loading image at path {0}", path);
             logger.debug(message);
         }
         try {
-            setImage(0,path);
+//            setDelete();
             this.addKeyListener(this);
         } catch (Exception ex) {
             String message = MessageFormat.format("Error: Cannot load image at path: {0}", path);
@@ -47,19 +58,18 @@ public class Engine extends JPanel implements KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-       // g.drawImage(image, 50, 50, null);
-        g.drawRect(rectangle.x, rectangle.y, rectangle.width,rectangle.height);
-
-
+        if (!delete) {
+            g.drawImage(objectsManager.getGraphicalObjects("ubuntu"), entity.getX(), entity.getY(), null);
+        } else {
+            g.drawImage(objectsManager.getGraphicalObjects("delete"), entity.getX(), entity.getX(), null);
+        }
 
     }
 
-
-    public void setImage(int i , String path ) throws IOException {
-        ObjectsManager objectsManager = new ObjectsManager();
-        objectsManager.setObjectEImage(i,path);
-        image = objectsManager.getGraphicalObjects(i);
+    public void setDelete() {
+        this.delete = true;
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -72,6 +82,7 @@ public class Engine extends JPanel implements KeyListener {
         }
 
     }
+
     @Override
     public void setFocusable(boolean b) {
         super.setFocusable(b);
@@ -81,19 +92,18 @@ public class Engine extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rectangle.x = rectangle.x + 10 ;
+            entity.move(PhysicsUtilities.RIGHT);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            rectangle.x = rectangle.x - 10 ;
+            entity.move(PhysicsUtilities.LEFT);
 
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            rectangle.y = rectangle.y + 10 ;
+            entity.move(PhysicsUtilities.DOWN);
 
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            rectangle.y = rectangle.y - 10 ;
-
+            entity.move(PhysicsUtilities.UP);
         }
 
         repaint();
@@ -112,4 +122,4 @@ public class Engine extends JPanel implements KeyListener {
     }
 
 
-    }
+}

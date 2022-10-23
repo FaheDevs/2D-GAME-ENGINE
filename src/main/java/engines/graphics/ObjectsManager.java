@@ -1,39 +1,45 @@
 package engines.graphics;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.Objects;
+import java.util.HashMap;
 
 public class ObjectsManager {
 
-    public GraphicalObject[] graphicalObjects;
 
-    private static final int ARRAY_SIZE = 10;
+    /**
+     *
+     * contains a map to that sets the graphical objects name and image
+     *
+     * graphical objects are in the hash map
+     *
+     *
+     *
+     * */
+
+    public HashMap<String, BufferedImage> graphicalObjectsMap;
 
 
-    public ObjectsManager() {
-          graphicalObjects = new GraphicalObject[ARRAY_SIZE] ;
-//          setObjectEImage();
+    public ObjectsManager() throws IOException {
+        GraphicsUtilities.setAssetsPaths();
+        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject("ubuntu", GraphicsUtilities.assetsPaths.get("ubuntu"));
+//        GraphicalObject graphicalObjectDeleted = GraphicsUtilities.createGraphicalObject("delete",GraphicsUtilities.assetsPaths.get("no"));
+
+        setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
+//        setObjectImage(graphicalObjectDeleted.getName(), graphicalObjectDeleted.getImage());
     }
 
-
-    public BufferedImage upload(String path ) throws IOException {
-        BufferedImage image = null;
-        image = ImageIO.read(new File(path));
-        return image;
+    public static void main(String[] args) throws IOException {
+        ObjectsManager objectsManager = new ObjectsManager();
+        System.out.println();
     }
 
-    public void setObjectEImage(int i,String path ) throws IOException {
-        graphicalObjects[i] = new GraphicalObject(upload(path));
+    public void setObjectImage(String name, BufferedImage image) throws IOException {
+        graphicalObjectsMap = new HashMap<>();
+        graphicalObjectsMap.put(name, image);
     }
 
-    public BufferedImage getGraphicalObjects(int i) {
-        return graphicalObjects[i].image;
+    public BufferedImage getGraphicalObjects(String name) {
+        return graphicalObjectsMap.get(name);
     }
 }
