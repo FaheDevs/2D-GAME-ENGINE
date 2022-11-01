@@ -6,7 +6,7 @@ import sample.MyJavaFrame;
 
 import static engines.physics.PhysicsUtilities.*;
 
-public class Entity {
+public class PhysicalEntity {
 
 
     int x;
@@ -15,7 +15,7 @@ public class Entity {
     int height;
 
 
-    public Entity(int x, int y) {
+    public PhysicalEntity(int x, int y) {
         this.x = x;
         this.y = y;
     }

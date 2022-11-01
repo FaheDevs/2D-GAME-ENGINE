@@ -1,7 +1,6 @@
 package sample;
 
-import engines.graphics.Engine;
-import engines.physics.Direction;
+import engines.graphics.GraphicalEngine;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,10 +17,10 @@ public class MyJavaFrame extends JFrame implements KeyListener {
     @Serial
     private static final long serialVersionUID = 42L;
 
-    public static final int SCENE_WIDTH=1000;
-    public static final int SCENE_HEIGHT=900;
+    public static final int SCENE_WIDTH=600;
+    public static final int SCENE_HEIGHT=600;
 
-    Engine engine = new Engine();
+    GraphicalEngine graphicalEngine = new GraphicalEngine();
 
 
 
@@ -35,9 +34,10 @@ public class MyJavaFrame extends JFrame implements KeyListener {
         setSize(SCENE_WIDTH, SCENE_HEIGHT);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(engine);
-        engine.setFocusable(true);
+        add(graphicalEngine.tester);
+        graphicalEngine.tester.setFocusable(true);
         setVisible(true);
+        setResizable(false);
     }
 
 
@@ -48,21 +48,20 @@ public class MyJavaFrame extends JFrame implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
 
-       engine.keyTyped(e);
+       graphicalEngine.keyTyped(e);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
-        engine.keyPressed(e);
+        graphicalEngine.keyPressed(e);
 
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        engine.keyReleased(e);
-
+        graphicalEngine.keyReleased(e);
 
     }
 }
