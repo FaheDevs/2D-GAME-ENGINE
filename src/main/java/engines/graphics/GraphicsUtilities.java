@@ -18,24 +18,16 @@ public  class GraphicsUtilities {
      * helps with creation of a graphical object
      *
      * helps with uploading and scaling the image
-     *
      * */
     public static HashMap<String, String> assetsPaths;
 
-    public static final int IMAGE_WIDTH = 60;
-    public static final int IMAGE_HEIGHT = 60 ;
+    public static final int IMAGE_WIDTH = 64;
+    public static final int IMAGE_HEIGHT = 64 ;
 
-
-
-
-
-    public GraphicsUtilities() {
-    }
 
     public static void setAssetsPaths() {
         assetsPaths = new HashMap<>();
-        addToAssetsPath("ubuntu","src/main/resources/sample/image.png",assetsPaths);
-        addToAssetsPath("no","src/main/resources/sample/no.png",assetsPaths);
+        addToAssetsPath("pacman","src/main/resources/pactiles/ghost2.png",assetsPaths);
 
 
     }
@@ -51,10 +43,9 @@ public  class GraphicsUtilities {
     public static BufferedImage upload(String path ) throws IOException {
         BufferedImage image = null;
         image = ImageIO.read(new File(path));
-
-        return GraphicsUtilities.scale(image, IMAGE_WIDTH, IMAGE_HEIGHT);
+        return image;
     }
-    public static BufferedImage scale(BufferedImage src, int w, int h)
+    /*public static BufferedImage scale(BufferedImage src, int w, int h)
     {
         BufferedImage img =
                 new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
@@ -74,10 +65,8 @@ public  class GraphicsUtilities {
         return img;
     }
 
+     */
 
-    public static void main(String[] args) {
-        GraphicsUtilities.setAssetsPaths();
-        System.out.println(GraphicsUtilities.assetsPaths);
 
-    }
+
 }

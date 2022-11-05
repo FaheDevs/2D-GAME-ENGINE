@@ -8,13 +8,8 @@ public class ObjectsManager {
 
 
     /**
-     *
      * contains a map to that sets the graphical objects name and image
-     *
      * graphical objects are in the hash map
-     *
-     *
-     *
      * */
 
     public HashMap<String, BufferedImage> graphicalObjectsMap;
@@ -22,19 +17,12 @@ public class ObjectsManager {
 
     public ObjectsManager() throws IOException {
         GraphicsUtilities.setAssetsPaths();
-        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject("ubuntu", GraphicsUtilities.assetsPaths.get("ubuntu"));
-//        GraphicalObject graphicalObjectDeleted = GraphicsUtilities.createGraphicalObject("delete",GraphicsUtilities.assetsPaths.get("no"));
-
+        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject("pacman", GraphicsUtilities.assetsPaths.get("pacman"));
         setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
-//        setObjectImage(graphicalObjectDeleted.getName(), graphicalObjectDeleted.getImage());
     }
 
-    public static void main(String[] args) throws IOException {
-        ObjectsManager objectsManager = new ObjectsManager();
-        System.out.println();
-    }
 
-    public void setObjectImage(String name, BufferedImage image) throws IOException {
+    public void setObjectImage(String name, BufferedImage image) {
         graphicalObjectsMap = new HashMap<>();
         graphicalObjectsMap.put(name, image);
     }

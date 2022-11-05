@@ -2,10 +2,11 @@ package sample;
 
 import engines.graphics.GraphicalEngine;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.io.Serial;
+
 import javax.swing.JFrame;
 
 
@@ -14,14 +15,16 @@ import javax.swing.JFrame;
  */
 public class MyJavaFrame extends JFrame implements KeyListener {
 
-    @Serial
-    private static final long serialVersionUID = 42L;
 
-    public static final int SCENE_WIDTH=600;
-    public static final int SCENE_HEIGHT=600;
+    public static final int ORIGINAL_TILE_SIZE = 64 ; // 64 x 64 TILES
+    public static final int SCALE = 1;
+    public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public static final int MAX_SCREEN_COL = 10;
+    public static final int MAX_SCREEN_ROW = 10;
+    public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL ;
+    public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW ;
 
     GraphicalEngine graphicalEngine = new GraphicalEngine();
-
 
 
     /**
@@ -29,15 +32,15 @@ public class MyJavaFrame extends JFrame implements KeyListener {
      */
 
     public MyJavaFrame() throws IOException {
-        this.addKeyListener(this);
-        setTitle("Main window");
-        setSize(SCENE_WIDTH, SCENE_HEIGHT);
-        setLocationRelativeTo(null);
+        setSize(new Dimension(SCENE_WIDTH,SCENE_HEIGHT));
+        addKeyListener(this);
+        setTitle("Game Windows ");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        add(graphicalEngine.tester);
-        graphicalEngine.tester.setFocusable(true);
+        graphicalEngine.jPanel.setSize(new Dimension(SCENE_WIDTH,SCENE_HEIGHT));
+        add(graphicalEngine.jPanel);
         setVisible(true);
-        setResizable(false);
+        System.out.println("SCENE_HEIGHT = " + SCENE_HEIGHT);
+        System.out.println("SCENE_WIDTH = " + SCENE_WIDTH);
     }
 
 
@@ -47,16 +50,12 @@ public class MyJavaFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-       graphicalEngine.keyTyped(e);
+        graphicalEngine.keyTyped(e);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
         graphicalEngine.keyPressed(e);
-
-
     }
 
     @Override

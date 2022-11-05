@@ -4,29 +4,25 @@ package engines.physics;
 import engines.graphics.GraphicsUtilities;
 import sample.MyJavaFrame;
 
+import java.awt.*;
+
 import static engines.physics.PhysicsUtilities.*;
 
 public class PhysicalEntity {
 
 
+    public Point position;
     int x;
     int y;
-    int width;
-    int height;
+
 
 
     public PhysicalEntity(int x, int y) {
         this.x = x;
         this.y = y;
+        this.position = new Point(x, y);
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 
     public int getX() {
         return x;
@@ -41,21 +37,22 @@ public class PhysicalEntity {
         int newX = x;
         int newY = y;
         if (movement == PhysicsUtilities.UP)
-            newY -= Math.min(SPEED, y);
+            newY -= SPEED;
         else if (movement == DOWN)
-            newY += Math.min(SPEED, MyJavaFrame.SCENE_HEIGHT - GraphicsUtilities.IMAGE_HEIGHT - y);
+            newY += SPEED;
         moveTo(x, newY);
 
         if (movement == LEFT)
-            newX -= Math.min(SPEED, x);
+            newX -= SPEED;
         else if (movement == RIGHT)
-            newX += Math.min(SPEED, MyJavaFrame.SCENE_WIDTH - GraphicsUtilities.IMAGE_WIDTH - x);
+            newX += SPEED;
         moveTo(newX, y);
     }
 
     public void moveTo(int x, int y) {
         this.x = x;
         this.y = y;
+        this.position.setLocation(x, y);
     }
 
 

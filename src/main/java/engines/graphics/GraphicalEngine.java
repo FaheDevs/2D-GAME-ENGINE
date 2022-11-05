@@ -26,64 +26,46 @@ public class GraphicalEngine implements KeyListener {
 
     /**
      * Constructs a new panel that draw an image.
-     *
-     * this panel uses the objectsmanager to extract the image that we want to draw into the panel
-     *
-     * relies the image into the physicalEntity
-     *
+     * <p>
+     * this panel uses the objects manager to extract the image that we want to draw into the panel
+     * <p>
+     * relies on the image into the physicalEntity
+     * <p>
      * moves the image
      */
 
 
-     public JPanel tester = new JPanel(true) {
+    public JPanel jPanel = new JPanel(true) {
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (!delete) {
-                g.drawImage(objectsManager.getGraphicalObjects("ubuntu"), physicalEntity.getX(), physicalEntity.getY(), null);
-            } else {
-                g.drawImage(objectsManager.getGraphicalObjects("delete"), physicalEntity.getX(), physicalEntity.getX(), null);
-            }
+            super.setSize(640,640);
+            System.out.println("POSITION " + physicalEntity.position);
+            System.out.println("size :" + this.getSize());
+            g.drawImage(objectsManager.getGraphicalObjects("pacman"), physicalEntity.getX(), physicalEntity.getY(),null);
         }
 
         @Override
         public void setFocusable(boolean b) {
             super.setFocusable(b);
         }
+
     };
 
 
     public GraphicalEngine() throws IOException {
 
-        physicalEntity = new PhysicalEntity(400, 100);
-        this.objectsManager = new ObjectsManager();
+        physicalEntity = new PhysicalEntity(0, 640);
+        objectsManager = new ObjectsManager();
+        jPanel.setSize(new Dimension(640,640));
 
-        Logger logger = LogManager.getLogger(this.getClass());
-        logger.debug("Construct a MyJavaPanel");
-        String path = GraphicsUtilities.assetsPaths.get("ubuntu");
-        if (logger.isDebugEnabled()) {
-            String message = MessageFormat.format("Loading image at path {0}", path);
-            logger.debug(message);
-        }
         try {
-//            setDelete();
-            tester.addKeyListener(this);
+            jPanel.addKeyListener(this);
+
         } catch (Exception ex) {
-            String message = MessageFormat.format("Error: Cannot load image at path: {0}", path);
-            logger.error(message, ex);
+            ex.printStackTrace();
         }
     }
 
-//    @Override
-//    protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
-//        if (!delete) {
-//            g.drawImage(objectsManager.getGraphicalObjects("ubuntu"), physicalEntity.getX(), physicalEntity.getY(), null);
-//        } else {
-//            g.drawImage(objectsManager.getGraphicalObjects("delete"), physicalEntity.getX(), physicalEntity.getX(), null);
-//        }
-//
-//    }
 
     public void setDelete() {
         this.delete = true;
@@ -92,23 +74,8 @@ public class GraphicalEngine implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key typed");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key typed");
-        }
-
-
-
-
     }
 
-//    @Override
-//    public void setFocusable(boolean b) {
-//        super.setFocusable(b);
-//    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -122,29 +89,19 @@ public class GraphicalEngine implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             physicalEntity.move(PhysicsUtilities.DOWN);
-
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             physicalEntity.move(PhysicsUtilities.UP);
         }
-
-        tester.repaint();
+        jPanel.repaint();
 
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            System.out.println("Right key Released");
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            System.out.println("Left key Released");
-        }
+
 
     }
-
-
-
 
 
 }
