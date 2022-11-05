@@ -28,12 +28,7 @@ class TestGraphicsUtilities {
     Assertions.assertEquals(g.assetsPaths, assets);
   }
 
-  @Test
-  void testCreateGraphicalObject() throws IOException {
-    GraphicsUtilities g = new GraphicsUtilities();
-    GraphicalObject gObjt = g.createGraphicalObject("ubuntu","src/main/resources/sample/image.png");
-    Assertions.assertEquals (gObjt.getName(),"ubuntu");
-  }
+
 
 
 }
