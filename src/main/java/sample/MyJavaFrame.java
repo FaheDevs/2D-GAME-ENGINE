@@ -16,8 +16,8 @@ import javax.swing.JFrame;
 public class MyJavaFrame extends JFrame implements KeyListener {
 
 
-    public static final int ORIGINAL_TILE_SIZE = 64 ; // 64 x 64 TILES
-    public static final int SCALE = 1;
+    public static final int ORIGINAL_TILE_SIZE = 32 ; // 64 x 64 TILES
+    public static final int SCALE = 2;
     public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
     public static final int MAX_SCREEN_COL = 10;
     public static final int MAX_SCREEN_ROW = 10;
@@ -36,11 +36,8 @@ public class MyJavaFrame extends JFrame implements KeyListener {
         addKeyListener(this);
         setTitle("Game Windows ");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        graphicalEngine.jPanel.setSize(new Dimension(SCENE_WIDTH,SCENE_HEIGHT));
         add(graphicalEngine.jPanel);
         setVisible(true);
-        System.out.println("SCENE_HEIGHT = " + SCENE_HEIGHT);
-        System.out.println("SCENE_WIDTH = " + SCENE_WIDTH);
     }
 
 

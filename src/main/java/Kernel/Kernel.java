@@ -3,6 +3,13 @@ package Kernel;
 import java.awt.*;
 
 public class Kernel extends Thread {
+
+
+    enum GameStates{
+        InGAME,
+        PAUSE,
+    }
+
     Thread gameThread ;
 
     public Kernel(){
@@ -14,8 +21,7 @@ public class Kernel extends Thread {
     @Override
     public void run() {
         while (gameThread != null){
-            // UPDATE INFORMATION SUCH AS CHARACTER POSITION
-            // DRAW ON THE SCREEN
+
         }
     }
 
@@ -24,6 +30,7 @@ public class Kernel extends Thread {
 
     }
     public void paintComponent(Graphics g){
+
 
     }
 }

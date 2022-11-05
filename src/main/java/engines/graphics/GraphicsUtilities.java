@@ -1,13 +1,13 @@
 package engines.graphics;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.html.parser.Entity;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 public  class GraphicsUtilities {
-
 
 
     /**
@@ -19,16 +19,22 @@ public  class GraphicsUtilities {
      *
      * helps with uploading and scaling the image
      * */
-    public static HashMap<String, String> assetsPaths;
+    public static HashMap<String, String> assetsPaths = new HashMap<>();
+
+    public static HashMap<Integer , BufferedImage[]> assetsImages = new HashMap<>();
+
+    // 0 -> PLAYER
+    // 1 -> MONSTER 1
+    // 2 -> MONSTER 2
+    // 3 -> MONSTER 3
+
 
     public static final int IMAGE_WIDTH = 64;
     public static final int IMAGE_HEIGHT = 64 ;
 
 
     public static void setAssetsPaths() {
-        assetsPaths = new HashMap<>();
         addToAssetsPath("pacman","src/main/resources/pactiles/ghost2.png",assetsPaths);
-
 
     }
 

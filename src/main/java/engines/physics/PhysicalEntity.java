@@ -1,59 +1,35 @@
 package engines.physics;
 
-
-import engines.graphics.GraphicsUtilities;
-import sample.MyJavaFrame;
-
 import java.awt.*;
 
-import static engines.physics.PhysicsUtilities.*;
+public abstract class PhysicalEntity {
+    private Point position = new Point();
 
-public class PhysicalEntity {
-
-
-    public Point position;
-    int x;
-    int y;
-
-
+    public PhysicalEntity(Point position) {
+        this.position = position;
+    }
 
     public PhysicalEntity(int x, int y) {
-        this.x = x;
-        this.y = y;
         this.position = new Point(x, y);
     }
 
-
+    public Point getPosition(){
+        return position;
+    }
     public int getX() {
-        return x;
+        return position.x;
+    }
+    public int getY(){
+        return position.y;
     }
 
-    public int getY() {
-        return y;
+    public abstract void move(int x, int y);
+
+    public  void moveTo(int x, int y){
+        this.position.move(x,y);
     }
-
-
-    public void move(int movement) {
-        int newX = x;
-        int newY = y;
-        if (movement == PhysicsUtilities.UP)
-            newY -= SPEED;
-        else if (movement == DOWN)
-            newY += SPEED;
-        moveTo(x, newY);
-
-        if (movement == LEFT)
-            newX -= SPEED;
-        else if (movement == RIGHT)
-            newX += SPEED;
-        moveTo(newX, y);
-    }
-
-    public void moveTo(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.position.setLocation(x, y);
-    }
-
-
 }
+
+
+
+
