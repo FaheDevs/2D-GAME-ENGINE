@@ -14,9 +14,7 @@ public  class GraphicsUtilities {
      * utility class for the graphics engine
      * initialize the paths to the pictures into a hashMap
      * helps access to path of image based on image name .
-     *
      * helps with creation of a graphical object
-     *
      * helps with uploading and scaling the image
      * */
     public static HashMap<String, String> assetsPaths = new HashMap<>();
@@ -27,6 +25,7 @@ public  class GraphicsUtilities {
     // 1 -> MONSTER 1
     // 2 -> MONSTER 2
     // 3 -> MONSTER 3
+    // 4 -> MONSTER 4
 
 
     public static final int IMAGE_WIDTH = 64;
@@ -51,7 +50,8 @@ public  class GraphicsUtilities {
         image = ImageIO.read(new File(path));
         return image;
     }
-    /*public static BufferedImage scale(BufferedImage src, int w, int h)
+    /*
+    public static BufferedImage scale(BufferedImage src, int w, int h)
     {
         BufferedImage img =
                 new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);

@@ -1,4 +1,4 @@
-package Command;
+package engines.graphics.Command;
 
 import Kernel.Kernel;
 

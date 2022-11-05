@@ -1,4 +1,4 @@
-import engines.physics.PlayableEntity;
+import engines.physics.Entities.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,21 +8,20 @@ class EntityTest {
 
     @Test
     void testMove() {
-        PlayableEntity e = new PlayableEntity(45, 45);
-
-        e.moveTo(0,0);
-        Assertions.assertEquals(e.getPosition(), new Point(0,0));
-        e.moveTo(45,45);
-        Assertions.assertEquals(45, e.getX());
-        e.moveTo(90,80);
-        Assertions.assertEquals(80, e.getY());
-        e.moveTo(10,100);
-        Assertions.assertEquals(100, e.getY());
+        Player p = new Player(45, 45);
+        p.moveTo(0,0);
+        Assertions.assertEquals(p.getPosition(), new Point(0,0));
+        p.moveTo(45,45);
+        Assertions.assertEquals(45, p.getX());
+        p.moveTo(90,80);
+        Assertions.assertEquals(80, p.getY());
+        p.moveTo(10,100);
+        Assertions.assertEquals(100, p.getY());
     }
 
     @Test
     void testMoveTo() {
-        PlayableEntity e = new PlayableEntity(45, 45);
+        Player e = new Player(45, 45);
         e.moveTo(50, 50);
         Assertions.assertEquals(50, e.getX());
         Assertions.assertEquals(50, e.getY());

@@ -1,6 +1,7 @@
 package engines.graphics;
 
-import engines.physics.PlayableEntity;
+import engines.physics.Direction;
+import engines.physics.Entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +13,9 @@ import java.io.IOException;
  * An extension of javax.swing.JFrame that can draw images.
  */
 public class GraphicalEngine implements KeyListener {
-    public Boolean delete = false;
+    public boolean delete = false;
     ObjectsManager objectsManager;
-    PlayableEntity playableEntity;
+    Player player;
 
 
     /**
@@ -31,12 +32,9 @@ public class GraphicalEngine implements KeyListener {
     public JPanel jPanel = new JPanel(true) {
         @Override
         public void paintComponent(Graphics g) {
-            super.setSize(640, 640);
-            System.out.println("POSITION " + playableEntity.getPosition());
-            System.out.println("size :" + this.getSize());
-            g.drawImage(objectsManager.getGraphicalObjects("pacman"), playableEntity.getX(), playableEntity.getY(), null);
+            System.out.println("player Position  = " + player.getPosition());
+            g.drawImage(objectsManager.getGraphicalObjects("pacman"), player.getX(), player.getY(), null);
         }
-
         @Override
         public void setFocusable(boolean b) {
             super.setFocusable(b);
@@ -47,7 +45,7 @@ public class GraphicalEngine implements KeyListener {
 
     public GraphicalEngine() throws IOException {
 
-        playableEntity = new PlayableEntity(0, 640);
+        player = new Player(0, 0);
         objectsManager = new ObjectsManager();
         jPanel.setSize(new Dimension(640, 640));
 
@@ -59,12 +57,6 @@ public class GraphicalEngine implements KeyListener {
         }
     }
 
-
-    public void setDelete() {
-        this.delete = true;
-    }
-
-
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -73,23 +65,20 @@ public class GraphicalEngine implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-/*        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            physicalEntity.move(PhysicsUtilities.RIGHT);
+      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            player.move(Direction.RIGHT);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            physicalEntity.move(PhysicsUtilities.LEFT);
+            player.move(Direction.LEFT);
 
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            physicalEntity.move(PhysicsUtilities.DOWN);
+            player.move(Direction.DOWN);
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            physicalEntity.move(PhysicsUtilities.UP);
+            player.move(Direction.UP);
         }
         jPanel.repaint();
-
- */
-
     }
 
     @Override

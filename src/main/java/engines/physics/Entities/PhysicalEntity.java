@@ -1,9 +1,12 @@
-package engines.physics;
+package engines.physics.Entities;
+
+import engines.physics.Direction;
 
 import java.awt.*;
 
 public abstract class PhysicalEntity {
-    private Point position = new Point();
+    protected Point position ;
+    protected int speed;
 
     public PhysicalEntity(Point position) {
         this.position = position;
@@ -23,10 +26,10 @@ public abstract class PhysicalEntity {
         return position.y;
     }
 
-    public abstract void move(int x, int y);
+    public abstract void move(Direction direction);
 
     public  void moveTo(int x, int y){
-        this.position.move(x,y);
+        position.setLocation(x,y);
     }
 }
 
