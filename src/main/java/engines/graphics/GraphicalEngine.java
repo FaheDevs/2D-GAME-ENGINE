@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * An extension of javax.swing.JFrame that can draw images.
  */
-public class GraphicalEngine extends JPanel implements Runnable {
+public class GraphicalEngine extends JPanel  {
     ObjectsManager objectsManager;
     public static final int ORIGINAL_TILE_SIZE = 64; // 64 x 64 TILES
     public static final int SCALE = 1;
@@ -28,6 +28,7 @@ public class GraphicalEngine extends JPanel implements Runnable {
     Thread gameThread;
 
     int FPS = 60;
+
 
     KeyHandler keyHandler = new KeyHandler();
 
@@ -45,12 +46,9 @@ public class GraphicalEngine extends JPanel implements Runnable {
     // SET PLAYER POSITION
 
 
-
-    int playerX = 100;
-    int playerY = 100;
-    int speed = 4;
-
-
+    int playerX = 0;
+    int playerY = 0;
+    int speed = 16;
 
     public GraphicalEngine() throws IOException {
 
@@ -61,52 +59,6 @@ public class GraphicalEngine extends JPanel implements Runnable {
         setFocusable(true);
     }
 
-
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    @Override
-    public void run() {
-        double drawInterval = 1000000000 / FPS;
-        double delta = 0;
-        long lastTime = System.nanoTime();
-        long currentTime;
-        long timer = 0;
-        int drawCount = 0;
-        while (gameThread != null) {
-            currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / drawInterval;
-            timer += (currentTime - lastTime);
-            lastTime = currentTime;
-            if (delta >= 1) {
-                update();
-                repaint();
-                delta--;
-                drawCount++;
-            }
-            if (timer >= 1000000000) {
-                System.out.println("FPS:" + drawCount);
-                drawCount = 0;
-                timer = 0;
-            }
-        }
-
-    }
-
-    public void update() {
-        int newX = playerX;
-        int newY = playerY;
-        if (keyHandler.UpPressed) newY -= speed;
-        if (keyHandler.downPressed) newY += speed;
-        if (keyHandler.rightPressed) newX += speed;
-        if (keyHandler.leftPressed) newX -= speed;
-
-        playerX = newX;
-        playerY = newY;
-
-    }
 
     public void paintComponent(Graphics g) {
         paintComponents(g);
