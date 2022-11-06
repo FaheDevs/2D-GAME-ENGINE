@@ -1,5 +1,6 @@
 package engines.graphics;
 
+import Kernel.Kernel;
 import engines.graphics.Command.KeyHandler;
 import engines.physics.Direction;
 import engines.physics.Entities.Player;
@@ -43,12 +44,16 @@ public class GraphicalEngine extends JPanel implements Runnable {
 
     // SET PLAYER POSITION
 
-    int playerX = 100;
-    int playerY = 100;
+
+    Kernel kernel = new Kernel();
+    int playerX = kernel.player.getX();
+    int playerY = kernel.player.getY();
     int speed = 4;
 
 
+
     public GraphicalEngine() throws IOException {
+
         objectsManager = new ObjectsManager("pacman");
         setPreferredSize(new Dimension(SCENE_WIDTH, SCENE_HEIGHT));
         setDoubleBuffered(true);

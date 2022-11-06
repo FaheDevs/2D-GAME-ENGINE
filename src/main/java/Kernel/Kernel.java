@@ -1,5 +1,7 @@
 package Kernel;
 
+import engines.physics.Entities.Player;
+
 import java.awt.*;
 
 public class Kernel extends Thread {
@@ -11,9 +13,14 @@ public class Kernel extends Thread {
 
     Thread gameThread ;
 
+    public Player player ;
+
+
+
+
     public Kernel(){
-        gameThread = new Thread(this);
-        gameThread.start();
+
+      player= new Player(100,100);
 
     }
 
