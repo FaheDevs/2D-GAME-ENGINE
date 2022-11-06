@@ -34,7 +34,7 @@ public class MyJavaFrame extends JFrame implements KeyListener {
     public MyJavaFrame() throws IOException {
         setSize(new Dimension(SCENE_WIDTH,SCENE_HEIGHT));
         addKeyListener(this);
-        setTitle("Game Windows ");
+        setTitle("Game Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(graphicalEngine.jPanel);
         setVisible(true);

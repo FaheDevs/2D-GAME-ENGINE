@@ -34,6 +34,7 @@ public class GraphicalEngine implements KeyListener {
         public void paintComponent(Graphics g) {
             System.out.println("player Position  = " + player.getPosition());
             g.drawImage(objectsManager.getGraphicalObjects("pacman"), player.getX(), player.getY(), null);
+
         }
         @Override
         public void setFocusable(boolean b) {
@@ -46,7 +47,7 @@ public class GraphicalEngine implements KeyListener {
     public GraphicalEngine() throws IOException {
 
         player = new Player(0, 0);
-        objectsManager = new ObjectsManager();
+        objectsManager = new ObjectsManager("pacman");
         jPanel.setSize(new Dimension(640, 640));
 
         try {

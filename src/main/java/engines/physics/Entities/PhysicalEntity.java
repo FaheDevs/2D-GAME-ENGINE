@@ -6,6 +6,10 @@ import java.awt.*;
 
 public abstract class PhysicalEntity {
     protected Point position ;
+
+    /** l'attribut pixelposition  represente la position d'une entité (à partir du centre de l'objet + la taille/2)  */
+    protected Point PixelPosition;
+
     protected int speed;
 
     public PhysicalEntity(Point position) {

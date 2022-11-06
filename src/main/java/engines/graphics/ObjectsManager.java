@@ -12,12 +12,14 @@ public class ObjectsManager {
      * graphical objects are in the hash map
      * */
 
+    public String name;
+
     public HashMap<String, BufferedImage> graphicalObjectsMap;
 
 
-    public ObjectsManager() throws IOException {
+    public ObjectsManager(String name ) throws IOException {
         GraphicsUtilities.setAssetsPaths();
-        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject("pacman", GraphicsUtilities.assetsPaths.get("pacman"));
+        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject(name, GraphicsUtilities.assetsPaths.get(name));
         setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
     }
 
