@@ -1,3 +1,4 @@
+import engines.physics.Direction;
 import engines.physics.Entities.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ class EntityTest {
     @Test
     void testMove() {
         Player p = new Player(45, 45);
-        p.moveTo(0,0);
         Assertions.assertEquals(p.getPosition(), new Point(0,0));
         p.moveTo(45,45);
         Assertions.assertEquals(45, p.getX());
@@ -21,9 +21,8 @@ class EntityTest {
 
     @Test
     void testMoveTo() {
-        Player e = new Player(45, 45);
-        e.moveTo(50, 50);
-        Assertions.assertEquals(50, e.getX());
-        Assertions.assertEquals(50, e.getY());
+        Player p = new Player(576, 576);
+        p.move(Direction.UP);
+        System.out.println(p.getPosition());
     }
 }

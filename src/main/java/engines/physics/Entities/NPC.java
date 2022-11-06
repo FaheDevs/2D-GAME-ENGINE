@@ -2,9 +2,10 @@ package engines.physics.Entities;
 
 import engines.physics.Direction;
 
-public class PNJ extends PhysicalEntity {
+public class NPC extends PhysicalEntity {
+    // NO Playable Character
 
-    public PNJ(int x, int y) {
+    public NPC(int x, int y) {
         super(x, y);
     }
 

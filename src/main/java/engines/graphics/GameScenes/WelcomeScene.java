@@ -15,11 +15,12 @@ public class WelcomeScene implements KeyListener {
         showWelcomeMessage();
     }
 
-    private void showWelcomeMessage(){
+    private void showWelcomeMessage() {
 
-        gc.drawString("press enter to play ",325,275);
+        gc.drawString("press enter to play ", 325, 275);
 
     }
+
     public JPanel jPanel = new JPanel(true) {
         @Override
         public void paintComponent(Graphics g) {
@@ -27,6 +28,7 @@ public class WelcomeScene implements KeyListener {
 //            g.drawImage(objectsManager.getGraphicalObjects("pacman"), player.getX(), player.getY(), null);
 
         }
+
         @Override
         public void setFocusable(boolean b) {
             super.setFocusable(b);

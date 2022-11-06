@@ -6,9 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class CreditScene implements KeyListener {
-
-
-
     Graphics gc;
 
     public CreditScene(Graphics gc) {
@@ -17,10 +14,8 @@ public class CreditScene implements KeyListener {
     }
 
     private void showCreditsMessage(){
-
         gc.drawString("press spacebar  to go back to welcome scene  ", 200,275);
     }
-
 
     public JPanel jPanel = new JPanel(true) {
         @Override

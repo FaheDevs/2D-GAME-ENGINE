@@ -8,9 +8,6 @@ import java.awt.event.KeyListener;
 public class GameScene implements KeyListener {
 
 
-
-
-
     public JPanel jPanel = new JPanel(true) {
         @Override
         public void paintComponent(Graphics g) {
@@ -18,6 +15,7 @@ public class GameScene implements KeyListener {
 //            g.drawImage(objectsManager.getGraphicalObjects("pacman"), player.getX(), player.getY(), null);
 
         }
+
         @Override
         public void setFocusable(boolean b) {
             super.setFocusable(b);
