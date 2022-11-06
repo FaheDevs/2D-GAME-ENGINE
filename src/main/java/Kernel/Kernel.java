@@ -5,9 +5,8 @@ import java.awt.*;
 public class Kernel extends Thread {
 
 
-    enum GameStates{
-        InGAME,
-        PAUSE,
+    enum GameState{
+        PLAY, PAUSE, STOP, GAMEOVER, VICTORY
     }
 
     Thread gameThread ;
