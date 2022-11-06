@@ -10,13 +10,11 @@ class EntityTest {
     @Test
     void testMove() {
         Player p = new Player(45, 45);
-        Assertions.assertEquals(p.getPosition(), new Point(0,0));
-        p.moveTo(45,45);
-        Assertions.assertEquals(45, p.getX());
+        Assertions.assertEquals(p.getPosition(), new Point(45,45));
         p.moveTo(90,80);
-        Assertions.assertEquals(80, p.getY());
+        Assertions.assertEquals(p.getPosition(), new Point(90,80));
         p.moveTo(10,100);
-        Assertions.assertEquals(100, p.getY());
+        Assertions.assertEquals(p.getPosition(), new Point(10,100));
     }
 
     @Test
