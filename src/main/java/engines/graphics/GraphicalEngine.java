@@ -45,9 +45,9 @@ public class GraphicalEngine extends JPanel implements Runnable {
     // SET PLAYER POSITION
 
 
-    Kernel kernel = new Kernel();
-    int playerX = kernel.player.getX();
-    int playerY = kernel.player.getY();
+
+    int playerX = 100;
+    int playerY = 100;
     int speed = 4;
 
 

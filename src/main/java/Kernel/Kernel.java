@@ -13,14 +13,9 @@ public class Kernel extends Thread {
 
     Thread gameThread ;
 
-    public Player player ;
-
-
 
 
     public Kernel(){
-
-      player= new Player(100,100);
 
     }
 
