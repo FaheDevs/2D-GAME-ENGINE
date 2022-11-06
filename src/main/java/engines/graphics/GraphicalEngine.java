@@ -1,7 +1,9 @@
 package engines.graphics;
 
+import engines.graphics.Command.KeyHandler;
 import engines.physics.Direction;
 import engines.physics.Entities.Player;
+import sample.MyJavaFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +14,21 @@ import java.io.IOException;
 /**
  * An extension of javax.swing.JFrame that can draw images.
  */
-public class GraphicalEngine implements KeyListener {
-    public boolean delete = false;
+public class GraphicalEngine extends JPanel implements Runnable {
     ObjectsManager objectsManager;
-    Player player;
+    public static final int ORIGINAL_TILE_SIZE = 64; // 64 x 64 TILES
+    public static final int SCALE = 1;
+    public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public static final int MAX_SCREEN_COL = 10;
+    public static final int MAX_SCREEN_ROW = 10;
+    public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+
+    Thread gameThread;
+
+    int FPS = 60;
+
+    KeyHandler keyHandler = new KeyHandler();
 
 
     /**
@@ -28,65 +41,73 @@ public class GraphicalEngine implements KeyListener {
      * moves the image
      */
 
+    // SET PLAYER POSITION
 
-    public JPanel jPanel = new JPanel(true) {
-        @Override
-        public void paintComponent(Graphics g) {
-            System.out.println("player Position  = " + player.getPosition());
-            g.drawImage(objectsManager.getGraphicalObjects("pacman"), player.getX(), player.getY(), null);
-
-        }
-        @Override
-        public void setFocusable(boolean b) {
-            super.setFocusable(b);
-        }
-
-    };
+    int playerX = 100;
+    int playerY = 100;
+    int speed = 4;
 
 
     public GraphicalEngine() throws IOException {
-
-        player = new Player(0, 0);
         objectsManager = new ObjectsManager("pacman");
-        jPanel.setSize(new Dimension(640, 640));
+        setPreferredSize(new Dimension(SCENE_WIDTH, SCENE_HEIGHT));
+        setDoubleBuffered(true);
+        addKeyListener(keyHandler);
+        setFocusable(true);
+    }
 
-        try {
-            jPanel.addKeyListener(this);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public void startGameThread() {
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void run() {
+        double drawInterval = 1000000000 / FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+        long timer = 0;
+        int drawCount = 0;
+        while (gameThread != null) {
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            timer += (currentTime - lastTime);
+            lastTime = currentTime;
+            if (delta >= 1) {
+                update();
+                repaint();
+                delta--;
+                drawCount++;
+            }
+            if (timer >= 1000000000) {
+                System.out.println("FPS:" + drawCount);
+                drawCount = 0;
+                timer = 0;
+            }
+        }
+
     }
 
+    public void update() {
+        int newX = playerX;
+        int newY = playerY;
+        if (keyHandler.UpPressed) newY -= speed;
+        if (keyHandler.downPressed) newY += speed;
+        if (keyHandler.rightPressed) newX += speed;
+        if (keyHandler.leftPressed) newX -= speed;
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-      if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            player.move(Direction.RIGHT);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            player.move(Direction.LEFT);
-
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            player.move(Direction.DOWN);
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            player.move(Direction.UP);
-        }
-        jPanel.repaint();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
+        playerX = newX;
+        playerY = newY;
 
     }
 
+    public void paintComponent(Graphics g) {
+        paintComponents(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.fillRect(playerX, playerY, TILE_SIZE, TILE_SIZE);
+        g2.dispose();
+    }
 
 }

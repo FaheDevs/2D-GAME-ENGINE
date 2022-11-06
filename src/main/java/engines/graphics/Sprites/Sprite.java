@@ -27,9 +27,7 @@ public class Sprite {
 
         Rectangle rect2 = new Rectangle(sp.spriteX, sp.spriteY, sp.width, sp.height);
 
-        if(rect1.intersects(rect2))
-        {
-
+        if(rect1.intersects(rect2)) {
             collision= true ;
         }
         return  collision;
