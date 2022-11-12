@@ -1,15 +1,11 @@
 package engines.graphics;
 
-import Kernel.Kernel;
-import engines.graphics.Command.KeyHandler;
-import engines.physics.Direction;
-import engines.physics.Entities.Player;
-import sample.MyJavaFrame;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -25,12 +21,7 @@ public class GraphicalEngine extends JPanel  {
     public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
-    Thread gameThread;
-
-    int FPS = 60;
-
-
-    KeyHandler keyHandler = new KeyHandler();
+    public Point whereToDraw = new Point();
 
 
     /**
@@ -43,27 +34,20 @@ public class GraphicalEngine extends JPanel  {
      * moves the image
      */
 
-    // SET PLAYER POSITION
 
-
-    int playerX = 0;
-    int playerY = 0;
-    int speed = 16;
 
     public GraphicalEngine() throws IOException {
-
         objectsManager = new ObjectsManager("pacman");
         setPreferredSize(new Dimension(SCENE_WIDTH, SCENE_HEIGHT));
         setDoubleBuffered(true);
-        addKeyListener(keyHandler);
         setFocusable(true);
     }
 
 
     public void paintComponent(Graphics g) {
-        paintComponents(g);
+        super.paintComponents(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.fillRect(playerX, playerY, TILE_SIZE, TILE_SIZE);
+        g2.drawImage(objectsManager.getGraphicalObjects("pacman"),whereToDraw.x,whereToDraw.y,null);
         g2.dispose();
     }
 

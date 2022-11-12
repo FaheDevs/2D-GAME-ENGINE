@@ -1,12 +1,10 @@
 package engines.graphics.Command;
 
-import Kernel.Kernel;
-import engines.physics.Direction;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler extends Kernel implements KeyListener {
+public class KeyHandler implements KeyListener {
 
 
     public boolean UpPressed, downPressed, rightPressed, leftPressed;

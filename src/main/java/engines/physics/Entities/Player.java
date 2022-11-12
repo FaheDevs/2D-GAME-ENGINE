@@ -1,18 +1,16 @@
 package engines.physics.Entities;
+
 import  engines.physics.Direction;
+
 
 public class Player extends PhysicalEntity {
 
-    int remainingLife = 3;
-
     public Player(int x, int y) {
         super(x, y);
-        speed = 32;
+        speed = 4;
     }
 
-    public void removeLife(){
-        remainingLife--;
-    }
+
 
     @Override
     public void move(Direction direction) {
@@ -32,14 +30,10 @@ public class Player extends PhysicalEntity {
             System.out.println("NOT POSSIBLE");
         }
     }
+
+
+
+    
+
+
 }
-
-
-
-
-
-
-
-
-
-

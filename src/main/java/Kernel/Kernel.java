@@ -1,9 +1,10 @@
 package Kernel;
 
+import engines.graphics.Command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.Entities.Player;
 
-import java.awt.*;
+import javax.swing.*;
 import java.io.IOException;
 
 public class Kernel implements Runnable {
@@ -11,28 +12,55 @@ public class Kernel implements Runnable {
     int FPS = 60;
 
 
-    GraphicalEngine graphicalEngine;
-
     // the game scene are set depending on the game state
     enum GameState {
         PLAY, PAUSE, STOP, GAMEOVER, VICTORY
     }
 
+    // LAMBDA EXPRESSION A LA PLACE DE EXTENDS THREAD
+
     Thread gameThread;
 
-    Player player;
+    public GraphicalEngine graphicalEngine;
 
+    Player player;
+    KeyHandler keyHandler;
+
+
+    JFrame jFrame ;
 
     public Kernel() throws IOException {
+        keyHandler = new KeyHandler();
         graphicalEngine = new GraphicalEngine();
         player = new Player(100, 100);
-
+        gameThread = new Thread(this::run);
+        jFrame = new JFrame("2D GAME");
+        jFrame.add(graphicalEngine);
+        jFrame.pack();
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
+
+    /**
+     * BackLog → changer le nom sans final → ce qu'on a changé pas assez d'US
+     * il faut etre general id6 à refaire
+     * i7 c'est le concepteur qui souhaite
+     * comment les elements sonores fonctionnent s'arrête, démarre
+     * Moteur IA
+     * rendre les sprints backlog precedent
+     * taches insatisfaisantes
+     * les états dans le noyau
+     * gérer, remplacer par détecter,
+     * mettre une page de garde
+     * package pas de majuscule
+     * plus l'etoile dans l'import
+     */
 
     @Override
     public void run() {
@@ -62,23 +90,24 @@ public class Kernel implements Runnable {
     }
 
     public void update() {
-        /*
-        int newX = playerX;
-        int newY = playerY;
-        if (keyHandler.UpPressed) newY -= speed;
-        if (keyHandler.downPressed) newY += speed;
-        if (keyHandler.rightPressed) newX += speed;
-        if (keyHandler.leftPressed) newX -= speed;
+        if(keyHandler.downPressed){
+            System.out.println("here");
+            graphicalEngine.whereToDraw.x--;
+        }
+        else {
+            graphicalEngine.whereToDraw.x++;
 
-        playerX = newX;
-        playerY = newY;
-
-
-         */
-    }
-
-    public void paintComponent(Graphics g) {
+        }
 
 
     }
+
+    public static void main(String[] args) throws IOException {
+        Kernel kernel = new Kernel();
+        kernel.startGameThread();
+    }
+
+
+
+
 }

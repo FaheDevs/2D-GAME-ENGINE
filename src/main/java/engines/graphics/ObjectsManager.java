@@ -17,7 +17,7 @@ public class ObjectsManager {
     public HashMap<String, BufferedImage> graphicalObjectsMap;
 
 
-    public ObjectsManager(String name ) throws IOException {
+    public ObjectsManager(String name) throws IOException {
         GraphicsUtilities.setAssetsPaths();
         GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject(name, GraphicsUtilities.assetsPaths.get(name));
         setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
