@@ -5,8 +5,10 @@ import engines.graphics.GraphicalEngine;
 import engines.physics.Entities.Player;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Random;
 
 public class Kernel implements Runnable {
 
@@ -28,7 +30,7 @@ public class Kernel implements Runnable {
     KeyHandler keyHandler;
 
 
-    JFrame jFrame ;
+    JFrame jFrame;
 
     public Kernel() throws IOException {
         keyHandler = new KeyHandler();
@@ -40,6 +42,8 @@ public class Kernel implements Runnable {
         jFrame.pack();
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setFocusable(true);
+        jFrame.addKeyListener(keyHandler);
     }
 
     public void startGameThread() {
@@ -91,23 +95,30 @@ public class Kernel implements Runnable {
     }
 
     public void update() {
-        if(keyHandler.downPressed){
-            System.out.println("here");
-            graphicalEngine.whereToDraw.x--;
+        /**  @whereToDraw is a point who tell the GraphicalEngine where to draw
+         *   TODO : add a BufferedImage to the Graphical Engine and set it eachTime we wanna draw
+         */
+        //
+        if (keyHandler.downPressed) {
+            graphicalEngine.whereToDraw.y++;
         }
-        else {
+        if (keyHandler.UpPressed) {
+            graphicalEngine.whereToDraw.y--;
+        }
+        if (keyHandler.rightPressed) {
             graphicalEngine.whereToDraw.x++;
         }
-
+        if (keyHandler.leftPressed) {
+            graphicalEngine.whereToDraw.x--;
+        }
 
     }
+
 
     public static void main(String[] args) throws IOException {
         Kernel kernel = new Kernel();
         kernel.startGameThread();
     }
-
-
 
 
 }

@@ -11,12 +11,12 @@ public class KeyHandler implements KeyListener {
 
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {
+    public  void keyTyped(KeyEvent keyEvent) {
 
     }
 
     @Override
-    public void keyPressed(KeyEvent keyEvent) {
+    public  void keyPressed(KeyEvent keyEvent) {
         int code = keyEvent.getKeyCode();
         System.out.println(code);
         if (code == KeyEvent.VK_RIGHT) {
