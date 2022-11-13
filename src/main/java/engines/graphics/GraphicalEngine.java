@@ -1,7 +1,6 @@
 package engines.graphics;
 
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +10,7 @@ import java.io.IOException;
 /**
  * An extension of javax.swing.JFrame that can draw images.
  */
-public class GraphicalEngine extends JPanel  {
+public class GraphicalEngine extends JPanel {
     ObjectsManager objectsManager;
     public static final int ORIGINAL_TILE_SIZE = 64; // 64 x 64 TILES
     public static final int SCALE = 1;
@@ -20,6 +19,7 @@ public class GraphicalEngine extends JPanel  {
     public static final int MAX_SCREEN_ROW = 10;
     public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+
 
     public Point whereToDraw = new Point();
 
@@ -35,7 +35,6 @@ public class GraphicalEngine extends JPanel  {
      */
 
 
-
     public GraphicalEngine() throws IOException {
         objectsManager = new ObjectsManager("pacman");
         setPreferredSize(new Dimension(SCENE_WIDTH, SCENE_HEIGHT));
@@ -45,9 +44,12 @@ public class GraphicalEngine extends JPanel  {
 
 
     public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(objectsManager.getGraphicalObjects("pacman"),whereToDraw.x,whereToDraw.y,null);
-        g2.dispose();
-    }
+
+            super.paint(g);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.drawImage(objectsManager.getGraphicalObjects("pacman"), whereToDraw.x, whereToDraw.y, null);
+            g2.dispose();
+        }
+
 
 }

@@ -1,5 +1,6 @@
 package engines.graphics;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -23,6 +24,10 @@ public class GraphicalObject {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public void paint(Graphics g){
+
     }
 
 
