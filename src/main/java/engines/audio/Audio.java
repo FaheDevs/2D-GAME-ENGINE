@@ -11,6 +11,7 @@ public class Audio {
 
     public Audio(String son){
         try {
+            //handle
             AudioInputStream clip = AudioSystem.getAudioInputStream(getClass().getResource(son));
             this.clip = AudioSystem.getClip();
             this.clip.open(clip);
