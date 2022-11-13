@@ -10,6 +10,16 @@ import java.util.HashMap;
 public class GraphicsUtilities {
 
 
+
+
+    public static final int ORIGINAL_TILE_SIZE = 64; // 64 x 64 TILES
+    public static final int SCALE = 1;
+    public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public static final int MAX_SCREEN_COL = 10;
+    public static final int MAX_SCREEN_ROW = 10;
+    public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
+    public static int FPS = 60;
     /**
      * utility class for the graphics engine
      * initialize the paths to the pictures into a hashMap
@@ -20,13 +30,6 @@ public class GraphicsUtilities {
     public static HashMap<String, String> assetsPaths = new HashMap<>();
 
     public static HashMap<Integer, BufferedImage[]> assetsImages = new HashMap<>();
-
-    // 0 -> PLAYER
-    // 1 -> MONSTER 1
-    // 2 -> MONSTER 2
-    // 3 -> MONSTER 3
-    // 4 -> MONSTER 4
-
 
     public static void setAssetsPaths() {
         addToAssetsPath("pacman", "src/main/resources/pactiles/ghost2.png", assetsPaths);

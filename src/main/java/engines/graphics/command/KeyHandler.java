@@ -1,4 +1,4 @@
-package engines.graphics.Command;
+package engines.graphics.command;
 
 
 import java.awt.event.KeyEvent;

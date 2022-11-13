@@ -1,35 +1,22 @@
-package Kernel;
+package kernel;
 
-import engines.graphics.Command.KeyHandler;
+import engines.graphics.GraphicsUtilities;
+import engines.graphics.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
-import engines.physics.Entities.Player;
+import engines.physics.entities.Player;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.Random;
 
 public class Kernel implements Runnable {
 
-    int FPS = 60;
 
 
     // the game scene are set depending on the game state
-    enum GameState {
-        PLAY, PAUSE, STOP, GAMEOVER, VICTORY
-    }
-
-    // LAMBDA EXPRESSION A LA PLACE DE EXTENDS THREAD
-
     Thread gameThread;
-
     public GraphicalEngine graphicalEngine;
-
     Player player;
     KeyHandler keyHandler;
-
-
     JFrame jFrame;
 
     public Kernel() throws IOException {
@@ -37,7 +24,7 @@ public class Kernel implements Runnable {
         graphicalEngine = new GraphicalEngine();
         player = new Player(100, 100);
         gameThread = new Thread(this);
-        jFrame = new JFrame("2D GAME");
+        jFrame = new JFrame("GAME ENGINE");
         jFrame.add(graphicalEngine);
         jFrame.pack();
         jFrame.setVisible(true);
@@ -69,7 +56,7 @@ public class Kernel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1_000_000_000 / FPS;
+        double drawInterval = 1_000_000_000 / GraphicsUtilities.FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;

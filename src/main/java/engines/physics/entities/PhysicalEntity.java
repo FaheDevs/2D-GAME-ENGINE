@@ -1,4 +1,4 @@
-package engines.physics.Entities;
+package engines.physics.entities;
 
 import engines.physics.Direction;
 

@@ -1,5 +1,5 @@
 import engines.physics.Direction;
-import engines.physics.Entities.Player;
+import engines.physics.entities.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
