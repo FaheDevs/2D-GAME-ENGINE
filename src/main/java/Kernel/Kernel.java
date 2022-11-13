@@ -5,6 +5,7 @@ import engines.graphics.GraphicalEngine;
 import engines.physics.Entities.Player;
 
 import javax.swing.*;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 public class Kernel implements Runnable {
@@ -33,7 +34,7 @@ public class Kernel implements Runnable {
         keyHandler = new KeyHandler();
         graphicalEngine = new GraphicalEngine();
         player = new Player(100, 100);
-        gameThread = new Thread(this::run);
+        gameThread = new Thread(this);
         jFrame = new JFrame("2D GAME");
         jFrame.add(graphicalEngine);
         jFrame.pack();
@@ -96,7 +97,6 @@ public class Kernel implements Runnable {
         }
         else {
             graphicalEngine.whereToDraw.x++;
-
         }
 
 
