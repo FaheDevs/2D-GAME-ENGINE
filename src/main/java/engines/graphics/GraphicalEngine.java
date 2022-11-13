@@ -45,7 +45,6 @@ public class GraphicalEngine extends JPanel  {
 
 
     public void paint(Graphics g) {
-        super.paintComponents(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(objectsManager.getGraphicalObjects("pacman"),whereToDraw.x,whereToDraw.y,null);
         g2.dispose();
