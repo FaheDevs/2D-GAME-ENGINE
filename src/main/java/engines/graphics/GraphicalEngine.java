@@ -13,12 +13,17 @@ import java.io.IOException;
  */
 public class GraphicalEngine extends JPanel  {
     ObjectsManager objectsManager;
+    GraphicalObject graphicalObject;
 
+    GraphicalObject graphicalObject2 ;
     public Point whereToDraw = new Point();
 
 
     public GraphicalEngine() throws IOException {
-        objectsManager = new ObjectsManager("pacman");
+//        objectsManager = new ObjectsManager("pacman");
+        graphicalObject = new GraphicalObject(GraphicsUtilities.upload("src/main/resources/pacman/pac man & life counter & death/pac man/pac_man_0.png"),"pacman",whereToDraw);
+        graphicalObject2 = new GraphicalObject(GraphicsUtilities.upload("src/main/resources/pacman/pac man & life counter & death/pac man/pac_man_2.png"),"pacman2",new Point(100,60));
+
         setPreferredSize(new Dimension(GraphicsUtilities.SCENE_WIDTH, GraphicsUtilities.SCENE_HEIGHT));
         setDoubleBuffered(true);
         setFocusable(true);
@@ -28,7 +33,11 @@ public class GraphicalEngine extends JPanel  {
     public void paint(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(objectsManager.getGraphicalObjects("pacman"),whereToDraw.x,whereToDraw.y,null);
+
+        graphicalObject2.paint(g);
+        graphicalObject.paint(g);
+        //        g2.drawImage(objectsManager.getGraphicalObjects("pacman"),whereToDraw.x,whereToDraw.y,null);
+
         g2.dispose();
     }
 

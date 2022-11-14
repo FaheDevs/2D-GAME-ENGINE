@@ -11,7 +11,6 @@ import java.io.IOException;
 public class Kernel implements Runnable {
 
 
-
     // the game scene are set depending on the game state
     Thread gameThread;
     public GraphicalEngine graphicalEngine;
@@ -30,6 +29,7 @@ public class Kernel implements Runnable {
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setFocusable(true);
+        jFrame.setLocationRelativeTo(null);
         jFrame.addKeyListener(keyHandler);
     }
 

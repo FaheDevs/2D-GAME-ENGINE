@@ -39,9 +39,6 @@ public class GraphicsUtilities {
         assets.put(image, path);
     }
 
-    public static GraphicalObject createGraphicalObject(String name, String path) throws IOException {
-        return new GraphicalObject(GraphicsUtilities.upload(path), name);
-    }
 
     public static BufferedImage upload(String path) throws IOException {
         BufferedImage image = null;

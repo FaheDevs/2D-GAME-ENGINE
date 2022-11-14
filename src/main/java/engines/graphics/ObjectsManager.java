@@ -18,9 +18,9 @@ public class ObjectsManager {
 
 
     public ObjectsManager(String name) throws IOException {
-        GraphicsUtilities.setAssetsPaths();
-        GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject(name, GraphicsUtilities.assetsPaths.get(name));
-        setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
+       // GraphicsUtilities.setAssetsPaths();
+        //GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject(name, GraphicsUtilities.assetsPaths.get(name));
+        //setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
     }
 
 
@@ -29,7 +29,8 @@ public class ObjectsManager {
         graphicalObjectsMap.put(name, image);
     }
 
-    public BufferedImage getGraphicalObjects(String name) {
-        return graphicalObjectsMap.get(name);
-    }
+   // public GraphicalObject getGraphicalObjects(String name) throws IOException {
+//        GraphicalObject graphicalObject = new GraphicalObject()
+//        return graphicalObject;
+    //}
 }

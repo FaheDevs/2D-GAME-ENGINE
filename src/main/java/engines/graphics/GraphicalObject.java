@@ -12,10 +12,14 @@ public class GraphicalObject {
      */
     public BufferedImage image;
     public String name;
+    public Point position ;
 
-    public GraphicalObject(BufferedImage image, String name) {
+    // SpriteX SpriteY  -- graphical coordinatesn
+
+    public GraphicalObject(BufferedImage image, String name ,Point position) {
         this.image = image;
         this.name = name;
+        this.position=position;
     }
 
     public String getName() {
@@ -27,6 +31,8 @@ public class GraphicalObject {
     }
 
     public void paint(Graphics g){
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(image,position.x,position.y,null);
 
     }
 
