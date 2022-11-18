@@ -10,16 +10,21 @@ public class GraphicalObject {
      * a graphical object represented by his name ( description of the image )
      * the image representing the object
      */
-    public BufferedImage image;
-    public String name;
+    public BufferedImage image ;
+    public String name ;
     public Point position ;
 
     // SpriteX SpriteY  -- graphical coordinatesn
 
-    public GraphicalObject(BufferedImage image, String name ,Point position) {
+    public GraphicalObject(BufferedImage image, String name, Point position) {
         this.image = image;
         this.name = name;
-        this.position=position;
+        this.position = position;
+    }
+    public GraphicalObject(BufferedImage image, String name) {
+        this.image = image;
+        this.name = name;
+        this.position = new Point();
     }
 
     public String getName() {
@@ -30,11 +35,15 @@ public class GraphicalObject {
         return image;
     }
 
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(image,position.x,position.y,null);
-
+        g2.drawImage(image, position.x, position.y, null);
     }
 
-
+    @Override
+    public String toString() {
+        return "GraphicalObject : " +
+                "name='" + name + '\'' +
+                ", position= (" + position.x  + "," + position.y + "), ";
+    }
 }

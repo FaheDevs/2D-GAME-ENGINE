@@ -2,15 +2,18 @@ package engines.physics.entities;
 
 import  engines.physics.Direction;
 
+import java.awt.*;
+
 
 public class Player extends PhysicalEntity {
-
     public Player(int x, int y) {
         super(x, y);
         speed = 4;
     }
-
-
+    public Player(Point p) {
+        super(p.x, p.y);
+        speed = 4;
+    }
 
     @Override
     public void move(Direction direction) {

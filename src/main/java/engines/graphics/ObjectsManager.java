@@ -1,36 +1,37 @@
 package engines.graphics;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
+
+import java.util.Arrays;
 
 public class ObjectsManager {
-
-
     /**
      * contains a map to that sets the graphical objects name and image
      * graphical objects are in the hash map
-     * */
+     */
 
-    public String name;
+    public GraphicalObject[] graphicalObjectsArray = new GraphicalObject[10];
+    public static int index = 0;
 
-    public HashMap<String, BufferedImage> graphicalObjectsMap;
 
 
-    public ObjectsManager(String name) throws IOException {
-       // GraphicsUtilities.setAssetsPaths();
-        //GraphicalObject graphicalObject = GraphicsUtilities.createGraphicalObject(name, GraphicsUtilities.assetsPaths.get(name));
-        //setObjectImage(graphicalObject.getName(), graphicalObject.getImage());
+    public ObjectsManager() {
     }
 
-
-    public void setObjectImage(String name, BufferedImage image) {
-        graphicalObjectsMap = new HashMap<>();
-        graphicalObjectsMap.put(name, image);
+    public void addGraphicalObject(GraphicalObject graphicalObject) {
+        graphicalObjectsArray[index] = graphicalObject;
     }
 
-   // public GraphicalObject getGraphicalObjects(String name) throws IOException {
-//        GraphicalObject graphicalObject = new GraphicalObject()
-//        return graphicalObject;
-    //}
+    public int getIndex(GraphicalObject gp){
+        for (int i = 0 ; i < graphicalObjectsArray.length ; i++) {
+            if(graphicalObjectsArray[i] == gp){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(graphicalObjectsArray);
+    }
 }

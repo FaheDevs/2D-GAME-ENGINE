@@ -3,9 +3,11 @@ package kernel;
 import engines.graphics.GraphicsUtilities;
 import engines.graphics.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
+import engines.physics.Direction;
 import engines.physics.entities.Player;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 public class Kernel implements Runnable {
@@ -14,14 +16,16 @@ public class Kernel implements Runnable {
     // the game scene are set depending on the game state
     Thread gameThread;
     public GraphicalEngine graphicalEngine;
-    Player player;
+    Player player ;
     KeyHandler keyHandler;
     JFrame jFrame;
+    Point position = new Point(600,600);
+
+    static int FPS = 60;
 
     public Kernel() throws IOException {
         keyHandler = new KeyHandler();
         graphicalEngine = new GraphicalEngine();
-        player = new Player(100, 100);
         gameThread = new Thread(this);
         jFrame = new JFrame("GAME ENGINE");
         jFrame.add(graphicalEngine);
@@ -31,7 +35,18 @@ public class Kernel implements Runnable {
         jFrame.setFocusable(true);
         jFrame.setLocationRelativeTo(null);
         jFrame.addKeyListener(keyHandler);
+        graphicalEngine.setBackground(Color.black);
+        initializePositions();
     }
+
+    public void initializePositions(){
+        position = new Point(600,600);
+        var gp =  graphicalEngine.getTiles();
+        gp[0].position = position;
+        player = new Player(position);
+    }
+
+
 
     public void startGameThread() {
         gameThread = new Thread(this);
@@ -56,7 +71,7 @@ public class Kernel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1_000_000_000 / GraphicsUtilities.FPS;
+        double drawInterval = 1_000_000_000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
@@ -85,20 +100,7 @@ public class Kernel implements Runnable {
         /**  @whereToDraw is a point who tell the GraphicalEngine where to draw
          *   TODO : add a BufferedImage to the Graphical Engine and set it eachTime we wanna draw
          */
-        //
-        if (keyHandler.downPressed) {
-            graphicalEngine.whereToDraw.y++;
-        }
-        if (keyHandler.UpPressed) {
-            graphicalEngine.whereToDraw.y--;
-        }
-        if (keyHandler.rightPressed) {
-            graphicalEngine.whereToDraw.x++;
-        }
-        if (keyHandler.leftPressed) {
-            graphicalEngine.whereToDraw.x--;
-        }
-
+            player.getPosition().move(position.x , position.y - 4);
     }
 
 
