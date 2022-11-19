@@ -1,9 +1,11 @@
 package kernel;
 
+import engines.graphics.GraphicalObject;
 import engines.graphics.GraphicsUtilities;
 import engines.graphics.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.Direction;
+import engines.physics.entities.PhysicalEntity;
 import engines.physics.entities.Player;
 
 import javax.swing.*;
@@ -19,7 +21,13 @@ public class Kernel implements Runnable {
     Player player ;
     KeyHandler keyHandler;
     JFrame jFrame;
-    Point position = new Point(600,600);
+
+    int nbOfTiles = 10;
+
+    Point[] positions = new Point[nbOfTiles];
+    PhysicalEntity[] physicalEntities = new PhysicalEntity[nbOfTiles];
+    GraphicalObject[] graphicalObjects = new GraphicalObject[nbOfTiles];
+
 
     static int FPS = 60;
 
@@ -40,10 +48,11 @@ public class Kernel implements Runnable {
     }
 
     public void initializePositions(){
-        position = new Point(600,600);
+        positions[0] = new Point(600,600);
         var gp =  graphicalEngine.getTiles();
-        gp[0].position = position;
-        player = new Player(position);
+        gp[0].position = positions[0];
+        player = new Player(positions[0]);
+
     }
 
 
@@ -100,7 +109,20 @@ public class Kernel implements Runnable {
         /**  @whereToDraw is a point who tell the GraphicalEngine where to draw
          *   TODO : add a BufferedImage to the Graphical Engine and set it eachTime we wanna draw
          */
-            player.getPosition().move(position.x , position.y - 4);
+            if (keyHandler.downPressed) {
+                positions[0].move(positions[0].x , positions[0].y + player.getSpeed());
+            }
+            if (keyHandler.UpPressed) {
+                positions[0].move(positions[0].x , positions[0].y - player.getSpeed());
+            }
+            if (keyHandler.rightPressed) {
+                positions[0].move(positions[0].x+player.getSpeed() , positions[0].y);
+            }
+            if (keyHandler.leftPressed) {
+                positions[0].move(positions[0].x - player.getSpeed() , positions[0].y);
+            }
+
+
     }
 
 

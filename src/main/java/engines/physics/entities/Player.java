@@ -2,13 +2,13 @@ package engines.physics.entities;
 
 import  engines.physics.Direction;
 
-import java.awt.*;
+import java.awt.Point;
 
 
 public class Player extends PhysicalEntity {
     public Player(int x, int y) {
         super(x, y);
-        speed = 4;
+        speed = 1;
     }
     public Player(Point p) {
         super(p.x, p.y);
@@ -33,10 +33,14 @@ public class Player extends PhysicalEntity {
             System.out.println("NOT POSSIBLE");
         }
     }
+    public void attack(){
 
+    }
 
-
-    
-
+    // deux tirs qui se rencontrent s'annulent
+    // une classe pour les monstres
+    // une classe pour les rochers
+    // une classe pour les vaisseaux
+    // une classe pour les balles
 
 }
