@@ -1,5 +1,7 @@
 package engines.graphics;
 
+import kernel.Kernel;
+
 import javax.imageio.ImageIO;
 import javax.swing.text.html.parser.Entity;
 import java.awt.*;
@@ -12,12 +14,15 @@ public class GraphicsUtilities {
     public static final int ORIGINAL_TILE_SIZE = 32; // 64 x 64 TILES
     public static final int SCALE = 1;
     public static final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
-    public static final int MAX_SCREEN_COL = 16;
-    public static final int MAX_SCREEN_ROW = 12;
+    public static final int MAX_SCREEN_COL = 20;
+    public static final int MAX_SCREEN_ROW = 15;
     public static final int SCENE_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public static final int SCENE_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
-    ObjectsManager objectsManager = new ObjectsManager(30);
+    public static int nbOfTiles = 30;
+
+    ObjectsManager objectsManager = new ObjectsManager(nbOfTiles);
+
 
     /**
      * utility class for the graphics engine
@@ -33,7 +38,7 @@ public class GraphicsUtilities {
         image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
         objectsManager.addGraphicalObject(new GraphicalObject(image, "spacecraft"));
         image = ImageIO.read(new File("src/main/resources/assets/images/enemigo1.png"));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20 ; i++) {
             objectsManager.addGraphicalObject(new GraphicalObject(image, "monster"));
         }
 

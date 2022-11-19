@@ -32,9 +32,5 @@ public class GraphicalEngine extends JPanel  {
         g2.dispose();
     }
 
-    public static void main(String[] args) throws IOException {
-        GraphicalEngine graphicalEngine = new GraphicalEngine();
-        System.out.println(graphicalEngine.getTiles()[1]);
-    }
 
 }

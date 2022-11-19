@@ -9,16 +9,15 @@ public class ObjectsManager {
      * graphical objects are in the hash map
      */
 
-    public GraphicalObject[] graphicalObjectsArray ;
-    public  int index = 0;
+    public GraphicalObject[] graphicalObjectsArray;
+    public int index = 0;
 
-    public int size = 0;
-
+    public int size;
 
 
     public ObjectsManager(int size) {
-        this.graphicalObjectsArray =new GraphicalObject[size];
-        this.size  = size;
+        this.graphicalObjectsArray = new GraphicalObject[size];
+        this.size = size;
     }
 
     public void addGraphicalObject(GraphicalObject graphicalObject) {
@@ -29,9 +28,9 @@ public class ObjectsManager {
         this.index = index;
     }
 
-    public int getIndex(GraphicalObject gp){
-        for (int i = 0 ; i < graphicalObjectsArray.length ; i++) {
-            if(graphicalObjectsArray[i] == gp){
+    public int getIndex(GraphicalObject gp) {
+        for (int i = 0; i < graphicalObjectsArray.length; i++) {
+            if (graphicalObjectsArray[i] == gp) {
                 return i;
             }
         }

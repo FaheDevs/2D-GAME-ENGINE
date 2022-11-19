@@ -12,6 +12,7 @@ import engines.physics.entities.Player;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Kernel implements Runnable {
 
@@ -19,11 +20,11 @@ public class Kernel implements Runnable {
     // the game scene are set depending on the game state
     Thread gameThread;
     public GraphicalEngine graphicalEngine;
-    Player player ;
+    Player player;
     KeyHandler keyHandler;
     JFrame jFrame;
 
-    int nbOfTiles = 20;
+    static int nbOfTiles = GraphicsUtilities.nbOfTiles;
 
     Point[] positions = new Point[nbOfTiles];
     PhysicalEntity[] physicalEntities = new PhysicalEntity[nbOfTiles];
@@ -46,32 +47,42 @@ public class Kernel implements Runnable {
         jFrame.addKeyListener(keyHandler);
         graphicalEngine.setBackground(Color.black);
         initializePositions();
+        System.out.println(Arrays.toString(graphicalEngine.getTiles()));
+
     }
 
-    public void initializePositions(){
+    public void initializePositions() {
         initializePlayerPosition();
         initializeMonsterPositions();
     }
 
-    public void initializePlayerPosition(){
-        positions[0] = new Point(300,350);
-        var gp =  graphicalEngine.getTiles();
+    public void initializePlayerPosition() {
+        positions[0] = new Point(300, 350);
+        var gp = graphicalEngine.getTiles();
         gp[0].position = positions[0];
         player = new Player(positions[0]);
     }
-    public void initializeMonsterPositions(){
-        int x = 20;
+
+    public void initializeMonsterPositions() {
+        int x = 50;
         for (int i = 1; i < 11; i++) {
-            positions[i] = new Point(x,200);
+            positions[i] = new Point(x, 200);
             physicalEntities[i] = new NPC(positions[i]);
             graphicalObjects[i] = graphicalEngine.getTiles()[i];
             graphicalObjects[i].position = positions[i];
-            x = x+50;
-
+            x = x + 50;
+        }
+        x = 50;
+        for (int i = 11; i < 21 ; i++) {
+            positions[i] = new Point(x, 250);
+            physicalEntities[i] = new NPC(positions[i]);
+            graphicalObjects[i] = graphicalEngine.getTiles()[i];
+            graphicalObjects[i].position = positions[i];
+            x = x + 50;
         }
 
-    }
 
+    }
 
 
     public void startGameThread() {
@@ -126,18 +137,18 @@ public class Kernel implements Runnable {
         /**  @whereToDraw is a point who tell the GraphicalEngine where to draw
          *   TODO : add a BufferedImage to the Graphical Engine and set it eachTime we wanna draw
          */
-            if (keyHandler.downPressed) {
-                positions[0].move(positions[0].x , positions[0].y + player.getSpeed());
-            }
-            if (keyHandler.UpPressed) {
-                positions[0].move(positions[0].x , positions[0].y - player.getSpeed());
-            }
-            if (keyHandler.rightPressed) {
-                positions[0].move(positions[0].x+player.getSpeed() , positions[0].y);
-            }
-            if (keyHandler.leftPressed) {
-                positions[0].move(positions[0].x - player.getSpeed() , positions[0].y);
-            }
+        if (keyHandler.downPressed) {
+            positions[0].move(positions[0].x, positions[0].y + player.getSpeed());
+        }
+        if (keyHandler.UpPressed) {
+            positions[0].move(positions[0].x, positions[0].y - player.getSpeed());
+        }
+        if (keyHandler.rightPressed) {
+            positions[0].move(positions[0].x + player.getSpeed(), positions[0].y);
+        }
+        if (keyHandler.leftPressed) {
+            positions[0].move(positions[0].x - player.getSpeed(), positions[0].y);
+        }
 
 
     }
