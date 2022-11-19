@@ -5,6 +5,7 @@ import engines.graphics.GraphicsUtilities;
 import engines.graphics.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.Direction;
+import engines.physics.entities.NPC;
 import engines.physics.entities.PhysicalEntity;
 import engines.physics.entities.Player;
 
@@ -22,7 +23,7 @@ public class Kernel implements Runnable {
     KeyHandler keyHandler;
     JFrame jFrame;
 
-    int nbOfTiles = 10;
+    int nbOfTiles = 20;
 
     Point[] positions = new Point[nbOfTiles];
     PhysicalEntity[] physicalEntities = new PhysicalEntity[nbOfTiles];
@@ -48,10 +49,26 @@ public class Kernel implements Runnable {
     }
 
     public void initializePositions(){
-        positions[0] = new Point(600,600);
+        initializePlayerPosition();
+        initializeMonsterPositions();
+    }
+
+    public void initializePlayerPosition(){
+        positions[0] = new Point(300,350);
         var gp =  graphicalEngine.getTiles();
         gp[0].position = positions[0];
         player = new Player(positions[0]);
+    }
+    public void initializeMonsterPositions(){
+        int x = 20;
+        for (int i = 1; i < 11; i++) {
+            positions[i] = new Point(x,200);
+            physicalEntities[i] = new NPC(positions[i]);
+            graphicalObjects[i] = graphicalEngine.getTiles()[i];
+            graphicalObjects[i].position = positions[i];
+            x = x+50;
+
+        }
 
     }
 

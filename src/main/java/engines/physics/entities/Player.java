@@ -12,7 +12,7 @@ public class Player extends PhysicalEntity {
     }
     public Player(Point p) {
         super(p.x, p.y);
-        speed = 4;
+        speed = 3;
     }
 
     @Override

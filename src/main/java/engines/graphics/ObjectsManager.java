@@ -9,16 +9,24 @@ public class ObjectsManager {
      * graphical objects are in the hash map
      */
 
-    public GraphicalObject[] graphicalObjectsArray = new GraphicalObject[10];
-    public static int index = 0;
+    public GraphicalObject[] graphicalObjectsArray ;
+    public  int index = 0;
+
+    public int size = 0;
 
 
 
-    public ObjectsManager() {
+    public ObjectsManager(int size) {
+        this.graphicalObjectsArray =new GraphicalObject[size];
+        this.size  = size;
     }
 
     public void addGraphicalObject(GraphicalObject graphicalObject) {
-        graphicalObjectsArray[index] = graphicalObject;
+        graphicalObjectsArray[index++] = graphicalObject;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public int getIndex(GraphicalObject gp){
