@@ -1,4 +1,4 @@
-package engines.graphics.command;
+package engines.command;
 
 
 import java.awt.event.KeyEvent;
@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
 
-    public boolean UpPressed, downPressed, rightPressed, leftPressed;
+    public boolean UpPressed, downPressed, rightPressed, leftPressed,spacePressed;
     @Override
     public void keyTyped(KeyEvent keyEvent) {
 
@@ -28,7 +28,11 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_UP) {
             UpPressed = true;
         }
-    }
+        if (code == KeyEvent.VK_SPACE) {
+            spacePressed = true;
+        }
+
+        }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
@@ -45,6 +49,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_UP) {
             UpPressed = false;
+        }
+        if(code == KeyEvent.VK_SPACE){
+            spacePressed = false;
         }
 
     }

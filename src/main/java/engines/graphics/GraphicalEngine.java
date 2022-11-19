@@ -5,7 +5,6 @@ package engines.graphics;
 import javax.swing.*;
 import java.awt.*;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**

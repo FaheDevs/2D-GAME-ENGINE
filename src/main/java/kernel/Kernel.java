@@ -1,18 +1,15 @@
 package kernel;
 
-import engines.graphics.GraphicalObject;
 import engines.graphics.GraphicsUtilities;
-import engines.graphics.command.KeyHandler;
+import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
-import engines.physics.Direction;
-import engines.physics.entities.NPC;
-import engines.physics.entities.PhysicalEntity;
 import engines.physics.entities.Player;
+import engines.physics.entities.Shoot;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Arrays;
+
 
 public class Kernel implements Runnable {
 
@@ -27,9 +24,9 @@ public class Kernel implements Runnable {
     static int nbOfTiles = GraphicsUtilities.nbOfTiles;
 
     Point[] positions = new Point[nbOfTiles];
-    PhysicalEntity[] physicalEntities = new PhysicalEntity[nbOfTiles];
-    GraphicalObject[] graphicalObjects = new GraphicalObject[nbOfTiles];
 
+
+    Shoot shoot;
 
     static int FPS = 60;
 
@@ -42,13 +39,12 @@ public class Kernel implements Runnable {
         jFrame.pack();
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setResizable(false);
         jFrame.setFocusable(true);
         jFrame.setLocationRelativeTo(null);
         jFrame.addKeyListener(keyHandler);
         graphicalEngine.setBackground(Color.black);
         initializePositions();
-        System.out.println(Arrays.toString(graphicalEngine.getTiles()));
-
     }
 
     public void initializePositions() {
@@ -57,14 +53,17 @@ public class Kernel implements Runnable {
     }
 
     public void initializePlayerPosition() {
-        positions[0] = new Point(300, 350);
+        positions[0] = new Point(GraphicsUtilities.SCENE_WIDTH / 2, GraphicsUtilities.SCENE_HEIGHT - 50);
         var gp = graphicalEngine.getTiles();
         gp[0].position = positions[0];
         player = new Player(positions[0]);
+        positions[1] = new Point(player.x, player.y);
+        gp[1].position = positions[1];
+        shoot = new Shoot(positions[1]);
     }
 
     public void initializeMonsterPositions() {
-        int x = 50;
+        /*int x = 50;
         for (int i = 1; i < 11; i++) {
             positions[i] = new Point(x, 200);
             physicalEntities[i] = new NPC(positions[i]);
@@ -80,16 +79,13 @@ public class Kernel implements Runnable {
             graphicalObjects[i].position = positions[i];
             x = x + 50;
         }
-
-
+         */
     }
-
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-
 
     /**
      * BackLog → changer le nom sans final → ce qu'on a changé pas assez d'US
@@ -120,6 +116,7 @@ public class Kernel implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
             if (delta >= 1) {
+                shoot.move(0);
                 update();
                 graphicalEngine.repaint();
                 delta--;
@@ -134,24 +131,35 @@ public class Kernel implements Runnable {
     }
 
     public void update() {
-        /**  @whereToDraw is a point who tell the GraphicalEngine where to draw
-         *   TODO : add a BufferedImage to the Graphical Engine and set it eachTime we wanna draw
-         */
         if (keyHandler.downPressed) {
-            positions[0].move(positions[0].x, positions[0].y + player.getSpeed());
+            positions[0].move(positions[0].x, positions[0].y + player.speed);
         }
         if (keyHandler.UpPressed) {
-            positions[0].move(positions[0].x, positions[0].y - player.getSpeed());
+            positions[0].move(positions[0].x, positions[0].y - player.speed);
         }
         if (keyHandler.rightPressed) {
-            positions[0].move(positions[0].x + player.getSpeed(), positions[0].y);
+            positions[0].move(positions[0].x + player.speed, positions[0].y);
+
         }
         if (keyHandler.leftPressed) {
-            positions[0].move(positions[0].x - player.getSpeed(), positions[0].y);
+            positions[0].move(positions[0].x - player.speed, positions[0].y);
         }
-
-
+        if (keyHandler.spacePressed) {
+            positions[1].move(player.x, player.y);
+            shoot.goUp = true;
+        }
     }
+
+
+
+    public void moveMonsters(){
+        for (int i = 1; i < 21; i++) {
+            positions[i].move(positions[i].x - 5 , positions[i].y);
+        }
+    }
+
+
+
 
 
     public static void main(String[] args) throws IOException {
