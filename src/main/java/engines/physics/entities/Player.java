@@ -37,6 +37,10 @@ public class Player extends Entity {
         this.speed = speed;
     }
 
+    public Point getPositon(){
+        return positon;
+    }
+
 
     public void move(Direction direction) {
         int newX = getX();

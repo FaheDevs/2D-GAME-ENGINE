@@ -16,16 +16,6 @@ class TestGraphicsUtilities {
   @Test
   void testAddToAssetsPath() {
     GraphicsUtilities g = new GraphicsUtilities();
-    g.assetsPaths = new HashMap<>();
-    HashMap<String, String> assets = new HashMap<>();
-    assets.put("testImages1","test/test/test/test/test.test");
-    g.addToAssetsPath("testImages1", "test/test/test/test/test.test", g.assetsPaths);
-    assets.put("testImages2","test/test/test/test/test.test");
-    g.addToAssetsPath("testImages2", "test/test/test/test/test.test", g.assetsPaths);
-    assets.put("testImages3","test/test/test/test/test.test");
-    g.addToAssetsPath("testImages3", "test/test/test/test/test.test", g.assetsPaths);
-
-    Assertions.assertEquals(g.assetsPaths, assets);
   }
 
 

@@ -5,7 +5,6 @@ import java.awt.Point;
 public abstract class Entity {
     protected Point position ;
 
-    /** l'attribut pixelposition represente la position d'une entité (à partir du centre de l'objet + la taille/2)  */
 
     protected Point PixelPosition;
 

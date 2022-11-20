@@ -65,14 +65,6 @@ public class Kernel implements Runnable {
         var gp = graphicalEngine.getTiles();
         gp[0].position = positions[0];
         player = new Player(positions[0]);
-       /*
-        positions[1] = new Point(player.x, player.y);
-        gp[1].position = positions[1];
-        GraphicalObject shootGp = new GraphicalObject(ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/20.png")),"shoot",new Point(positions[0]));
-        GraphicsUtilities.objectsManager.addGraphicalObject(shootGp);
-        shoot = new Shoot(shootGp.position);
-
-        */
     }
 
     public void initializeAIEtityPositions() {
@@ -87,20 +79,6 @@ public class Kernel implements Runnable {
         gameThread.start();
     }
 
-    /**
-     * BackLog → changer le nom sans final → ce qu'on a changé pas assez d'US
-     * il faut etre general id6 à refaire
-     * i7 c'est le concepteur qui souhaite
-     * comment les elements sonores fonctionnent s'arrête, démarre
-     * Moteur IA
-     * rendre les sprints backlog precedent
-     * taches insatisfaisantes
-     * les états dans le noyau
-     * gérer, remplacer par détecter,
-     * mettre une page de garde
-     * package pas de majuscule
-     * plus l'etoile dans l'import
-     */
 
     @Override
     public void run() {
@@ -206,19 +184,6 @@ public class Kernel implements Runnable {
         }
         else System.out.println("OBJECT DETECTED");
     }
-
-   /* public void shoot(){
-        GraphicalObject shootgp = graphicalEngine.getTiles()[1];
-        //Shoot shoot = new Shoot()
-        shoot.goUp = true;
-        shoot.setY(positions[0].y);
-        shoot.setX(positions[0].x);
-        positions[1].move(positions[0].x, positions[0].y);
-    }
-
-    */
-
-
 
 
     public static void main(String[] args) throws IOException {

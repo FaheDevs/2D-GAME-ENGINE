@@ -1,7 +1,5 @@
 package engines.physics.entities;
 
-import kernel.Entity;
-
 import java.awt.*;
 
 public class Collision {

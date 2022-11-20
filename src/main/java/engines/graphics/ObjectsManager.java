@@ -14,9 +14,6 @@ public class ObjectsManager {
 
     public int size;
 
-
-
-
     public ObjectsManager(int size) {
         this.graphicalObjectsArray = new GraphicalObject[size];
         this.size = size;

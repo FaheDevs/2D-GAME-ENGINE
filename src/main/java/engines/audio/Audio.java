@@ -24,7 +24,6 @@ public class Audio {
     public void play() {
         clip.start();
     }
-
     public void stop() {
         clip.stop();
     }
