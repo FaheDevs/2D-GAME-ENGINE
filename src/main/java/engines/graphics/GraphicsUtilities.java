@@ -11,7 +11,7 @@ public class GraphicsUtilities {
     public static final int SCENE_WIDTH = 500;
     public static final int SCENE_HEIGHT = 500;
 
-    public static int nbOfTiles = 30;
+    public static int nbOfTiles = 2;
 
     public static ObjectsManager objectsManager = new ObjectsManager(nbOfTiles);
 
@@ -32,13 +32,10 @@ public class GraphicsUtilities {
        // image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/10.png"));
         //objectsManager.addGraphicalObject(new GraphicalObject(image, "shoot"));
 
-       /*
-       image = ImageIO.read(new File("src/main/resources/assets/images/enemigo1.png"));
-        for (int i = 0; i < 20; i++) {
-            objectsManager.addGraphicalObject(new GraphicalObject(image, "monster"));
-        }
 
-        */
+       image = ImageIO.read(new File("src/main/resources/assets/images/enemigo1.png"));
+       objectsManager.addGraphicalObject(new GraphicalObject(image, "monster"));
+
 
 
     }

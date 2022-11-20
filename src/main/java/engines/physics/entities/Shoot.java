@@ -1,8 +1,5 @@
 package engines.physics.entities;
 
-import engines.graphics.GraphicsUtilities;
-import engines.physics.Direction;
-
 import java.awt.*;
 
 public class Shoot {

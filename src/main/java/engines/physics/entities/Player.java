@@ -1,18 +1,11 @@
 package engines.physics.entities;
 
-import engines.physics.Direction;
+import kernel.Direction;
+import kernel.Entity;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-public class Player {
-
-    public int x;
-    public int y;
-    public int speed;
+public class Player extends Entity {
 
     public boolean moveLeft = false;
     public boolean moveRight = false;
@@ -24,20 +17,16 @@ public class Player {
 
 
     public Player(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         speed = 1;
-        positon = new Point(x,y);
         solideArea.setSize(32,32);
-        solideArea = new Rectangle(positon);
+        solideArea = new Rectangle(getPosition());
 
     }
 
 
     public Player(Point p) {
-        this.positon = p;
-        this.x = p.x;
-        this.y = p.y;
+        super(p.x, p.y);
         speed = 1;
         solideArea.setSize(32,32);
         solideArea.setLocation(p);
@@ -50,8 +39,8 @@ public class Player {
 
 
     public void move(Direction direction) {
-        int newX = x;
-        int newY = y;
+        int newX = getX();
+        int newY = getY();
         switch (direction) {
             case UP -> newY -= speed;
             case DOWN -> newY += speed;
@@ -59,21 +48,19 @@ public class Player {
             case LEFT -> newX -= speed;
         }
         //TODO  CHECK IF MOVEMENT IS POSSIBLE
-        if (checkCollision(newX,newY)) {
+        if (Collision.checkCollisionWorld(newX,newY) ) {
             moveTo(newX, newY);
         } else {
             System.out.println("NOT POSSIBLE");
         }
     }
 
-    public boolean checkCollision(int newX,int newY){
-        return  !((newY >= 500 -32 || newY < 0) || (newX > 528 -64  || newX < 0));
-        }
+
 
     public void moveTo(int x, int y) {
         this.positon.setLocation(x,y);
-        this.x = x;
-        this.y = y;
+        setX(x);
+        setY(y);
 
     }
 
