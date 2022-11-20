@@ -14,7 +14,6 @@ public class GraphicalObject {
     public String name ;
     public Point position ;
 
-    // SpriteX SpriteY  -- graphical coordinatesn
 
     public GraphicalObject(BufferedImage image, String name, Point position) {
         this.image = image;

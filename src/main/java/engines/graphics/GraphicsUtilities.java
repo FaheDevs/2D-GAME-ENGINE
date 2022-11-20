@@ -29,8 +29,6 @@ public class GraphicsUtilities {
         BufferedImage image;
         image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
         objectsManager.addGraphicalObject(new GraphicalObject(image, "spacecraft"));
-       // image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/10.png"));
-        //objectsManager.addGraphicalObject(new GraphicalObject(image, "shoot"));
 
 
        image = ImageIO.read(new File("src/main/resources/assets/images/enemigo1.png"));
@@ -48,12 +46,7 @@ public class GraphicsUtilities {
         }
 
     }
-    public void paintAliens(Graphics g){
 
-        GraphicalObject a = objectsManager.graphicalObjectsArray[1];
-        g.drawImage(a.image,a.position.x,a.position.y,null);
-
-    }
 
 }
 
