@@ -134,9 +134,7 @@ public class Kernel implements Runnable {
         boolean collision = false;
         Point newPosition = new Point(newX, newY);
         for (int i = 1; i < positions.length; i++) {
-            System.out.println("la");
             if(!Collision.checkCollisionObject(newPosition, positions[i])){
-                System.out.println("de");
                 collision = true;
             }
         }
@@ -145,7 +143,13 @@ public class Kernel implements Runnable {
         return (collision && Collision.checkCollisionWorld(newX, newY));
     }
     public boolean checkCollisiontObjects(int newX, int newY){
-        return !(Collision.checkCollisionWorld(newX, newY));
+        Point newPosition = new Point(newX, newY);
+        for (int i = 0; i < positions.length; i++) {
+            if(i != 1 && Collision.checkCollisionObject(newPosition, positions[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void update() {
@@ -175,29 +179,32 @@ public class Kernel implements Runnable {
     }
 
     public  void updateIAEntity() {
-        if(Collision.checkCollisionWorld(positions[1].x - aiEntity.speed, positions[1].y) && !leftFlag){
-            //aiEntity.move(directionAIEntity);
-            directionAIEntity = Direction.LEFT;
-        }else if(!leftFlag) {
-            leftFlag = true;
+        if(checkCollisiontObjects(positions[1].x - aiEntity.speed, positions[1].y)) {
+            if (Collision.checkCollisionWorld(positions[1].x - aiEntity.speed, positions[1].y) && !leftFlag) {
+                //aiEntity.move(directionAIEntity);
+                directionAIEntity = Direction.LEFT;
+            } else if (!leftFlag) {
+                leftFlag = true;
 
-        }
-        if(Collision.checkCollisionWorld(positions[1].x + aiEntity.speed, positions[1].y) && downFlag){
-            directionAIEntity = Direction.RIGHT;
-            //aiEntity.move(directionAIEntity);
+            }
+            if (Collision.checkCollisionWorld(positions[1].x + aiEntity.speed, positions[1].y) && downFlag) {
+                directionAIEntity = Direction.RIGHT;
+                //aiEntity.move(directionAIEntity);
 
-        }else if(!rigtFlag) {
-            rigtFlag = true;
-            directionAIEntity = Direction.LEFT;
-            leftFlag = false;
-            downFlag = false;
+            } else if (!rigtFlag) {
+                rigtFlag = true;
+                directionAIEntity = Direction.LEFT;
+                leftFlag = false;
+                downFlag = false;
+            }
+            if (leftFlag && !downFlag) {
+                directionAIEntity = Direction.DOWN;
+                downFlag = true;
+                rigtFlag = false;
+            }
+            aiEntity.move(directionAIEntity);
         }
-        if(leftFlag && !downFlag) {
-            directionAIEntity = Direction.DOWN;
-            downFlag = true;
-            rigtFlag = false;
-        }
-        aiEntity.move(directionAIEntity);
+        else System.out.println("OBJECT DETECTED");
     }
 
    /* public void shoot(){
