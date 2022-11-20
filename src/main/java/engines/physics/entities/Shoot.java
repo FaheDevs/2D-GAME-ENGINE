@@ -9,28 +9,32 @@ public class Shoot {
     public boolean moveLeft;
     public boolean moveRight;
 
-    public int x;
-    public int y;
+     int x;
+     int y;
 
     public int speed;
 
     public boolean goUp;
 
+    public Point positon;
+
     public Shoot(int x, int y) {
+        positon = new Point(x,y);
         this.x = x;
         this.y =  y;
         goUp = false;
         speed = 2;
     }
     public Shoot(Point positon) {
+        this.positon = positon;
         this.x = positon.x;
         this.y =  positon.y;
         goUp = false;
         speed = 2;
-
     }
 
     public void setY(int y) {
+        this.positon.y = y;
         this.y = y;
     }
 

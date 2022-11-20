@@ -145,12 +145,11 @@ public class Kernel implements Runnable {
             positions[0].move(positions[0].x - player.speed, positions[0].y);
         }
         if (keyHandler.spacePressed) {
-            positions[1].move(player.x, player.y);
+            positions[1].move(positions[0].x, positions[0].y);
             shoot.goUp = true;
         }
+
     }
-
-
 
     public void moveMonsters(){
         for (int i = 1; i < 21; i++) {
