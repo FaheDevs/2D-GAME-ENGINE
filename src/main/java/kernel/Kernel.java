@@ -1,13 +1,17 @@
 package kernel;
 
+import engines.graphics.GraphicalObject;
 import engines.graphics.GraphicsUtilities;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
+import engines.graphics.ObjectsManager;
 import engines.physics.entities.Player;
 import engines.physics.entities.Shoot;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 
@@ -47,19 +51,21 @@ public class Kernel implements Runnable {
         initializePositions();
     }
 
-    public void initializePositions() {
+    public void initializePositions() throws IOException {
         initializePlayerPosition();
         initializeMonsterPositions();
     }
 
-    public void initializePlayerPosition() {
+    public void initializePlayerPosition() throws IOException {
         positions[0] = new Point(GraphicsUtilities.SCENE_WIDTH / 2, GraphicsUtilities.SCENE_HEIGHT - 50);
         var gp = graphicalEngine.getTiles();
         gp[0].position = positions[0];
         player = new Player(positions[0]);
         positions[1] = new Point(player.x, player.y);
         gp[1].position = positions[1];
-        shoot = new Shoot(positions[1]);
+        GraphicalObject graphicalObject = new GraphicalObject(ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/20.png")),"shoot",new Point(positions[0]));
+        GraphicsUtilities.objectsManager.addGraphicalObject(graphicalObject);
+        shoot = new Shoot(graphicalObject.position);
     }
 
     public void initializeMonsterPositions() {
@@ -145,10 +151,11 @@ public class Kernel implements Runnable {
             positions[0].move(positions[0].x - player.speed, positions[0].y);
         }
         if (keyHandler.spacePressed) {
+            shoot.goUp = true;
             shoot.setY(positions[0].y);
             shoot.setX(positions[0].x);
             positions[1].move(positions[0].x, positions[0].y);
-            shoot.goUp = true;
+
         }
 
     }

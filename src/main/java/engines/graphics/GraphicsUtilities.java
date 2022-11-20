@@ -13,7 +13,7 @@ public class GraphicsUtilities {
 
     public static int nbOfTiles = 30;
 
-    ObjectsManager objectsManager = new ObjectsManager(nbOfTiles);
+    public static ObjectsManager objectsManager = new ObjectsManager(nbOfTiles);
 
 
     /**
