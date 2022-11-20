@@ -145,6 +145,8 @@ public class Kernel implements Runnable {
             positions[0].move(positions[0].x - player.speed, positions[0].y);
         }
         if (keyHandler.spacePressed) {
+            shoot.setY(positions[0].y);
+            shoot.setX(positions[0].x);
             positions[1].move(positions[0].x, positions[0].y);
             shoot.goUp = true;
         }

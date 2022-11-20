@@ -51,6 +51,12 @@ public class GraphicsUtilities {
         }
 
     }
+    public void paintAliens(Graphics g){
+
+        GraphicalObject a = objectsManager.graphicalObjectsArray[1];
+        g.drawImage(a.image,a.position.x,a.position.y,null);
+
+    }
 
 }
 
