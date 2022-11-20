@@ -1,10 +1,11 @@
 package kernel;
 
 
+import engines.AI.AIEntity;
 import engines.graphics.GraphicsUtilities;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
-import engines.physics.Direction;
+import engines.physics.entities.Collision;
 import engines.physics.entities.Player;
 
 import javax.swing.*;
@@ -25,7 +26,7 @@ public class Kernel implements Runnable {
     JFrame jFrame;
 
     static int nbOfTiles = GraphicsUtilities.nbOfTiles;
-
+    AIEntity aiEntity;
     Point[] positions = new Point[nbOfTiles];
 
     static int FPS = 60;
@@ -51,7 +52,7 @@ public class Kernel implements Runnable {
 
     public void initializePositions()  {
         initializePlayerPosition();
-        initializeMonsterPositions();
+        initializeAIEtityPositions();
     }
 
     public void initializePlayerPosition()  {
@@ -69,24 +70,11 @@ public class Kernel implements Runnable {
         */
     }
 
-    public void initializeMonsterPositions() {
-        /*int x = 50;
-        for (int i = 1; i < 11; i++) {
-            positions[i] = new Point(x, 200);
-            physicalEntities[i] = new NPC(positions[i]);
-            graphicalObjects[i] = graphicalEngine.getTiles()[i];
-            graphicalObjects[i].position = positions[i];
-            x = x + 50;
-        }
-        x = 50;
-        for (int i = 11; i < 21 ; i++) {
-            positions[i] = new Point(x, 250);
-            physicalEntities[i] = new NPC(positions[i]);
-            graphicalObjects[i] = graphicalEngine.getTiles()[i];
-            graphicalObjects[i].position = positions[i];
-            x = x + 50;
-        }
-         */
+    public void initializeAIEtityPositions() {
+            positions[1] = new Point(445, 200);
+            aiEntity = new AIEntity(positions[1]);
+            var graphicalObjects = graphicalEngine.getTiles();
+            graphicalObjects[1].position = positions[1];
     }
 
     public void startGameThread() {
@@ -124,6 +112,7 @@ public class Kernel implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
+               // updateIAEntity();
                 graphicalEngine.repaint();
                 delta--;
                 drawCount++;
@@ -136,25 +125,43 @@ public class Kernel implements Runnable {
         }
     }
 
+    public boolean checkCollisiont(int newX, int newY){
+        boolean collision = false;
+        Point newPosition = new Point(newX, newY);
+        for (int i = 1; i < positions.length; i++) {
+            System.out.println("la");
+            if(!Collision.checkCollisionObject(newPosition, positions[i])){
+                System.out.println("de");
+                collision = true;
+            }
+        }
+
+
+        return (collision && Collision.checkCollisionWorld(newX, newY));
+    }
+    public boolean checkCollisiontObjects(int newX, int newY){
+        return !(Collision.checkCollisionWorld(newX, newY));
+    }
+
     public void update() {
         if (keyHandler.downPressed) {
-            if(player.checkCollision(positions[0].x , positions[0].y + player.speed)) {
+            if(checkCollisiont(positions[0].x , positions[0].y + player.speed)) {
                 positions[0].move(positions[0].x, positions[0].y + player.speed);
             }
         }
         if (keyHandler.UpPressed) {
-            if(player.checkCollision(positions[0].x, positions[0].y - player.speed)) {
+            if(checkCollisiont(positions[0].x, positions[0].y - player.speed)) {
                 positions[0].move(positions[0].x, positions[0].y - player.speed);
             }
         }
         if (keyHandler.rightPressed) {
-            if(player.checkCollision(positions[0].x + player.speed, positions[0].y)){
+            if(checkCollisiont(positions[0].x + player.speed, positions[0].y)){
                 positions[0].move(positions[0].x + player.speed, positions[0].y);
             }
 
         }
         if (keyHandler.leftPressed) {
-            if(player.checkCollision(positions[0].x - player.speed, positions[0].y)){
+            if(checkCollisiont(positions[0].x - player.speed, positions[0].y)){
                 positions[0].move(positions[0].x - player.speed, positions[0].y);
             }
         }
@@ -162,12 +169,18 @@ public class Kernel implements Runnable {
 
     }
 
-    public void moveMonsters(){
-        for (int i = 1; i < 21; i++) {
-            positions[i].move(positions[i].x - 5 , positions[i].y);
+    public void updateIAEntity() {
+        if(Collision.leftBorderForAI(positions[1].x - aiEntity.speed, positions[1].y)){
+            aiEntity.move(aiEntity.direction);
+        }else if(Collision.rightBorderForAI(positions[1].x + aiEntity.speed, positions[1].y)){
+            aiEntity.direction = Direction.RIGHT;
+            aiEntity.move(aiEntity.direction);
+
+        }else {
+            aiEntity.direction = Direction.RIGHT;
+            aiEntity.move(aiEntity.direction);
         }
     }
-
 
    /* public void shoot(){
         GraphicalObject shootgp = graphicalEngine.getTiles()[1];
