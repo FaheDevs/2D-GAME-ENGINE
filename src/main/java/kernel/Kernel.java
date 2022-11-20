@@ -28,7 +28,12 @@ public class Kernel implements Runnable {
     static int nbOfTiles = GraphicsUtilities.nbOfTiles;
     AIEntity aiEntity;
     Point[] positions = new Point[nbOfTiles];
-
+    static Direction directionAIEntity = Direction.LEFT;
+    //
+    static boolean leftFlag = false;
+    static boolean rigtFlag = false;
+    static boolean downFlag = false;
+    //
     static int FPS = 60;
 
     public Kernel() throws IOException {
@@ -112,7 +117,7 @@ public class Kernel implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 update();
-               // updateIAEntity();
+                updateIAEntity();
                 graphicalEngine.repaint();
                 delta--;
                 drawCount++;
@@ -169,17 +174,30 @@ public class Kernel implements Runnable {
 
     }
 
-    public void updateIAEntity() {
-        if(Collision.leftBorderForAI(positions[1].x - aiEntity.speed, positions[1].y)){
-            aiEntity.move(aiEntity.direction);
-        }else if(Collision.rightBorderForAI(positions[1].x + aiEntity.speed, positions[1].y)){
-            aiEntity.direction = Direction.RIGHT;
-            aiEntity.move(aiEntity.direction);
+    public  void updateIAEntity() {
+        if(Collision.checkCollisionWorld(positions[1].x - aiEntity.speed, positions[1].y) && !leftFlag){
+            //aiEntity.move(directionAIEntity);
+            directionAIEntity = Direction.LEFT;
+        }else if(!leftFlag) {
+            leftFlag = true;
 
-        }else {
-            aiEntity.direction = Direction.RIGHT;
-            aiEntity.move(aiEntity.direction);
         }
+        if(Collision.checkCollisionWorld(positions[1].x + aiEntity.speed, positions[1].y) && downFlag){
+            directionAIEntity = Direction.RIGHT;
+            //aiEntity.move(directionAIEntity);
+
+        }else if(!rigtFlag) {
+            rigtFlag = true;
+            directionAIEntity = Direction.LEFT;
+            leftFlag = false;
+            downFlag = false;
+        }
+        if(leftFlag && !downFlag) {
+            directionAIEntity = Direction.DOWN;
+            downFlag = true;
+            rigtFlag = false;
+        }
+        aiEntity.move(directionAIEntity);
     }
 
    /* public void shoot(){

@@ -1,21 +1,19 @@
 package engines.AI;
 
+import engines.physics.entities.Collision;
 import kernel.Direction;
 import kernel.Entity;
 
 import java.awt.*;
 
 public class AIEntity extends Entity {
-    public Direction direction;
     public AIEntity(int x, int y) {
         super(x, y);
         speed = 1;
-        direction = Direction.LEFT;
     }
     public AIEntity(Point point) {
         super(point);
         speed = 1;
-        direction = Direction.LEFT;
     }
 
 
@@ -25,12 +23,16 @@ public class AIEntity extends Entity {
         int newY = getY();
         switch (direction) {
             case UP -> newY -= speed;
-            case DOWN -> newY += speed;
+            case DOWN -> newY += 20*speed;
             case RIGHT -> newX += speed;
             case LEFT -> newX -= speed;
         }
-        moveTo(newX, newY);
+        if (Collision.checkCollisionWorld(newX,newY) ) {
+            moveTo(newX, newY);
+        } else {
+
+            System.out.println("NOT POSSIBLE");
+        }
     }
 
-    public Direction getDirection (){ return direction;}
 }
