@@ -116,8 +116,6 @@ public class Kernel implements Runnable {
                 collision = true;
             }
         }
-
-
         return (collision && Collision.checkCollisionWorld(newX, newY));
     }
     public boolean checkCollisiontObjects(int newX, int newY){
