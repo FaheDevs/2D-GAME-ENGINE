@@ -5,8 +5,10 @@ import engines.AI.AIEntity;
 import engines.graphics.GraphicsUtilities;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
-import engines.physics.entities.Collision;
-import engines.physics.entities.Player;
+import engines.physics.Collision;
+import engines.physics.PhysicalEngine;
+import engines.physics.PhysicalEntity;
+import engines.physics.Player;
 
 import javax.swing.*;
 
@@ -15,12 +17,14 @@ import java.awt.Color;
 import java.io.IOException;
 
 
-public class Kernel implements Runnable {
+public class Kernel implements EventListener {
 
 
     // the game scene are set depending on the game state
     Thread gameThread;
     public GraphicalEngine graphicalEngine;
+
+    public PhysicalEngine physicalEngine;
     Player player;
     KeyHandler keyHandler;
     JFrame jFrame;
@@ -39,7 +43,7 @@ public class Kernel implements Runnable {
     public Kernel() throws IOException {
         keyHandler = new KeyHandler();
         graphicalEngine = new GraphicalEngine();
-        gameThread = new Thread(this);
+//        gameThread = new Thread(this);
         jFrame = new JFrame("GAME ENGINE");
         jFrame.add(graphicalEngine);
         jFrame.pack();
@@ -74,13 +78,12 @@ public class Kernel implements Runnable {
             graphicalObjects[1].position = positions[1];
     }
 
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
+//    public void startGameThread() {
+//        gameThread = new Thread(this);
+//        gameThread.start();
+//    }
 
 
-    @Override
     public void run() {
         double drawInterval = 1_000_000_000 / FPS;
         double delta = 0;
@@ -186,8 +189,34 @@ public class Kernel implements Runnable {
 
     public static void main(String[] args) throws IOException {
         Kernel kernel = new Kernel();
-        kernel.startGameThread();
+//        kernel.startGameThread();
     }
 
 
+    @Override
+    public void onEvent(String event) {
+
+    }
+
+    @Override
+    public void onEntityEvent(Entity entity, String eventName) {
+
+    }
+
+    @Override
+    public void onEntityUpdate(EngineEntity entity) {
+
+        if (entity instanceof PhysicalEntity){
+            PhysicalEntity physicalEntity = (PhysicalEntity) entity;
+
+        }
+
+
+    }
+
+    public void initListeners(){
+        graphicalEngine.subscribeEvents(this);
+        physicalEngine.subscribeEvents(this);
+
+    }
 }

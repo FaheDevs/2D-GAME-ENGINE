@@ -1,4 +1,4 @@
-package engines.physics.entities;
+package engines.physics;
 
 import org.junit.jupiter.api.Test;
 
