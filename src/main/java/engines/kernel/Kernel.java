@@ -1,10 +1,12 @@
 package engines.kernel;
 
 
+import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Kernel implements Observer {
@@ -13,12 +15,13 @@ public class Kernel implements Observer {
 
     public PhysicalEngine physicalEngine;
 
-    public Subject[] entities;
-    int index = 0;
+    public KeyHandler keyHandler;
 
+
+    public ArrayList<Subject> entities;
 
     public Kernel() {
-        this.entities = new Subject[10];
+        this.entities = new ArrayList<>();
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
     }
@@ -36,7 +39,7 @@ public class Kernel implements Observer {
 
     @Override
     public void setSubject(Subject sub) {
-        entities[index++] = sub;
+        entities.add(sub);
 
     }
 

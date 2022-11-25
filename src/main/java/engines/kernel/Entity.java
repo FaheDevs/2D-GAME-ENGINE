@@ -23,7 +23,6 @@ public class Entity implements Subject{
 
     public String name;
 
-
     private boolean changed;
 
     private final Object MUTEX= new Object();
@@ -120,6 +119,7 @@ public class Entity implements Subject{
     public void setPhysicalPositions(int x,int y ){
         this.physicalObject.setPosition(new Point(x,y));
         notifyObservers();
+
     }
 
     public void setGraphicalPositions(int x , int y ){
