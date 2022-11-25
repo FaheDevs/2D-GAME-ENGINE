@@ -10,11 +10,15 @@ import java.util.List;
 public class Entity implements Subject{
 //    protected Point position ;
 
+
+    //
     public GraphicalObject graphicalObject;
 
     public PhysicalObject physicalObject;
 
+    public int x ;
 
+    public int y ;
     private List<Observer> observers;
 
 
@@ -33,6 +37,8 @@ public class Entity implements Subject{
     }
 
     public Entity() {
+        this.x =0;
+        this.y=0;
         this.graphicalObject = new GraphicalObject("named",new Point(1,1));
         this.physicalObject = new PhysicalObject(0,0,0,0,0);
         this.observers=new ArrayList<>();
@@ -82,6 +88,7 @@ public class Entity implements Subject{
         }
         for (Observer obj : observersLocal) {
             obj.updateEntities();
+            // y aura que le kernel
         }
     }
 
@@ -101,6 +108,13 @@ public class Entity implements Subject{
     @Override
     public GraphicalObject getGraphicalUpdate(Observer obj) {
         return this.graphicalObject;
+    }
+
+
+    public void move(int x, int y){
+        this.x =x ;
+        this.y = y;
+        notifyObservers();
     }
 
     public void setPhysicalPositions(int x,int y ){

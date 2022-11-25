@@ -3,14 +3,9 @@ package engines.kernel;
 
 import engines.graphics.GraphicalObject;
 import engines.graphics.GraphicsUtilities;
-import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.*;
 
-import javax.swing.*;
-
-import java.awt.Point;
-import java.awt.Color;
 import java.io.IOException;
 
 
@@ -24,8 +19,9 @@ public class Kernel  implements Observer {
     public  PhysicalEngine physicalEngine;
 
 
-    public Subject entity;
+    public Subject[] entities;
     Player player;
+    int index = 0;
 //    KeyHandler keyHandler;
 //    JFrame jFrame;
 
@@ -42,6 +38,7 @@ public class Kernel  implements Observer {
 
     public Kernel() throws IOException {
 //        keyHandler = new KeyHandler();
+        this.entities = new Subject[10];
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
 
@@ -100,6 +97,7 @@ public class Kernel  implements Observer {
 //            lastTime = currentTime;
 //            if (delta >= 1) {
 //                update();
+
 //                updateIAEntity();
 //                graphicalEngine.repaint();
 //                delta--;
@@ -162,20 +160,28 @@ public class Kernel  implements Observer {
 
     @Override
     public void updateEntities() {
-        PhysicalObject physicalObject = entity.getPhysicalUpdate(this);
-        GraphicalObject graphicalObject = entity.getGraphicalUpdate(this);
-        if(physicalObject == null || graphicalObject == null){
+        PhysicalObject physicalObject;
+        GraphicalObject graphicalObject;
+        for (Subject entity : entities){
+            if(entity != null) {
+                physicalObject = entity.getPhysicalUpdate(this);
+                graphicalObject = entity.getGraphicalUpdate(this);
+            }
+
+        }
+       /* if(physicalObject == null || graphicalObject == null){
             System.out.println("one of the objects is :  P : " + physicalObject +" \n " + " G : "+ graphicalObject);
         }else {
             System.out.println("==> Consuming physical Object::" + physicalObject);
             System.out.println("==>Consuming grphical message::" + graphicalObject);
-        }
+        }*/
     }
 
 
     @Override
     public void setSubject(Subject sub) {
-        this.entity=sub;
+        entities[index++] =sub;
+
     }
 
 //    public  void updateIAEntity() {
