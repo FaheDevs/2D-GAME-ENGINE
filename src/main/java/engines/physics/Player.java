@@ -1,11 +1,8 @@
 package engines.physics;
 
-import kernel.Direction;
-import kernel.Entity;
-
 import java.awt.*;
 
-public class Player extends Entity {
+public class Player  {
 
     public boolean moveLeft = false;
     public boolean moveRight = false;

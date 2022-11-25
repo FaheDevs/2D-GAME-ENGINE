@@ -1,4 +1,4 @@
-import kernel.Direction;
+import engines.kernel.Direction;
 import engines.physics.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

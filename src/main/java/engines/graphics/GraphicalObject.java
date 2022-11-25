@@ -1,5 +1,7 @@
 package engines.graphics;
 
+import engines.kernel.Entity;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -14,6 +16,22 @@ public class GraphicalObject {
     public String name ;
     public Point position ;
 
+    public GraphicalObject(String name, Point position) {
+        this.name = name;
+        this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "GraphicalObject{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
 
     public GraphicalObject(BufferedImage image, String name, Point position) {
         this.image = image;
@@ -39,10 +57,6 @@ public class GraphicalObject {
         g2.drawImage(image, position.x, position.y, null);
     }
 
-    @Override
-    public String toString() {
-        return "GraphicalObject : " +
-                "name='" + name + '\'' +
-                ", position= (" + position.x  + "," + position.y + "), ";
-    }
+
+
 }

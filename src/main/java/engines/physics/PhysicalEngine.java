@@ -1,30 +1,21 @@
 package engines.physics;
 
-import kernel.EventListener;
+import engines.kernel.Entity;
 
-import java.util.ArrayList;
+import java.awt.*;
 
-public class PhysicalEngine implements CollisionEvent{
-
-
+public class PhysicalEngine {
 
 
-    private final ArrayList<EventListener> eventsListeners = new ArrayList<>();
-
-
-    @Override
-    public void notifyCollision(String event) {
+    public PhysicalEngine() {
 
     }
 
-    @Override
-    public void notifyEntityUpdate(PhysicalEntity entity) {
-        for (EventListener listener : eventsListeners)
-            listener.onEntityUpdate(entity);
-    }
 
-    @Override
-    public void subscribeEvents(EventListener listener) {
-        eventsListeners.add(listener);
+    public void movable(Entity entity,int x , int y) {
+        System.out.println("enntreeddd");
+        entity.setPhysicalPositions(x, y);
+        System.out.println(entity.physicalObject.hashCode());
+
     }
 }
