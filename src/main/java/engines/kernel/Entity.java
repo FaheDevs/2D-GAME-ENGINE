@@ -13,7 +13,6 @@ public class Entity implements Subject{
 
     //
     public GraphicalObject graphicalObject;
-
     public PhysicalObject physicalObject;
 
     public int x ;
@@ -22,9 +21,10 @@ public class Entity implements Subject{
     private List<Observer> observers;
 
 
+    public String name;
+
+
     private boolean changed;
-
-
 
     private final Object MUTEX= new Object();
 
@@ -37,10 +37,10 @@ public class Entity implements Subject{
     }
 
     public Entity() {
-        this.x =0;
-        this.y=0;
-        this.graphicalObject = new GraphicalObject("named",new Point(1,1));
-        this.physicalObject = new PhysicalObject(0,0,0,0,0);
+        this.x =  0;
+        this.y =  0;
+        this.graphicalObject = new GraphicalObject("named",new Point(x,y));
+        this.physicalObject = new PhysicalObject(x,y,0,0,0);
         this.observers=new ArrayList<>();
 
     }
