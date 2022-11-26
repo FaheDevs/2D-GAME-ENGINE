@@ -23,6 +23,7 @@ public class Bullet extends Entity {
 
 
     public void tick() {
-        y = y  - 1;
+        int newY = y-1;
+        setPositions(x,newY);
     }
 }

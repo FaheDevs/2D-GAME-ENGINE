@@ -19,7 +19,7 @@ public class GamePlay implements Runnable {
 
     Entity player;
 
-    LinkedList<Bullet> shoots;
+    ArrayList<Bullet> shoots;
 
     ArrayList<Entity> entitiesGame;
 
@@ -35,7 +35,7 @@ public class GamePlay implements Runnable {
 
         kernel = new Kernel();
 
-        shoots = new LinkedList<>();
+        shoots = new ArrayList<>();
 
         initEntities();
 
@@ -115,7 +115,6 @@ public class GamePlay implements Runnable {
 
     public void shoot(Entity entity) {
         Bullet bullet =  generateBullet(entity.x, entity.y);
-        System.out.println("Bullet position : " + bullet.y );
         shoots.add(bullet);
         kernel.graphicalEngine.addToScene(menu,bullet);
     }
@@ -198,12 +197,16 @@ public class GamePlay implements Runnable {
         if (kernel.commandEngine.keyHandler.STyped) {
             shoot(player);
         }
-        for (Subject  bullet : kernel.entities) {
-            if(bullet instanceof  Bullet){
-                ((Bullet) bullet).tick();
+        for (int i = 0; i < shoots.size(); i++) {
+            Bullet bullet = shoots.get(i);
+            if(bullet.y < -5){
+                shoots.remove(i);
+            }else {
+                bullet.tick();
             }
 
         }
+
 
 
         }
