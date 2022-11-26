@@ -35,6 +35,7 @@ public class GamePlay implements Runnable {
         entitiesGame = new ArrayList<>();
         kernel = new Kernel();
         initEntities();
+        entitiesGame.get(0).setPositions(400,450);
 
         Scene menu = kernel.graphicalEngine.generateScene(600,800);
         // je bind la scene au Jframe
@@ -42,6 +43,8 @@ public class GamePlay implements Runnable {
         // je rajoute un objet a la scene
         kernel.graphicalEngine.addToScene(menu,entitiesGame.get(0));
         // j'affiche la scene
+
+        kernel.commandEngine.enableKeyboardIO();
         kernel.start();
 
     }
@@ -122,6 +125,7 @@ public class GamePlay implements Runnable {
             if (delta >= 1) {
                 update();
                 kernel.updateEntities();
+
                 kernel.graphicalEngine.refreshWindow();
                 delta--;
                 drawCount++;
@@ -137,6 +141,8 @@ public class GamePlay implements Runnable {
 
     public void update() {
         if (kernel.commandEngine.keyHandler.leftPressed) {
+            System.out.println("let pressed ");
+
             move(player,MoveDirection.LEFT);
         }
 
