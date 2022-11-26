@@ -39,7 +39,7 @@ test {
 }
 
 application {
-    mainClass = 'kernel.Kernel'
+    mainClass = 'gamePlay.GamePlay'
 }
 
 tasks.named('jar') {
