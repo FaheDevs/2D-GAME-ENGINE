@@ -13,38 +13,47 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.LinkedList;
+
 
 public class GamePlay implements Runnable {
 
-    Kernel kernel ;
+    Kernel kernel;
 
-    Thread gameThread ;
+    Thread gameThread;
 
     Entity player;
-    Entity bullet;
-    ArrayList<Entity> entitiesGame ;
 
+    LinkedList<Bullet> shoots;
+
+    Bullet tempsBullet;
+    ArrayList<Entity> entitiesGame;
 
 
     public enum MoveDirection {
-        RIGHT,LEFT,UP
+        RIGHT, LEFT, UP
     }
 
     public GamePlay() throws IOException {
         entitiesGame = new ArrayList<>();
-        kernel = new Kernel();
-        initEntities();
-        entitiesGame.get(0).setPositions(400,450);
-        entitiesGame.get(1).setPositions(400,450);
 
-        Scene menu = kernel.graphicalEngine.generateScene(600,800);
+        kernel = new Kernel();
+
+        shoots = new LinkedList<>();
+
+        initEntities();
+        entitiesGame.get(0).setPositions(400, 450);
+        //entitiesGame.get(1).setPositions(400,600);
+
+        Scene menu = kernel.graphicalEngine.generateScene(600, 800);
         // je bind la scene au Jframe
         kernel.graphicalEngine.bindScene(menu);
         // je rajoute un objet a la scene
-        kernel.graphicalEngine.addToScene(menu,entitiesGame.get(0));
-        kernel.graphicalEngine.addToScene(menu,entitiesGame.get(1));
+
+        for (Entity entity : entitiesGame) {
+            kernel.graphicalEngine.addToScene(menu, entity);
+        }
+
 
         // j'affiche la scene
 
@@ -54,20 +63,32 @@ public class GamePlay implements Runnable {
     }
 
     public void initEntities() throws IOException {
-        BufferedImage image;
-        image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
-        GraphicalObject graphicalObject = new GraphicalObject(image,"spaceCraft ");
 
-        BufferedImage image1;
-        image1 = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/10.png"));
-        GraphicalObject graphicalObject1 = new GraphicalObject(image,"Craft ");
-//        player = new Entity(graphicalObject);
 
-        player = new Entity(graphicalObject);
-        bullet= new Entity(graphicalObject1);
+        //-------------------------------Player initialization-------------------------------------------------//
 
+        player = new Player();
         initEntity(player);
-        initEntity(bullet);
+
+        BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
+        GraphicalObject PlayerGraphicalObject = new GraphicalObject(image, "spaceCraft ");
+
+        player.setGraphicalObject(PlayerGraphicalObject);
+        player.setPositions(400, 400);
+
+        //----------------------------------------------------------------------------------------------------------//
+
+        //-------------------------------Monster initialization-----------------------------------------------------//
+
+        Monster monster = new Monster();
+
+        initEntity(monster);
+
+        monster.setPositions(400, 300);
+
+
+        //----------------------------------------------------------------------------------------------------------//
+
 
     }
 
@@ -77,54 +98,56 @@ public class GamePlay implements Runnable {
     }
 
 
-    public void initEntity(Entity entity){
+    public void initEntity(Entity entity) {
         entity.register(kernel);
         kernel.setSubject(entity);
         entitiesGame.add(entity);
     }
 
-    public void move(Entity entity,MoveDirection direction){
+    public void move(Entity entity, MoveDirection direction) {
         int newX;
-        if(direction == MoveDirection.LEFT){
+        if (direction == MoveDirection.LEFT) {
             newX = entity.physicalObject.x - 2;
             entity.setPositions(newX, entity.physicalObject.y);
-            bullet.setPositions(newX, entity.physicalObject.y);
         }
-        if(direction == MoveDirection.RIGHT){
-             newX = entity.physicalObject.x + 2;
-            entity.setPositions(newX , entity.physicalObject.y);
-            bullet.setPositions(newX , entity.physicalObject.y);
+        if (direction == MoveDirection.RIGHT) {
+            newX = entity.physicalObject.x + 2;
+            entity.setPositions(newX, entity.physicalObject.y);
         }
-
 
 
     }
 
-    public void shoot(Entity entity) throws IOException {
-        int newY;
-        newY =entity.physicalObject.y -5;
-        entity.setPositions(entity.physicalObject.x,newY);
+    public void shoot(Entity entity) {
+        Bullet bullet = generateBullet(entity.x, entity.y);
+        initEntity(bullet);
+        shoots.add(generateBullet(entity.x, entity.y));
 
     }
 
+
+    public Bullet generateBullet(int x, int y) {
+        Bullet bullet = new Bullet(kernel);
+        bullet.setPositions(x, y);
+        return bullet;
+    }
 
 
     public Kernel getKernel() {
         return kernel;
     }
 
-    public ArrayList<Subject> getEntities(){
+    public ArrayList<Subject> getEntities() {
         return kernel.entities;
     }
 
-    public GraphicalEngine graphicalEngine(){
+    public GraphicalEngine graphicalEngine() {
         return kernel.graphicalEngine;
     }
 
-    public PhysicalEngine physicalEngine(){
+    public PhysicalEngine physicalEngine() {
         return kernel.physicalEngine;
     }
-
 
 
     @Override
@@ -163,19 +186,18 @@ public class GamePlay implements Runnable {
 
     public void update() throws IOException {
         if (kernel.commandEngine.keyHandler.leftPressed) {
-            System.out.println("let pressed ");
-
-            move(player,MoveDirection.LEFT);
+            move(player, MoveDirection.LEFT);
         }
 
         if (kernel.commandEngine.keyHandler.rightPressed) {
-            move(player,MoveDirection.RIGHT);
+            move(player, MoveDirection.RIGHT);
+
         }
 
-        if (kernel.commandEngine.keyHandler.spacePressed) {
-            shoot(bullet);
+        if (kernel.commandEngine.keyHandler.STyped) {
+            System.out.println(entitiesGame);
+            shoot(player);
         }
-
 
 
     }
@@ -186,39 +208,6 @@ public class GamePlay implements Runnable {
         GamePlay game = new GamePlay();
         game.startGameThread();
 
-        System.out.println(game.kernel.entities);
-
-//        Entity player = game.entitiesGame.get(0);
-
-
-
-//        Scanner scanner = new Scanner(System.in);
-//        String input ;
-//        while (true) {
-//            input = scanner.nextLine();
-//            if (Objects.equals(input, "L"))
-//                game.move(player,MoveDirection.LEFT);
-//            if (Objects.equals(input, "R"))
-//                game.move(player,MoveDirection.RIGHT);
-//
-//            if (Objects.equals(input, "Q"))
-//                game.move(monster,MoveDirection.LEFT);
-//
-//            if (Objects.equals(input, "D"))
-//                game.move(monster,MoveDirection.RIGHT);
-//
-//            System.out.println("Monster position : x : "+ monster.x + " y : " + monster.y  );
-//            System.out.println("Player position : x : "+ player.x + " y : " + player.y  );
-//
-//        Thread gameThread = new Thread();
-//        Runnable r = new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//            }
-//        }
-//
 
 //        Kernel kernel1 = new Kernel();
 //        BufferedImage image;
@@ -236,10 +225,6 @@ public class GamePlay implements Runnable {
 //        kernel1.start();
 
 
-
-
-
-
     }
-    }
+}
 

@@ -13,6 +13,9 @@ public class Player extends Entity {
     public Player(Kernel kernel){
         register(kernel);
     }
+    public Player(){
+    }
+
 
 
     public void move(Entity entity, GamePlay.MoveDirection direction){

@@ -56,6 +56,10 @@ public class GraphicalObject {
         return image;
     }
 
+    public void setImage(BufferedImage image) {
+        this.image = image;
+    }
+
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(image, position.x, position.y, null);
