@@ -4,6 +4,7 @@ package engines.kernel;
 import engines.command.CommandEngine;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
+import engines.graphics.GraphicalObject;
 import engines.physics.*;
 
 import java.io.IOException;
@@ -46,6 +47,14 @@ public class Kernel implements Observer {
         entities.add(sub);
 
     }
+    public Entity generateEntity(GraphicalObject graphicalObject) {
+        return new Entity(graphicalObject);
+    }
+
+    public void removeEntity(Entity entity) {
+
+    }
+
 
     public void start(){
         graphicalEngine.showWindow();

@@ -23,12 +23,13 @@ public class GamePlay implements Runnable {
     Thread gameThread ;
 
     Entity player;
+    Entity bullet;
     ArrayList<Entity> entitiesGame ;
 
 
 
     public enum MoveDirection {
-        RIGHT,LEFT
+        RIGHT,LEFT,UP
     }
 
     public GamePlay() throws IOException {
@@ -36,12 +37,15 @@ public class GamePlay implements Runnable {
         kernel = new Kernel();
         initEntities();
         entitiesGame.get(0).setPositions(400,450);
+        entitiesGame.get(1).setPositions(400,450);
 
         Scene menu = kernel.graphicalEngine.generateScene(600,800);
         // je bind la scene au Jframe
         kernel.graphicalEngine.bindScene(menu);
         // je rajoute un objet a la scene
         kernel.graphicalEngine.addToScene(menu,entitiesGame.get(0));
+        kernel.graphicalEngine.addToScene(menu,entitiesGame.get(1));
+
         // j'affiche la scene
 
         kernel.commandEngine.enableKeyboardIO();
@@ -54,11 +58,16 @@ public class GamePlay implements Runnable {
         image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
         GraphicalObject graphicalObject = new GraphicalObject(image,"spaceCraft ");
 
+        BufferedImage image1;
+        image1 = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/10.png"));
+        GraphicalObject graphicalObject1 = new GraphicalObject(image,"Craft ");
 //        player = new Entity(graphicalObject);
 
         player = new Entity(graphicalObject);
+        bullet= new Entity(graphicalObject1);
 
         initEntity(player);
+        initEntity(bullet);
 
     }
 
@@ -79,13 +88,22 @@ public class GamePlay implements Runnable {
         if(direction == MoveDirection.LEFT){
             newX = entity.physicalObject.x - 2;
             entity.setPositions(newX, entity.physicalObject.y);
+            bullet.setPositions(newX, entity.physicalObject.y);
         }
         if(direction == MoveDirection.RIGHT){
              newX = entity.physicalObject.x + 2;
             entity.setPositions(newX , entity.physicalObject.y);
+            bullet.setPositions(newX , entity.physicalObject.y);
         }
 
 
+
+    }
+
+    public void shoot(Entity entity) throws IOException {
+        int newY;
+        newY =entity.physicalObject.y -5;
+        entity.setPositions(entity.physicalObject.x,newY);
 
     }
 
@@ -123,7 +141,11 @@ public class GamePlay implements Runnable {
             timer += (currentTime - lastTime);
             lastTime = currentTime;
             if (delta >= 1) {
-                update();
+                try {
+                    update();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 kernel.updateEntities();
 
                 kernel.graphicalEngine.refreshWindow();
@@ -139,7 +161,7 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void update() {
+    public void update() throws IOException {
         if (kernel.commandEngine.keyHandler.leftPressed) {
             System.out.println("let pressed ");
 
@@ -148,6 +170,10 @@ public class GamePlay implements Runnable {
 
         if (kernel.commandEngine.keyHandler.rightPressed) {
             move(player,MoveDirection.RIGHT);
+        }
+
+        if (kernel.commandEngine.keyHandler.spacePressed) {
+            shoot(bullet);
         }
 
 
