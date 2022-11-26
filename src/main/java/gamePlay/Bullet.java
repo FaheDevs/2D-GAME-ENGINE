@@ -9,7 +9,10 @@ import java.io.File;
 
 public class Bullet extends Entity {
 
+    boolean UpPressed ;
+
     public Bullet() {
+        UpPressed = false;
         name = "Bullet";
         try {
             BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/shot.png"));
@@ -23,7 +26,13 @@ public class Bullet extends Entity {
 
 
     public void tick() {
-        int newY = y-1;
-        setPositions(x,newY);
+        if(!UpPressed){
+            int newY = y-1;
+            setPositions(x,newY);
+        }
+        else{
+            int newY = y + 1;
+            setPositions(x,newY);
+        }
     }
 }

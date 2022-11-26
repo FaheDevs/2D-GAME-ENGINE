@@ -113,7 +113,7 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void shoot(Entity entity) {
+    public void shoot(Entity entity, boolean IsUp) {
         Bullet bullet =  generateBullet(entity.x, entity.y);
         shoots.add(bullet);
         kernel.graphicalEngine.addToScene(menu,bullet);
@@ -195,24 +195,20 @@ public class GamePlay implements Runnable {
         }
 
         if (kernel.commandEngine.keyHandler.STyped) {
-            shoot(player);
+            shoot(player,true);
         }
         for (int i = 0; i < shoots.size(); i++) {
             Bullet bullet = shoots.get(i);
             if(bullet.y < -5){
                 shoots.remove(i);
+                menu.getEntities().remove(bullet);
             }else {
                 bullet.tick();
             }
 
         }
 
-
-
         }
-
-
-
 
 
     public static void main(String[] args) throws IOException {
