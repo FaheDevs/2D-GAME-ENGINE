@@ -43,4 +43,8 @@ public class Kernel implements Observer {
 
     }
 
+    public void start(){
+        graphicalEngine.showWindow();
+    }
+
 }

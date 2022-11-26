@@ -16,6 +16,10 @@ public class GraphicalObject {
     public String name ;
     public Point position ;
 
+    public Scene scene ;
+
+
+
     public GraphicalObject(String name, Point position) {
         this.name = name;
         this.position = position;
@@ -55,6 +59,11 @@ public class GraphicalObject {
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(image, position.x, position.y, null);
+    }
+
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
 

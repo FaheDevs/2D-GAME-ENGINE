@@ -35,6 +35,14 @@ public class Entity implements Subject{
 
     }
 
+    public Entity(GraphicalObject graphicalObject){
+        this.graphicalObject = graphicalObject;
+
+        this.physicalObject = new PhysicalObject(0,0,0,0,0);
+        this.observers=new ArrayList<>();
+
+    }
+
     public Entity() {
         this.x =  0;
         this.y =  0;
@@ -43,6 +51,8 @@ public class Entity implements Subject{
         this.observers=new ArrayList<>();
 
     }
+
+
 
     public GraphicalObject getGraphicalObject() {
         return graphicalObject;
