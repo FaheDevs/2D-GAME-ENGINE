@@ -1,16 +1,11 @@
 package gamePlay;
 
 import engines.graphics.GraphicalEngine;
-import engines.graphics.GraphicalObject;
 import engines.graphics.Scene;
 import engines.kernel.Entity;
 import engines.kernel.Kernel;
 import engines.kernel.Subject;
 import engines.physics.PhysicalEngine;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,8 +21,9 @@ public class GamePlay implements Runnable {
 
     LinkedList<Bullet> shoots;
 
-    Bullet tempsBullet;
     ArrayList<Entity> entitiesGame;
+
+    Scene menu;
 
 
     public enum MoveDirection {
@@ -42,16 +38,17 @@ public class GamePlay implements Runnable {
         shoots = new LinkedList<>();
 
         initEntities();
-        entitiesGame.get(0).setPositions(400, 450);
-        //entitiesGame.get(1).setPositions(400,600);
 
-        Scene menu = kernel.graphicalEngine.generateScene(600, 800);
+        menu = kernel.graphicalEngine.generateScene(600, 800);
+
         // je bind la scene au Jframe
         kernel.graphicalEngine.bindScene(menu);
         // je rajoute un objet a la scene
 
         for (Entity entity : entitiesGame) {
+
             kernel.graphicalEngine.addToScene(menu, entity);
+
         }
 
 
@@ -86,6 +83,7 @@ public class GamePlay implements Runnable {
         //----------------------------------------------------------------------------------------------------------//
 
 
+
     }
 
     public void startGameThread() {
@@ -98,6 +96,7 @@ public class GamePlay implements Runnable {
         entity.register(kernel);
         kernel.setSubject(entity);
         entitiesGame.add(entity);
+
     }
 
     public void move(Entity entity, MoveDirection direction) {
@@ -115,17 +114,24 @@ public class GamePlay implements Runnable {
     }
 
     public void shoot(Entity entity) {
-        Bullet bullet = generateBullet(entity.x, entity.y);
-        initEntity(bullet);
-        shoots.add(generateBullet(entity.x, entity.y));
-
+        Bullet bullet =  generateBullet(entity.x, entity.y);
+        System.out.println("Bullet position : " + bullet.y );
+        shoots.add(bullet);
+        kernel.graphicalEngine.addToScene(menu,bullet);
     }
 
 
     public Bullet generateBullet(int x, int y) {
-        Bullet bullet = new Bullet(kernel);
-        bullet.setPositions(x, y);
+        Bullet bullet = new Bullet();
+        bullet.setPositions(x, y-5);
+        initEntity(bullet);
         return bullet;
+    }
+
+    public void KillBullet(Bullet bullet){
+        shoots.remove(bullet);
+        entitiesGame.remove(bullet);
+        kernel.entities.remove(bullet);
     }
 
 
@@ -165,8 +171,8 @@ public class GamePlay implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                kernel.updateEntities();
 
+                kernel.updateEntities();
                 kernel.graphicalEngine.refreshWindow();
                 delta--;
                 drawCount++;
@@ -180,23 +186,30 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void update() throws IOException {
+    public void  update() throws IOException {
         if (kernel.commandEngine.keyHandler.leftPressed) {
             move(player, MoveDirection.LEFT);
         }
 
         if (kernel.commandEngine.keyHandler.rightPressed) {
             move(player, MoveDirection.RIGHT);
-
         }
 
         if (kernel.commandEngine.keyHandler.STyped) {
-            System.out.println(entitiesGame);
             shoot(player);
+        }
+        for (Subject  bullet : kernel.entities) {
+            if(bullet instanceof  Bullet){
+                ((Bullet) bullet).tick();
+            }
+
         }
 
 
-    }
+        }
+
+
+
 
 
     public static void main(String[] args) throws IOException {

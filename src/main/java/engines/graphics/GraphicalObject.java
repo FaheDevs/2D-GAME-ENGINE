@@ -37,9 +37,7 @@ public class GraphicalObject {
         this.position = position;
     }
 
-    public GraphicalObject(BufferedImage image, String name, Point position) {
-        this.image = image;
-        this.name = name;
+    public GraphicalObject(Point position) {
         this.position = position;
     }
     public GraphicalObject(BufferedImage image, String name) {

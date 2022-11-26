@@ -21,11 +21,12 @@ public class Entity implements Subject{
     private List<Observer> observers;
 
 
-    public String name;
+    public String name = "entity";
 
     private boolean changed;
 
     private final Object MUTEX= new Object();
+
 
 
     public Entity(GraphicalObject graphicalObject, PhysicalObject physicalObject) {
@@ -38,7 +39,7 @@ public class Entity implements Subject{
     public Entity(GraphicalObject graphicalObject){
         this.graphicalObject = graphicalObject;
 
-        this.physicalObject = new PhysicalObject(0,0,0,0,0);
+        this.physicalObject = new PhysicalObject(name, 0,0,0,0,0);
         this.observers=new ArrayList<>();
 
     }
@@ -46,8 +47,8 @@ public class Entity implements Subject{
     public Entity() {
         this.x =  0;
         this.y =  0;
-        this.graphicalObject = new GraphicalObject("named",new Point(x,y));
-        this.physicalObject = new PhysicalObject(x,y,0,0,0);
+        this.graphicalObject = new GraphicalObject(new Point(x,y));
+        this.physicalObject = new PhysicalObject(name,x,y,0,0,0);
         this.observers=new ArrayList<>();
 
     }
@@ -127,7 +128,7 @@ public class Entity implements Subject{
     }
 
     public void setPhysicalPositions(int x,int y ){
-        this.physicalObject.setPosition(new Point(x,y));
+        this.physicalObject.setPosition(this.name,new Point(x,y));
         notifyObservers();
 
     }
@@ -138,6 +139,8 @@ public class Entity implements Subject{
     }
 
     public void setPositions(int x , int y ){
+        this.x = x;
+        this.y = y;
         setPhysicalPositions(x, y);
         setGraphicalPositions(x, y);
     }

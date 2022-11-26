@@ -9,14 +9,20 @@ import java.io.File;
 
 public class Bullet extends Entity {
 
-    public Bullet(Kernel kernel) {
-        register(kernel);
+    public Bullet() {
         name = "Bullet";
+        try {
+            BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/shot.png"));
+            graphicalObject.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
 
     public void tick() {
-        y = -10;
+        y = y  - 1;
     }
 }
