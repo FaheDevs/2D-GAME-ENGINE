@@ -70,10 +70,6 @@ public class GamePlay implements Runnable {
         player = new Player();
         initEntity(player);
 
-        BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
-        GraphicalObject PlayerGraphicalObject = new GraphicalObject(image, "spaceCraft ");
-
-        player.setGraphicalObject(PlayerGraphicalObject);
         player.setPositions(400, 400);
 
         //----------------------------------------------------------------------------------------------------------//
