@@ -1,6 +1,7 @@
 package engines.kernel;
 
 
+import engines.command.CommandEngine;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
 import engines.physics.*;
@@ -15,6 +16,8 @@ public class Kernel implements Observer {
 
     public PhysicalEngine physicalEngine;
 
+    public CommandEngine commandEngine;
+
     public KeyHandler keyHandler;
 
 
@@ -24,6 +27,7 @@ public class Kernel implements Observer {
         this.entities = new ArrayList<>();
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
+        commandEngine = new CommandEngine();
     }
 
 

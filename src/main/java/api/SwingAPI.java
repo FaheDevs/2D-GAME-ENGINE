@@ -8,7 +8,7 @@ public class SwingAPI {
      * Récupérer les méthodes pour les écouteurs
      * @return instance SwingListener
      */
-    protected static SwingListener getListenerMethods() {
+    public static SwingListener getListenerMethods() {
         return SwingListener.getInstance();
     }
 

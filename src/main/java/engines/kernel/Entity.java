@@ -137,6 +137,11 @@ public class Entity implements Subject{
         notifyObservers();
     }
 
+    public void setPositions(int x , int y ){
+        setPhysicalPositions(x, y);
+        setGraphicalPositions(x, y);
+    }
+
 //
 }
 
