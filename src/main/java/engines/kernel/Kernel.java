@@ -1,6 +1,8 @@
 package engines.kernel;
 
 
+import engines.AI.AIEngine;
+import engines.AI.AIObject;
 import engines.command.CommandEngine;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
@@ -19,6 +21,8 @@ public class Kernel implements Observer {
 
     public CommandEngine commandEngine;
 
+    public AIEngine aiEngine;
+
     public KeyHandler keyHandler;
 
 
@@ -29,6 +33,7 @@ public class Kernel implements Observer {
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
         commandEngine = new CommandEngine();
+        aiEngine = new AIEngine();
     }
 
 
@@ -38,6 +43,7 @@ public class Kernel implements Observer {
             if (entity != null) {
                 entity.getPhysicalUpdate(this);
                 entity.getGraphicalUpdate(this);
+                entity.getAiUpdate(this);
             }
         }
     }

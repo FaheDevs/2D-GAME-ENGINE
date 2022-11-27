@@ -11,7 +11,8 @@ public class Bullet extends Entity {
 
     boolean UpPressed ;
 
-    public Bullet() {
+    public Bullet(int heightEntity, int widthEntity) {
+        super(heightEntity, widthEntity, Type.Physical, 1);
         UpPressed = false;
         name = "Bullet";
         try {

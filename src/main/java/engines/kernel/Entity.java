@@ -1,6 +1,9 @@
 package engines.kernel;
 
+import engines.AI.AIObject;
 import engines.graphics.GraphicalObject;
+import engines.graphics.Scene;
+import engines.physics.CollisionTools;
 import engines.physics.PhysicalObject;
 
 import java.awt.*;
@@ -9,11 +12,15 @@ import java.util.List;
 
 public class Entity implements Subject{
 //    protected Point position ;
-
+    public enum Type {Ai, Physical}
 
     //
     public GraphicalObject graphicalObject;
     public PhysicalObject physicalObject;
+    public AIObject aiObject;
+
+    public int widthEntity;
+    public int heightEntity;
 
     public int x ;
 
@@ -23,32 +30,38 @@ public class Entity implements Subject{
 
     public String name = "entity";
 
+    public boolean isCollide = false;
+
     private boolean changed;
 
     private final Object MUTEX= new Object();
 
-
+    public Entity(GraphicalObject graphicalObject, AIObject aiObject) {
+        this.graphicalObject = graphicalObject;
+        this.aiObject = aiObject;
+        this.observers = new ArrayList<>();
+    }
 
     public Entity(GraphicalObject graphicalObject, PhysicalObject physicalObject) {
         this.graphicalObject = graphicalObject;
         this.physicalObject = physicalObject;
-        this.observers=new ArrayList<>();
-
+        this.observers = new ArrayList<>();
     }
 
     public Entity(GraphicalObject graphicalObject){
         this.graphicalObject = graphicalObject;
-
-        this.physicalObject = new PhysicalObject(name, 0,0,0,0,0);
         this.observers=new ArrayList<>();
 
     }
 
-    public Entity() {
+    public Entity(int heightEntity, int widthEntity, Type typeEntity, int speed) {
         this.x =  0;
         this.y =  0;
+        this.heightEntity = heightEntity;
+        this.widthEntity = widthEntity;
         this.graphicalObject = new GraphicalObject(new Point(x,y));
-        this.physicalObject = new PhysicalObject(name,x,y,0,0,0);
+        if (typeEntity == Type.Ai) this.aiObject = new AIObject(name,x,y,widthEntity,heightEntity, speed);
+        else this.physicalObject = new PhysicalObject(name,x,y,widthEntity,heightEntity, speed);
         this.observers=new ArrayList<>();
 
     }
@@ -69,6 +82,13 @@ public class Entity implements Subject{
 
     public void setPhysicalObject(PhysicalObject physicalObject) {
         this.physicalObject = physicalObject;
+    }
+    public AIObject getAiObject() {
+        return aiObject;
+    }
+
+    public void setAiObject(AIObject aiObject) {
+        this.aiObject = aiObject;
     }
 
     @Override
@@ -120,6 +140,11 @@ public class Entity implements Subject{
         return this.graphicalObject;
     }
 
+    @Override
+    public AIObject getAiUpdate(Observer obj) {
+        return this.aiObject;
+    }
+
 
     public void move(int x, int y){
         this.x =x ;
@@ -138,12 +163,35 @@ public class Entity implements Subject{
         notifyObservers();
     }
 
+    public void setAiPositions(int x , int y ){
+        this.aiObject.setPosition(new Point(x,y));
+        notifyObservers();
+    }
+
     public void setPositions(int x , int y ){
         this.x = x;
         this.y = y;
         setPhysicalPositions(x, y);
         setGraphicalPositions(x, y);
     }
+
+    public void setAiObjectPositions(int x , int y ){
+        this.x = x;
+        this.y = y;
+        setAiPositions(x, y);
+        setGraphicalPositions(x, y);
+    }
+
+    public void setCollision(boolean isCollide){
+        this.isCollide = isCollide;
+    }
+
+    public boolean getAndResetCollision(){
+        boolean temp = isCollide;
+        this.isCollide = false;
+        return temp;
+    }
+
 
 //
 }

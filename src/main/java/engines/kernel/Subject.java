@@ -1,5 +1,6 @@
 package engines.kernel;
 
+import engines.AI.AIObject;
 import engines.graphics.GraphicalObject;
 import engines.physics.PhysicalObject;
 
@@ -17,5 +18,6 @@ public interface Subject {
 
     public GraphicalObject getGraphicalUpdate(Observer obj);
 
+    public AIObject getAiUpdate(Observer obj);
 
 }

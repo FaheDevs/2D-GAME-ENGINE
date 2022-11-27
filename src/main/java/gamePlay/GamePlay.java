@@ -8,7 +8,7 @@ import engines.kernel.Subject;
 import engines.physics.PhysicalEngine;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 
 public class GamePlay implements Runnable {
@@ -19,15 +19,19 @@ public class GamePlay implements Runnable {
 
     Entity player;
 
+    List<List<Entity>> aliens;
+
     ArrayList<Bullet> shoots;
 
     ArrayList<Entity> entitiesGame;
 
-    Scene menu;
+    Scene world;
 
+    int speedAliens;
+    boolean leftFlag = true;
 
     public enum MoveDirection {
-        RIGHT, LEFT, UP
+        RIGHT, LEFT, UP, DOWN
     }
 
     public GamePlay() throws IOException {
@@ -39,15 +43,15 @@ public class GamePlay implements Runnable {
 
         initEntities();
 
-        menu = kernel.graphicalEngine.generateScene(600, 800);
+        world = kernel.graphicalEngine.generateScene(800, 800);
 
         // je bind la scene au Jframe
-        kernel.graphicalEngine.bindScene(menu);
+        kernel.graphicalEngine.bindScene(world);
         // je rajoute un objet a la scene
 
         for (Entity entity : entitiesGame) {
 
-            kernel.graphicalEngine.addToScene(menu, entity);
+            kernel.graphicalEngine.addToScene(world, entity);
 
         }
 
@@ -64,21 +68,31 @@ public class GamePlay implements Runnable {
 
         //-------------------------------Player initialization-------------------------------------------------//
 
-        player = new Player();
+        player = new Player(32, 32);
         initEntity(player);
 
-        player.setPositions(400, 400);
+        player.setPositions(400, 700);
 
         //----------------------------------------------------------------------------------------------------------//
 
-        //-------------------------------Monster initialization-----------------------------------------------------//
+        //-------------------------------Aliens initialization-----------------------------------------------------//
 
-        Monster monster = new Monster();
-
-        initEntity(monster);
-
-        monster.setPositions(400, 300);
-
+        aliens = new ArrayList<>();
+        int x = 760;
+        int y = 100;
+        for (int i = 0; i < 5; i++) {
+            aliens.add(new ArrayList<>());
+            for (int j = 0; j < 11; j++) {
+                aliens.get(i).add(new Aliens(32, 32));
+                initEntity(aliens.get(i).get(j));
+                aliens.get(i).get(j).setAiObjectPositions(x, y);
+                x -= 50;
+            }
+            y += 50;
+            x = 760;
+        }
+        System.out.println(entitiesGame.size());
+        speedAliens = aliens.get(0).get(0).aiObject.speed;
 
         //----------------------------------------------------------------------------------------------------------//
 
@@ -99,29 +113,15 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void move(Entity entity, MoveDirection direction) {
-        int newX;
-        if (direction == MoveDirection.LEFT) {
-            newX = entity.physicalObject.x - 2;
-            entity.setPositions(newX, entity.physicalObject.y);
-        }
-        if (direction == MoveDirection.RIGHT) {
-            newX = entity.physicalObject.x + 2;
-            entity.setPositions(newX, entity.physicalObject.y);
-        }
-
-
-    }
-
     public void shoot(Entity entity, boolean IsUp) {
         Bullet bullet =  generateBullet(entity.x, entity.y);
         shoots.add(bullet);
-        kernel.graphicalEngine.addToScene(menu,bullet);
+        kernel.graphicalEngine.addToScene(world,bullet);
     }
 
 
     public Bullet generateBullet(int x, int y) {
-        Bullet bullet = new Bullet();
+        Bullet bullet = new Bullet(2, 2);
         bullet.setPositions(x, y-5);
         initEntity(bullet);
         return bullet;
@@ -166,7 +166,8 @@ public class GamePlay implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 try {
-                    update();
+                    updatePlayer();
+                    updateAliens();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -185,13 +186,19 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void  update() throws IOException {
+    public void updatePlayer() throws IOException {
         if (kernel.commandEngine.keyHandler.leftPressed) {
-            move(player, MoveDirection.LEFT);
+            kernel.physicalEngine.isCollide(player, player.physicalObject.x - player.physicalObject.speed,
+                    player.physicalObject.y, this.entitiesGame, this.world);
+            if (!player.getAndResetCollision())
+                kernel.physicalEngine.move(player, MoveDirection.LEFT);
         }
 
         if (kernel.commandEngine.keyHandler.rightPressed) {
-            move(player, MoveDirection.RIGHT);
+            kernel.physicalEngine.isCollide(player, player.physicalObject.x + player.physicalObject.speed,
+                    player.physicalObject.y, this.entitiesGame, this.world);
+            if (!player.getAndResetCollision())
+                kernel.physicalEngine.move(player, MoveDirection.RIGHT);
         }
 
         if (kernel.commandEngine.keyHandler.STyped) {
@@ -201,7 +208,7 @@ public class GamePlay implements Runnable {
             Bullet bullet = shoots.get(i);
             if(bullet.y < -5){
                 shoots.remove(i);
-                menu.getEntities().remove(bullet);
+                world.getEntities().remove(bullet);
             }else {
                 bullet.tick();
             }
@@ -209,8 +216,60 @@ public class GamePlay implements Runnable {
         }
 
         }
-
-
+    public boolean isCollideWithLefdboard(){
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (!kernel.physicalEngine.isCollideLeft(aliens.get(j).get(i), aliens.get(j).get(i).x - speedAliens, aliens.get(j).get(i).y, world)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isCollideWithRightdboard(){
+        for (int i = 0; i < 11; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (!kernel.physicalEngine.isCollideRight(aliens.get(j).get(i), aliens.get(j).get(i).x + speedAliens, aliens.get(j).get(i).y, world)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public void chooseDirection (){
+        if(isCollideWithRightdboard()){
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 11; j++) {
+                    kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.LEFT);
+                }
+            }
+            leftFlag = true;
+        }
+        else if(isCollideWithLefdboard()){
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 11; j++) {
+                    kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.DOWN);
+                }
+            }
+            leftFlag = false;
+        }
+    }
+    public void updateAliens(){
+        if(leftFlag){
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 11; j++) {
+                    kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.LEFT);
+                }
+            }
+        }else{
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 11; j++) {
+                    kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.RIGHT);
+                }
+            }
+        }
+        chooseDirection();
+    }
     public static void main(String[] args) throws IOException {
 
         GamePlay game = new GamePlay();
@@ -224,11 +283,11 @@ public class GamePlay implements Runnable {
 //        Entity palyer3 = new Entity(graphicalObject);
 //        palyer3.setPositions(400,400);
 //        // creation d'une scene ( jpanel )
-//        Scene menu = kernel1.graphicalEngine.generateScene(600,800);
+//        Scene world = kernel1.graphicalEngine.generateScene(600,800);
 //        // je bind la scene au Jframe
-//        kernel1.graphicalEngine.bindScene(menu);
+//        kernel1.graphicalEngine.bindScene(world);
 //        // je rajoute un objet a la scene
-//        kernel1.graphicalEngine.addToScene(menu,palyer3);
+//        kernel1.graphicalEngine.addToScene(world,palyer3);
 //        // j'affiche la scene
 //        kernel1.start();
 
