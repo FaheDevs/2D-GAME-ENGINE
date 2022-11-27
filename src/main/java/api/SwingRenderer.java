@@ -30,10 +30,7 @@ public class SwingRenderer {
         return instance;
     }
 
-    /**
-     * Textures chargées
-     */
-    private final Map<String,BufferedImage> loadedTextures = new HashMap<>();
+
 
     /**
      * Générer un rectangle
@@ -53,22 +50,7 @@ public class SwingRenderer {
         }
     }
 
-    /**
-     * Générer un carré texturisé
-     * @param height hauteur en pixels
-     * @param width largeur en pixels
-     * @param x position horizontale
-     * @param y position verticale
-     * @param link lien vers la texture
-     */
-    public void renderTexturedRect(int height, int width, int x, int y, String link) {
-        Graphics2D graphics2D = getCurrentGraphics();
-        if (graphics2D != null) {
-            x += getCurrentScene().xLocation;
-            y += getCurrentScene().yLocation;
-            graphics2D.drawImage(loadedTextures.get(link), x, y, width, height, null);
-        }
-    }
+
 
     /**
      * Générer un texte
@@ -108,35 +90,7 @@ public class SwingRenderer {
 
 
 
-    /**
-     * Charger une texture
-     * @param link lien du fichier
-     */
-    public void loadTexture(String link) {
-        BufferedImage texture = getBufferedImage(link);
-        loadedTextures.put(link, texture);
-        texture.flush();
-    }
 
-    /**
-     * Charger un fichier de textures
-     * @param link lien du fichier
-     * @param sheetHeight nombre de textures sur la hauteur
-     * @param sheetWidth nombre de textures sur la largeur
-     */
-    public void loadSpriteSheet(String link, int sheetHeight, int sheetWidth) {
-        BufferedImage texture = getBufferedImage(link);
-        int partWidth = texture.getWidth() / sheetWidth;
-        int partHeight = texture.getHeight() / sheetHeight;
-        for (int row = 0; row < sheetHeight; row++) {
-            for (int col = 0; col < sheetWidth; col++) {
-                int cropX = col * partWidth;
-                int cropY = row * partHeight;
-                loadedTextures.put(link + row + "-" + col, texture.getSubimage(cropX, cropY, partWidth, partHeight));
-            }
-        }
-        texture.flush();
-    }
 
     /**
      * Récupérer une image dans un tampon
@@ -152,26 +106,6 @@ public class SwingRenderer {
             System.exit(1);
         }
         return texture;
-    }
-
-    /**
-     * Vérifier si une texture a été chargée
-     * @param link lien de la texture
-     * @return booléen
-     */
-    public boolean isTextureLoaded(String link) {
-        return loadedTextures.containsKey(link);
-    }
-
-    /**
-     * Obtenir une couleur Swing
-     * @param red rouge
-     * @param green vert
-     * @param blue bleu
-     * @return couleur swing
-     */
-    public Color getSwingColor(int red, int green, int blue) {
-        return new Color(red, green, blue);
     }
 
     // GETTERS //

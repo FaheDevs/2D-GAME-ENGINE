@@ -104,7 +104,4 @@ public class SwingScene extends JPanel {
     @Override
     public int getWidth() { return width; }
 
-    public int getXLocation() { return xLocation; }
-
-    public int getYLocation() { return yLocation; }
 }

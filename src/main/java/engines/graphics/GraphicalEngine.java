@@ -45,7 +45,10 @@ public class GraphicalEngine   {
 
 
     public void cover (GraphicalObject graphicalObject){
-        SwingRenderer.getInstance().renderImage(graphicalObject.getImage(),graphicalObject.position.x,graphicalObject.position.y);
+        SwingRenderer.getInstance()
+                .renderImage(graphicalObject.getImage(),
+                        graphicalObject.position.x,
+                        graphicalObject.position.y);
     }
 
     public void addToScene(Scene scene, Entity entity) {
@@ -60,12 +63,15 @@ public class GraphicalEngine   {
         Window.bindScene(scene);
     }
 
+    public void setSceneLocation(Scene scene, int x, int y) {
+        scene.setLocation(x, y);
+    }
+    public void setSceneSize(Scene scene, int height, int width) {
+        scene.setSize(height, width);
+    }
 
-
-
-
-    public void movable(Entity entity , int x , int y  ){
-        entity.setGraphicalPositions(x, y);
+    public void addToCurrentScene(Entity entity) {
+        Window.getActualScene().addEntity(entity);
     }
 
 

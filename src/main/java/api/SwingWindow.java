@@ -98,11 +98,5 @@ public class SwingWindow {
      */
     public JFrame getWindow() { return window; }
 
-    /**
-     * Récupérer la marge supérieure inutile
-     * @return marge supérieure
-     */
-    public int getUselessTopGap() {
-        return window.getHeight()-window.getContentPane().getHeight();
-    }
+
 }
