@@ -33,7 +33,6 @@ public class SwingListener {
     public void addKeyListener(KeyListener listener) {
         SwingWindow.getInstance().getWindow().addKeyListener(listener);
     }
-
     /**
      * Supprimer un écouteur sur les touches du clavier
      * @param listener écouteur
@@ -41,7 +40,6 @@ public class SwingListener {
     public void removeKeyListener(KeyListener listener) {
         SwingWindow.getInstance().getWindow().removeKeyListener(listener);
     }
-
     /**
      * Ajouter un écouteur sur les boutons de souris
      * @param listener écouteur
@@ -49,7 +47,6 @@ public class SwingListener {
     public void addMouseListener(MouseListener listener) {
         SwingWindow.getInstance().getWindow().addMouseListener(listener);
     }
-
     /**
      * Supprimer un écouteur sur les boutons de souris
      * @param listener écouteur
@@ -57,4 +54,5 @@ public class SwingListener {
     public void removeMouseListener(MouseListener listener) {
         SwingWindow.getInstance().getWindow().removeMouseListener(listener);
     }
+
 }
