@@ -49,11 +49,7 @@ public class GraphicalEngine   {
                         graphicalObject.position.y);
     }
 
-    public void erase(Entity entity) {
-        Scene scene = entity.getGraphicalObject().scene;
-        if (scene != null)
-            scene.removeEntity(entity);
-    }
+
 
     public void addToScene(Scene scene, Entity entity) {
         scene.addEntity(entity);
