@@ -10,9 +10,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-/**
- * An extension of javax.swing.JFrame that can draw images.
- */
+
 public class GraphicalEngine   {
 
 
@@ -49,6 +47,12 @@ public class GraphicalEngine   {
                 .renderImage(graphicalObject.getImage(),
                         graphicalObject.position.x,
                         graphicalObject.position.y);
+    }
+
+    public void erase(Entity entity) {
+        Scene scene = entity.getGraphicalObject().scene;
+        if (scene != null)
+            scene.removeEntity(entity);
     }
 
     public void addToScene(Scene scene, Entity entity) {

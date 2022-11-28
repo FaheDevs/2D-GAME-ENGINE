@@ -6,40 +6,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * Générateur de graphismes à partir de Swing
- */
 public class SwingRenderer {
-    /**
-     * Instance unique
-     */
     private static SwingRenderer instance;
 
-    /**
-     * Constructeur privé
-     */
     private SwingRenderer() {}
 
-    /**
-     * Récupérer l'instance
-     * @return instance
-     */
     public static SwingRenderer getInstance() {
         if (instance == null) instance = new SwingRenderer();
         return instance;
     }
 
 
-
-    /**
-     * Générer un rectangle
-     * @param height hauteur en pixels
-     * @param width largeur en pixels
-     * @param x position horizontale
-     * @param y position verticale
-     * @param color couleur
-     */
     public void renderRect(int height, int width, int x, int y, Color color) {
         Graphics2D graphics2D = getCurrentGraphics();
         if (graphics2D != null) {
@@ -51,18 +28,6 @@ public class SwingRenderer {
     }
 
 
-
-    /**
-     * Générer un texte
-     * @param text texte
-     * @param color couleur
-     * @param fontSize taille de la police
-     * @param x position horizontale
-     * @param y position verticale
-     * @param height hauteur
-     * @param width largeur
-     * @param center centrer le texte
-     */
     public void renderText(String text, Color color, int fontSize, boolean center, int x, int y, int height, int width) {
         Graphics2D graphics2D = getCurrentGraphics();
         if (graphics2D != null) {
@@ -90,13 +55,6 @@ public class SwingRenderer {
 
 
 
-
-
-    /**
-     * Récupérer une image dans un tampon
-     * @param link lien vers l'image
-     * @return tampon
-     */
     private BufferedImage getBufferedImage(String link) {
         BufferedImage texture = null;
         try {
@@ -107,9 +65,6 @@ public class SwingRenderer {
         }
         return texture;
     }
-
-    // GETTERS //
-
     public Graphics2D getCurrentGraphics() {
         if (SwingWindow.getInstance().getCurrentScene() != null)
             return SwingWindow.getInstance().getCurrentScene().get2DGraphics();
