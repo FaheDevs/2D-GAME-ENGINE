@@ -68,6 +68,11 @@ public class GraphicalEngine   {
         entity.setGraphicalPositions(x, y);
     }
 
+    public void erase(Entity entity) {
+        Scene scene = entity.getGraphicalObject().scene;
+        if (scene != null)
+            scene.removeEntity(entity);
+    }
 
 
 }

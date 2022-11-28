@@ -6,7 +6,10 @@ import engines.graphics.Scene;
 import engines.physics.CollisionTools;
 import engines.physics.PhysicalObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class Entity implements Subject{
 
     public int widthEntity;
     public int heightEntity;
+
+    public boolean killed = false;
 
     public int x ;
 
@@ -191,7 +196,15 @@ public class Entity implements Subject{
         this.isCollide = false;
         return temp;
     }
+    public void setImage(String imagePath){
+        try {
+            BufferedImage image = ImageIO.read(new File(imagePath));
+            graphicalObject.setImage(image);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 //
 }
