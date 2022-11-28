@@ -78,6 +78,11 @@ public class GraphicalEngine   {
         Window.getActualScene().addEntity(entity);
     }
 
+    public void erase(Entity entity) {
+        Scene scene = entity.getGraphicalObject().scene;
+        if (scene != null)
+            scene.removeEntity(entity);
+    }
 
 
 }

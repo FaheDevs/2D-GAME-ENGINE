@@ -10,9 +10,8 @@ import java.io.File;
 public class Bullet extends Entity {
 
     boolean UpPressed ;
-
     public Bullet(int heightEntity, int widthEntity) {
-        super(heightEntity, widthEntity, Type.Physical, 1);
+        super(heightEntity, widthEntity, Type.Physical, 3);
         UpPressed = false;
         name = "Bullet";
         try {
@@ -28,11 +27,11 @@ public class Bullet extends Entity {
 
     public void tick() {
         if(!UpPressed){
-            int newY = y-1;
+            int newY = y - this.physicalObject.speed;
             setPositions(x,newY);
-        }
-        else{
-            int newY = y + 1;
+
+        } else{
+            int newY = y + this.physicalObject.speed;
             setPositions(x,newY);
         }
     }

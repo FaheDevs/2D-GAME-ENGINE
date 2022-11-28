@@ -8,6 +8,7 @@ import gamePlay.Player;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhysicalEngine {
 
@@ -17,7 +18,6 @@ public class PhysicalEngine {
     }
 
     public void isCollide(Entity entity, int newX, int newY, ArrayList<Entity> entitiesGame, Scene world) {
-        //System.out.println(this.isCollide(entity, newX, newY, entitiesGame) && this.isCollide(entity, newX, newY, world));
         entity.setCollision(this.isCollide(entity, newX, newY, entitiesGame) || !this.isCollide(entity, newX, newY, world));
     }
 
@@ -41,7 +41,12 @@ public class PhysicalEngine {
     public boolean isCollideLeft(Entity entity, int newX, int newY, Scene world) {
         return CollisionTools.checkCollisionLeft(world, entity, newX, newY);
     }
-
+    public boolean collideObjectToObject(Entity entity, Entity entity1, int newX, int newY) {
+        Entity tempEntity = new Entity(entity.heightEntity, entity.widthEntity, Entity.Type.Physical, 0);
+        tempEntity.x = newX;
+        tempEntity.y = newY;
+        return CollisionTools.checkCollisionObject(tempEntity, entity1);
+    }
     public void move(Entity entity, GamePlay.MoveDirection direction) {
         int newX,newY;
         if (direction == GamePlay.MoveDirection.LEFT) {
