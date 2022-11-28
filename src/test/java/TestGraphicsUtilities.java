@@ -7,10 +7,6 @@ import org.junit.jupiter.api.Test;
  */
 class TestGraphicsUtilities {
 
-  @Test
-  void testAddToAssetsPath() {
-    GraphicsUtilities g = new GraphicsUtilities();
-  }
 
 
 

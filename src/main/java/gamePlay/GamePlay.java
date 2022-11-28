@@ -316,48 +316,12 @@ public class GamePlay implements Runnable {
        }
 
     }
-    /*public void chooseAlien(){
-        Random random = new Random();
-        choosedAlienPostion[0] = -1;
-        choosedAlienPostion[1] = -1;
-        if(!aliens.isEmpty()){
-            do{
-                int colonneChoosed = random.nextInt(11);
-                for (int i = 4; i > -1 ; i--) {
-                    if (!aliens.get(i).get(colonneChoosed).killed){
-                        choosedAlienPostion[0] = i;
-                        choosedAlienPostion[1] = colonneChoosed;
-                    }
-                    
-                }
-            }while (choosedAlienPostion[0] == -1);
-        }
-    }*/
-    /*public void aliensShoot(){
-        chooseAlien();
-        shoot(aliens.get(choosedAlienPostion[0]).get(choosedAlienPostion[1]),false);
-    }*/
 
     public static void main(String[] args) throws IOException {
 
         GamePlay game = new GamePlay();
         game.startGameThread();
 
-
-//        Kernel kernel1 = new Kernel();
-//        BufferedImage image;
-//        image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
-//        GraphicalObject graphicalObject = new GraphicalObject(image,"spaceCraft ");
-//        Entity palyer3 = new Entity(graphicalObject);
-//        palyer3.setPositions(400,400);
-//        // creation d'une scene ( jpanel )
-//        Scene world = kernel1.graphicalEngine.generateScene(600,800);
-//        // je bind la scene au Jframe
-//        kernel1.graphicalEngine.bindScene(world);
-//        // je rajoute un objet a la scene
-//        kernel1.graphicalEngine.addToScene(world,palyer3);
-//        // j'affiche la scene
-//        kernel1.start();
 
 
     }
