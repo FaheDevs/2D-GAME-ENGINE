@@ -1,7 +1,6 @@
 package gamePlay;
 
 import engines.kernel.Entity;
-import engines.kernel.Kernel;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,10 +8,10 @@ import java.io.File;
 
 public class Bullet extends Entity {
 
-    boolean UpPressed ;
+    boolean isPressed;
     public Bullet(int heightEntity, int widthEntity) {
         super(heightEntity, widthEntity, Type.Physical, 3);
-        UpPressed = false;
+        isPressed = false;
         name = "Bullet";
         try {
             BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/shot.png"));
@@ -21,12 +20,11 @@ public class Bullet extends Entity {
             e.printStackTrace();
         }
 
-
     }
 
 
     public void tick() {
-        if(!UpPressed){
+        if(isPressed){
             int newY = y - this.physicalObject.speed;
             setPositions(x,newY);
 
