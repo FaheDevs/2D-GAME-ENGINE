@@ -17,15 +17,15 @@ import java.util.ArrayList;
 
 public class Kernel implements Observer {
 
-    public GraphicalEngine graphicalEngine;
+    private GraphicalEngine graphicalEngine;
 
-    public PhysicalEngine physicalEngine;
+    private PhysicalEngine physicalEngine;
 
-    public CommandEngine commandEngine;
+    private CommandEngine commandEngine;
 
-    public AIEngine aiEngine;
+    private AIEngine aiEngine;
 
-    public KeyHandler keyHandler;
+    private KeyHandler keyHandler;
 
 
     public ArrayList<Subject> entities;
@@ -70,8 +70,8 @@ public class Kernel implements Observer {
         graphicalEngine.showWindow();
     }
 
-    public Scene generateScene(int i, int i1) {
-        return graphicalEngine.generateScene(i,i1);
+    public Scene generateScene(int height, int width) {
+        return graphicalEngine.generateScene(height, width);
     }
 
     public void bindScene(Scene world) {
@@ -99,10 +99,12 @@ public class Kernel implements Observer {
         physicalEngine.isCollide(player,i,y,entitiesGame,world);
     }
 
-    public void move(Entity player, GamePlay.MoveDirection left) {
-        physicalEngine.move(player,left);
+    public void move(Entity player, GamePlay.MoveDirection direction) {
+        if (player.physicalObject != null) physicalEngine.move(player, direction);
     }
-
+    public void moveAliens(Entity alien, GamePlay.MoveDirection direction) {
+        if (alien.aiObject != null) aiEngine.move(alien, direction);
+    }
     public boolean isCollideLeft(Entity entity, int i, int y, Scene world) {
         return physicalEngine.isCollideLeft(entity,i,y,world);
     }
@@ -113,5 +115,11 @@ public class Kernel implements Observer {
 
     public boolean collideObjectToObject(Entity entity, Entity entity1, int x, int i) {
         return physicalEngine.collideObjectToObject(entity, entity1, x, i);
+    }
+    public CommandEngine getCommandEngine() {
+        return commandEngine;
+    }
+    public KeyHandler getKeyHandler() {
+        return commandEngine.keyHandler;
     }
 }
