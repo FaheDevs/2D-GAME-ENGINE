@@ -2,13 +2,9 @@ package engines.graphics;
 
 import api.SwingRenderer;
 import engines.kernel.Entity;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 
 /**
  * An extension of javax.swing.JFrame that can draw images.
@@ -32,15 +28,14 @@ public class GraphicalEngine   {
     }
 
 
-    public void refreshWindow() { Window.refresh(); }
+    public void refreshWindow() {
+        Window.refresh();
+    }
 
 
 
-    public void paint(Entity entity) {
-        GraphicalObject graphicEntity = entity.getGraphicalObject();
+    public void paint(GraphicalObject graphicEntity) {
         cover(graphicEntity);
-
-
     }
 
 
@@ -48,7 +43,7 @@ public class GraphicalEngine   {
         SwingRenderer.getInstance().renderImage(graphicalObject.getImage(),graphicalObject.position.x,graphicalObject.position.y);
     }
 
-    public void addToScene(Scene scene, Entity entity) {
+    public void addToScene(Scene scene, GraphicalObject entity) {
         scene.addEntity(entity);
     }
 
@@ -60,19 +55,14 @@ public class GraphicalEngine   {
         Window.bindScene(scene);
     }
 
-
-
-
-
-    public void movable(Entity entity , int x , int y  ){
-        entity.setGraphicalPositions(x, y);
+    public void movable(GraphicalObject graphicalObject , int x , int y  ){
+        graphicalObject.setPosition(new Point(x, y));
     }
 
-    public void erase(Entity entity) {
-        Scene scene = entity.getGraphicalObject().scene;
+    public void erase(GraphicalObject entity) {
+
+        Scene scene = entity.scene;
         if (scene != null)
             scene.removeEntity(entity);
     }
-
-
 }

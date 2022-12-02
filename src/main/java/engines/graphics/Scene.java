@@ -18,7 +18,7 @@ public class Scene extends SwingScene {
     /**
      * Liste des entités présentes dans la scène
      */
-    private final ArrayList<Entity> entities = new ArrayList<>();
+    private final ArrayList<GraphicalObject> graphicalObjects = new ArrayList<>();
 
     /**
      * Consctructeur par défaut
@@ -34,12 +34,12 @@ public class Scene extends SwingScene {
 
     /**
      * Ajouter une entité à la scène
-     * @param entity entité
+     * @param graphicalObject entité
      */
-    protected void addEntity(Entity entity) {
-        if (!entities.contains(entity)) {
-            entities.add(entity);
-            entity.graphicalObject.setScene(this);
+    protected void addEntity(GraphicalObject graphicalObject) {
+        if (!graphicalObjects.contains(graphicalObject)) {
+            graphicalObjects.add(graphicalObject);
+            graphicalObject.setScene(this);
         }
     }
 
@@ -49,8 +49,8 @@ public class Scene extends SwingScene {
      * Supprimer une entité présente sur la scène
      * @param entity entité
      */
-    protected void removeEntity(Entity entity) {
-        entities.remove(entity);
+    protected void removeEntity(GraphicalObject entity) {
+        graphicalObjects.remove(entity);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Scene extends SwingScene {
         graphics = (Graphics2D) g.create();
         graphics.setColor(backgroundColor);
         graphics.fillRect(xLocation, yLocation, width, height);
-        for (Entity entity : entities)
+        for (GraphicalObject entity : graphicalObjects)
             graphicsEngine.paint(entity);
         graphics.dispose();
     }
@@ -82,8 +82,8 @@ public class Scene extends SwingScene {
         return width;
     }
 
-    public ArrayList<Entity> getEntities() {
-        return entities;
+    public ArrayList<GraphicalObject> getGraphicalObjects() {
+        return graphicalObjects;
     }
 
     public GraphicalEngine getGraphicsEngine() {

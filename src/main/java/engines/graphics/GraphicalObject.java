@@ -1,10 +1,8 @@
 package engines.graphics;
 
-import engines.kernel.Entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 public class GraphicalObject {
 

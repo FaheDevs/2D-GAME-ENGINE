@@ -3,7 +3,6 @@ package engines.physics;
 import engines.graphics.Scene;
 import engines.kernel.Entity;
 
-import java.awt.Point;
 
 public class CollisionTools {
     public static boolean checkCollisionWorld(Scene world, Entity entity, int newX, int newY){
