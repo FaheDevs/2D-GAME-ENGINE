@@ -13,6 +13,7 @@ import gamePlay.GamePlay;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Kernel implements Observer {
@@ -102,8 +103,8 @@ public class Kernel implements Observer {
     public void move(Entity player, GamePlay.MoveDirection direction) {
         if (player.physicalObject != null) physicalEngine.move(player, direction);
     }
-    public void moveAliens(Entity alien, GamePlay.MoveDirection direction) {
-        if (alien.aiObject != null) aiEngine.move(alien, direction);
+    public void moveAliens(Entity alien, GamePlay.MoveDirection left) {
+        if (alien.aiObject != null) aiEngine.move(alien,left);
     }
     public boolean isCollideLeft(Entity entity, int i, int y, Scene world) {
         return physicalEngine.isCollideLeft(entity,i,y,world);
@@ -115,6 +116,27 @@ public class Kernel implements Observer {
 
     public boolean collideObjectToObject(Entity entity, Entity entity1, int x, int i) {
         return physicalEngine.collideObjectToObject(entity, entity1, x, i);
+    }
+
+    public boolean isCollideWithLefdboard(List<List<Entity>> aliens, Scene world){
+        for (int i = 0; i < aliens.size(); i++) {
+            for (int j = 0; j < aliens.get(i).size(); j++) {
+                if (aliens.get(i).get(j) != null && !isCollideLeft(aliens.get(i).get(j), aliens.get(i).get(j).x - aliens.get(i).get(j).getAiObject().speed, aliens.get(i).get(j).y, world)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isCollideWithRightdboard(List<List<Entity>> aliens, Scene world){
+        for (int i = 0; i < aliens.size(); i++) {
+            for (int j = 0; j < aliens.get(i).size(); j++) {
+                if (aliens.get(i).get(j) != null && ! isCollideRight(aliens.get(i).get(j), aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed, aliens.get(i).get(j).y, world)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public CommandEngine getCommandEngine() {
         return commandEngine;

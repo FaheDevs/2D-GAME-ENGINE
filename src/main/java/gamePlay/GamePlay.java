@@ -239,28 +239,9 @@ public class GamePlay implements Runnable {
             }
         }
     }
-    public boolean isCollideWithLefdboard(){
-        for (int i = 0; i < aliens.size(); i++) {
-            for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !kernel.isCollideLeft(aliens.get(i).get(j), aliens.get(i).get(j).x - speedAliens, aliens.get(i).get(j).y, world)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean isCollideWithRightdboard(){
-        for (int i = 0; i < aliens.size(); i++) {
-            for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !kernel.isCollideRight(aliens.get(i).get(j), aliens.get(i).get(j).x + speedAliens, aliens.get(i).get(j).y, world)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
     public void chooseDirection (){
-        if(isCollideWithRightdboard()){
+        if(kernel.isCollideWithRightdboard(aliens, world)){
             for (int i = 0; i < aliens.size(); i++) {
                 for (int j = 0; j < aliens.get(i).size(); j++) {
                     if (aliens.get(i).get(j) != null) kernel.moveAliens(aliens.get(i).get(j), MoveDirection.LEFT);
@@ -268,7 +249,7 @@ public class GamePlay implements Runnable {
             }
             leftFlag = true;
         }
-        else if(isCollideWithLefdboard()){
+        else if(kernel.isCollideWithLefdboard(aliens, world)){
             for (int i = 0; i < aliens.size(); i++) {
                 for (int j = 0; j < aliens.get(i).size(); j++) {
                     if (aliens.get(i).get(j) != null) kernel.moveAliens(aliens.get(i).get(j), MoveDirection.DOWN);
