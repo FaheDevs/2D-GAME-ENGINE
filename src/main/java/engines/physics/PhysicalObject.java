@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class PhysicalObject {
 
-
     public int x ;
 
     public int y ;
@@ -26,15 +25,12 @@ public class PhysicalObject {
     }
 
     public int width;
-
     public int height;
-
-
-
     public int speed ;
 
 
     public PhysicalObject(String name, int x, int y, int width, int height, int speed) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.width = width;

@@ -9,7 +9,6 @@ import engines.physics.PhysicalEngine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 public class GamePlay implements Runnable {
@@ -28,17 +27,12 @@ public class GamePlay implements Runnable {
 
 
     ArrayList<Bullet> shoots;
-    Bullet bulletPlayer;
-
-
-    boolean isShooted = false;
 
     ArrayList<Entity> entitiesGame;
 
     Scene world;
 
     int speedAliens;
-
     boolean leftFlag = true;
 
     public enum MoveDirection {
@@ -58,22 +52,22 @@ public class GamePlay implements Runnable {
 
         initEntities();
 
-        world = kernel.graphicalEngine.generateScene(800, 800);
+        world = kernel.generateScene(800, 800);
 
         // je bind la scene au Jframe
-        kernel.graphicalEngine.bindScene(world);
+        kernel.bindScene(world);
         // je rajoute un objet a la scene
 
         for (Entity entity : entitiesGame) {
 
-            kernel.graphicalEngine.addToScene(world, entity);
+            kernel.addToScene(world, entity);
 
         }
 
 
         // j'affiche la scene
 
-        kernel.commandEngine.enableKeyboardIO();
+        kernel.enableKeyboardIO();
         kernel.start();
 
     }
@@ -127,38 +121,26 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void shootPlayer(Entity entity) {
-        /*Bullet bulletPlayer =  generateBullet(entity.x + (entity.widthEntity/2) - 1, entity.y);
-        shoots.add(bulletPlayer);*/
-        bulletPlayer = new Bullet(3, 1);
-        bulletPlayer.setPositions(entity.x + (entity.widthEntity/2) - 1, entity.y);
-        bulletPlayer.isPressed = true;
-        initEntity(bulletPlayer);
-        kernel.graphicalEngine.addToScene(world, bulletPlayer);
-    }
-
-    public void shootAliens(Entity entity) {
-        Bullet bullet =  generateBulletAliens(entity.x + (entity.widthEntity/2) - 1, entity.y);
+    public void shoot(Entity entity, boolean IsUp) {
+        Bullet bullet =  generateBullet(entity.x + entity.widthEntity/2, entity.y);
         shoots.add(bullet);
-        kernel.graphicalEngine.addToScene(world,shoots.get(shoots.indexOf(bullet)));
-
-
+        kernel.addToScene(world,bullet);
     }
-    public Bullet generateBulletAliens(int x, int y) {
+
+
+    public Bullet generateBullet(int x, int y) {
         Bullet bullet = new Bullet(3, 1);
         bullet.setPositions(x, y - bullet.heightEntity);
         initEntity(bullet);
         return bullet;
     }
 
-
-    public void killBullet(Bullet bullet){
-        kernel.graphicalEngine.erase(bullet);
+    public void KillBullet(Bullet bullet){
+        bullet.setPhysicalPositions(bullet.x, 0);
+        kernel.erase(bullet);
+        shoots.remove(bullet);
         entitiesGame.remove(bullet);
         kernel.entities.remove(bullet);
-        isShooted = false;
-        bullet.isPressed = false;
-        if(shoots != null && shoots.contains(bullet)) shoots.remove(bullet);
     }
 
 
@@ -199,14 +181,14 @@ public class GamePlay implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
                 kernel.updateEntities();
-                kernel.graphicalEngine.refreshWindow();
+                kernel.refreshWindow();
                 delta--;
                 drawCount++;
             }
             if (timer >= 1000000000) {
                 System.out.println("FPS:" + drawCount);
-                //if(shoots.isEmpty()) aliensShoot();
                 drawCount = 0;
                 timer = 0;
             }
@@ -216,47 +198,39 @@ public class GamePlay implements Runnable {
 
     public void updatePlayer() throws IOException {
         if (kernel.commandEngine.keyHandler.leftPressed) {
-            kernel.physicalEngine.isCollide(player, player.physicalObject.x - player.physicalObject.speed,
+            // il ne faut pas utiliser les moteurs de kernel
+            kernel.isCollide(player, player.physicalObject.x - player.physicalObject.speed,
                     player.physicalObject.y, this.entitiesGame, this.world);
             if (!player.getAndResetCollision())
-                kernel.physicalEngine.move(player, MoveDirection.LEFT);
+                kernel.move(player, MoveDirection.LEFT);
         }
 
         if (kernel.commandEngine.keyHandler.rightPressed) {
-            kernel.physicalEngine.isCollide(player, player.physicalObject.x + player.physicalObject.speed,
+            kernel.isCollide(player, player.physicalObject.x + player.physicalObject.speed,
                     player.physicalObject.y, this.entitiesGame, this.world);
             if (!player.getAndResetCollision())
-                kernel.physicalEngine.move(player, MoveDirection.RIGHT);
+                kernel.move(player, MoveDirection.RIGHT);
         }
 
         if (kernel.commandEngine.keyHandler.STyped) {
-            if (!isShooted) {
-                shootPlayer(player);
-                isShooted = true;
+            if (shoots.isEmpty()) shoot(player,true);
+        }
+        for (int i = 0; i < shoots.size(); i++) {
+            Bullet bullet = shoots.get(i);
+            if(bullet.y < -5){
+                shoots.remove(i);
+                world.getGraphicalObjects().remove(bullet);
+            }else {
+                alienKilled(bullet, bullet.x, bullet.y - bullet.physicalObject.speed, aliens);
+                bullet.tick();
             }
         }
-        if(bulletPlayer != null && bulletPlayer.y < -5) {
-            killBullet(bulletPlayer);
-        }
-        else if (bulletPlayer != null){
-            if(bulletPlayer.isPressed) {
-                alienKilled(bulletPlayer, bulletPlayer.x, bulletPlayer.y - bulletPlayer.physicalObject.speed, aliens);
-                if (isShooted) bulletPlayer.tick();
-            }
-            else  bulletPlayer.tick();
-        }
-        if(shoots != null && !shoots.isEmpty()){
-            for (int i = 0; i < shoots.size(); i++) {
-                Bullet bullet = shoots.get(i);
-                if(bullet != null && bullet.y <= world.getHeight()) bullet.tick();
-                else if (bullet != null) killBullet(bullet);
-            }
-        }
+
         }
     public boolean isCollideWithLefdboard(){
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !kernel.physicalEngine.isCollideLeft(aliens.get(i).get(j), aliens.get(i).get(j).x - speedAliens, aliens.get(i).get(j).y, world)){
+                if (aliens.get(i).get(j) != null && !kernel.isCollideLeft(aliens.get(i).get(j), aliens.get(i).get(j).x - speedAliens, aliens.get(i).get(j).y, world)){
                     return true;
                 }
             }
@@ -266,7 +240,7 @@ public class GamePlay implements Runnable {
     public boolean isCollideWithRightdboard(){
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !kernel.physicalEngine.isCollideRight(aliens.get(i).get(j), aliens.get(i).get(j).x + speedAliens, aliens.get(i).get(j).y, world)){
+                if (aliens.get(i).get(j) != null && !kernel.isCollideRight(aliens.get(i).get(j), aliens.get(i).get(j).x + speedAliens, aliens.get(i).get(j).y, world)){
                     return true;
                 }
             }
@@ -275,17 +249,17 @@ public class GamePlay implements Runnable {
     }
     public void chooseDirection (){
         if(isCollideWithRightdboard()){
-            for (int i = 0; i < aliens.size(); i++) {
-                for (int j = 0; j < aliens.get(i).size(); j++) {
-                    if (aliens.get(i).get(j) != null) kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.LEFT);
+            for (List<Entity> alien : aliens) {
+                for (Entity entity : alien) {
+                    kernel.aiEngine.move(entity, MoveDirection.LEFT);
                 }
             }
             leftFlag = true;
         }
         else if(isCollideWithLefdboard()){
-            for (int i = 0; i < aliens.size(); i++) {
-                for (int j = 0; j < aliens.get(i).size(); j++) {
-                    if (aliens.get(i).get(j) != null) kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.DOWN);
+            for (List<Entity> alien : aliens) {
+                for (Entity entity : alien) {
+                    kernel.aiEngine.move(entity, MoveDirection.DOWN);
                 }
             }
             leftFlag = false;
@@ -297,15 +271,15 @@ public class GamePlay implements Runnable {
             killedAlienPostion[0] = -1;
         }
         if(leftFlag){
-            for (int i = 0; i < aliens.size(); i++) {
-                for (int j = 0; j < aliens.get(i).size(); j++) {
-                    if(aliens.get(i).get(j) != null) kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.LEFT);
+            for (List<Entity> alien : aliens) {
+                for (Entity entity : alien) {
+                    if (entity != null) kernel.aiEngine.move(entity, MoveDirection.LEFT);
                 }
             }
         }else{
-            for (int i = 0; i < aliens.size(); i++) {
-                for (int j = 0; j < aliens.get(i).size(); j++) {
-                    if(aliens.get(i).get(j) != null) kernel.aiEngine.move(aliens.get(i).get(j), MoveDirection.RIGHT);
+            for (List<Entity> alien : aliens) {
+                for (Entity entity : alien) {
+                    if (entity != null) kernel.aiEngine.move(entity, MoveDirection.RIGHT);
                 }
             }
         }
@@ -320,9 +294,9 @@ public class GamePlay implements Runnable {
         killedAlienPostion[1] = -1;
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {;
-                if(aliens.get(i).get(j) != null && kernel.physicalEngine.collideObjectToObject(entity, aliens.get(i).get(j), tempEntity.x, tempEntity.y - entity.physicalObject.speed)){
+                if(kernel.collideObjectToObject(entity, aliens.get(i).get(j), tempEntity.x, tempEntity.y - entity.physicalObject.speed)){
                     aliens.get(i).get(j).killed = true;
-                    killBullet((Bullet) entity);
+                    KillBullet((Bullet) entity);
                     killedAlienPostion[0] = i;
                     killedAlienPostion[1] = j;
                     break;
@@ -333,55 +307,15 @@ public class GamePlay implements Runnable {
 
     public void eliminateAlien(int[] alienKilledPostion){
        if (!aliens.isEmpty() && !aliens.get(alienKilledPostion[0]).isEmpty()) {
-           //this.aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]).setImage("src/main/resources/assets/images/enemigo1prov.png");
-           kernel.graphicalEngine.erase(this.aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]));
-           this.aliens.get(alienKilledPostion[0]).set(alienKilledPostion[1], null);
+           kernel.erase(this.aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]));
+           this.aliens.get(alienKilledPostion[0]).remove(alienKilledPostion[1]);
        }
 
     }
-    public void chooseAlien(){
-        Random random = new Random();
-        choosedAlienPostion[0] = -1;
-        choosedAlienPostion[1] = -1;
-        if(!aliens.isEmpty()){
-            do{
-                int colonneChoosed = random.nextInt(11);
-                for (int i = 0; i < 5 ; i++) {
-                    if (aliens.get(i).get(colonneChoosed) != null){
-                        choosedAlienPostion[0] = i;
-                        choosedAlienPostion[1] = colonneChoosed;
-                    }
-                    
-                }
-            }while (choosedAlienPostion[0] == -1);
-        }
-    }
-    public void aliensShoot(){
-        chooseAlien();
-        shootAliens(aliens.get(choosedAlienPostion[0]).get(choosedAlienPostion[1]));
-    }
 
     public static void main(String[] args) throws IOException {
-
         GamePlay game = new GamePlay();
         game.startGameThread();
-
-
-//        Kernel kernel1 = new Kernel();
-//        BufferedImage image;
-//        image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
-//        GraphicalObject graphicalObject = new GraphicalObject(image,"spaceCraft ");
-//        Entity palyer3 = new Entity(graphicalObject);
-//        palyer3.setPositions(400,400);
-//        // creation d'une scene ( jpanel )
-//        Scene world = kernel1.graphicalEngine.generateScene(600,800);
-//        // je bind la scene au Jframe
-//        kernel1.graphicalEngine.bindScene(world);
-//        // je rajoute un objet a la scene
-//        kernel1.graphicalEngine.addToScene(world,palyer3);
-//        // j'affiche la scene
-//        kernel1.start();
-
 
     }
 }

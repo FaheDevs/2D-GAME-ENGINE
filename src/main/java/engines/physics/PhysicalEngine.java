@@ -3,15 +3,9 @@ package engines.physics;
 import engines.graphics.Scene;
 import engines.kernel.Entity;
 import gamePlay.GamePlay;
-import gamePlay.Player;
-
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhysicalEngine {
-
 
     public void movable(Entity entity,int x , int y) {
         entity.setPhysicalPositions(x, y);

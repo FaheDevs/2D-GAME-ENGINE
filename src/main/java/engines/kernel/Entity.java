@@ -39,7 +39,7 @@ public class Entity implements Subject{
 
     private boolean changed;
 
-    private final Object MUTEX= new Object();
+    private final Object MUTEX = new Object();
 
     public Entity(GraphicalObject graphicalObject, AIObject aiObject) {
         this.graphicalObject = graphicalObject;
