@@ -1,6 +1,5 @@
 package gamePlay;
 
-import engines.graphics.Scene;
 import engines.kernel.Entity;
 import engines.kernel.Kernel;
 
@@ -41,11 +40,15 @@ public class GamePlay implements Runnable {
 
     int heightWorld;
 
+    int liminteHeightWorld = 60;
+
     int widthWorld;
 
     int speedAliens;
 
     boolean leftFlag = true;
+
+    private Entity GreenBar;
 
     public GamePlay() throws IOException {
         entitiesGame = new ArrayList<>();
@@ -72,6 +75,7 @@ public class GamePlay implements Runnable {
             kernel.addToScene(kernel.world, entity);
         }
 
+        kernel.creatGreenBarObject();
 
         // j'affiche la scene
 
@@ -129,8 +133,10 @@ public class GamePlay implements Runnable {
     }
 
     public void shoot(Entity entity, boolean isP) {
-        Bullet bullet =  generateBulletAliens(entity.x + (entity.widthEntity/2) - 1, entity.y);
+        Bullet bullet =  generateBulletAliens(entity.x + (entity.widthEntity/2) - 2, entity.y);
         bullet.isPressed = isP;
+        if(isP) bullet.setImage("src/main/resources/assets/images/Spacecraft/shot.png");
+        else bullet.setImage("src/main/resources/assets/images/shotAlien.png");
         shoots.add(bullet);
         kernel.addToScene(kernel.world, shoots.get(shoots.indexOf(bullet)));
     }
@@ -231,7 +237,7 @@ public class GamePlay implements Runnable {
                 }
             }
             if (!bullet.isPressed){
-                if(bullet != null && bullet.y <= heightWorld){
+                if(bullet != null && bullet.y <= heightWorld - liminteHeightWorld){
                     killPlayer(bullet, bullet.x, bullet.y + bullet.physicalObject.speed, player);
                     bullet.tick();
                 }
@@ -274,6 +280,8 @@ public class GamePlay implements Runnable {
             for (int i = 0; i < aliens.size(); i++) {
                 for (int j = 0; j < aliens.get(i).size(); j++) {
                     if(aliens.get(i).get(j) != null) kernel.moveAliens(aliens.get(i).get(j), "right");
+                     /* if(aliens.get(i).get(j) != null && aliens.get(i).get(j).aiObject.getSpeed() < 9)
+                        aliens.get(i).get(j).aiObject.setSpeed(aliens.get(i).get(j).aiObject.getSpeed() + 1);*/
                 }
             }
         }

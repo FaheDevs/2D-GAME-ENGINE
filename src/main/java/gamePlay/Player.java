@@ -11,7 +11,7 @@ public class Player extends Entity {
     public Player(int heightEntity, int widthEntity) throws IOException {
         super(heightEntity, widthEntity, Type.Physical, 2);
         name = "Player";
-        BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
+        BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/craft.png"));
         graphicalObject.setImage(image);
 
     }

@@ -42,8 +42,6 @@ public class Scene extends SwingScene {
         }
     }
 
-
-
     /**
      * Supprimer une entité présente sur la scène
      * @param entity entité

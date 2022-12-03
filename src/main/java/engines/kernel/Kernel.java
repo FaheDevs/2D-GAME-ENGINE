@@ -10,6 +10,11 @@ import engines.graphics.GraphicalObject;
 import engines.graphics.Scene;
 import engines.physics.*;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,8 @@ public class Kernel implements Observer {
     private AIEngine aiEngine;
 
     private KeyHandler keyHandler;
+
+    private GraphicalObject greenBar;
 
 
     public Scene world;
@@ -83,6 +90,21 @@ public class Kernel implements Observer {
 
     public void addToScene(Scene world, Entity graphicalObject) {
         graphicalEngine.addToScene(world,graphicalObject.graphicalObject);
+
+    }
+
+    public void creatGreenBarObject() {
+        try {
+            BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/greenBar.png"));
+            this.greenBar = new GraphicalObject(image, "GreenBar");
+            this.greenBar.setPosition(new Point(17, 740));
+            Entity greenBarEntity = new Entity(greenBar);
+            greenBarEntity.setGraphicalPositions(17, 740);
+            entities.add(greenBarEntity);
+            graphicalEngine.addToScene(world, greenBar);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -13,15 +13,16 @@ public class Bullet extends Entity {
         super(heightEntity, widthEntity, Type.Physical, 3);
         isPressed = false;
         name = "Bullet";
+    }
+
+    public void setImage(String path){
         try {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/shot.png"));
+            BufferedImage image = ImageIO.read(new File(path));
             graphicalObject.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 
     public void tick() {
         if(isPressed){
