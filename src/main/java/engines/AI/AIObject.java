@@ -21,6 +21,11 @@ public class AIObject{
         this.y=position.y;
     }
 
+    public void setPosition(int x, int y) {
+        this.x=position.x;
+        this.y=position.y;
+    }
+
     public int width;
 
     public String name;

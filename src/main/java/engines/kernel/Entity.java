@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Entity implements Subject{
 //    protected Point position ;
-    public enum Type {Ai, Physical}
+    public enum Type {Ai, Physical, Graphical}
 
     //
     public GraphicalObject graphicalObject;
@@ -39,23 +39,28 @@ public class Entity implements Subject{
 
     private boolean changed;
 
+    Type type;
+
     private final Object MUTEX = new Object();
 
     public Entity(GraphicalObject graphicalObject, AIObject aiObject) {
         this.graphicalObject = graphicalObject;
         this.aiObject = aiObject;
         this.observers = new ArrayList<>();
+        this.type = Type.Ai;
     }
 
     public Entity(GraphicalObject graphicalObject, PhysicalObject physicalObject) {
         this.graphicalObject = graphicalObject;
         this.physicalObject = physicalObject;
         this.observers = new ArrayList<>();
+        this.type = Type.Physical;
     }
 
     public Entity(GraphicalObject graphicalObject){
         this.graphicalObject = graphicalObject;
         this.observers=new ArrayList<>();
+        this.type = Type.Graphical;
 
     }
 
@@ -68,7 +73,7 @@ public class Entity implements Subject{
         if (typeEntity == Type.Ai) this.aiObject = new AIObject(name,x,y,widthEntity,heightEntity, speed);
         else this.physicalObject = new PhysicalObject(name,x,y,widthEntity,heightEntity, speed);
         this.observers=new ArrayList<>();
-
+        this.type = typeEntity;
     }
 
 
@@ -160,7 +165,6 @@ public class Entity implements Subject{
     public void setPhysicalPositions(int x,int y ){
         this.physicalObject.setPosition(this.name,new Point(x,y));
         notifyObservers();
-
     }
 
     public void setGraphicalPositions(int x , int y ){
@@ -173,7 +177,7 @@ public class Entity implements Subject{
         notifyObservers();
     }
 
-    public void setPositions(int x , int y ){
+    public void setPyhsicalObjectPositions(int x , int y ){
         this.x = x;
         this.y = y;
         setPhysicalPositions(x, y);

@@ -9,9 +9,7 @@ import engines.graphics.GraphicalEngine;
 import engines.graphics.GraphicalObject;
 import engines.graphics.Scene;
 import engines.physics.*;
-import gamePlay.GamePlay;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +25,9 @@ public class Kernel implements Observer {
     private AIEngine aiEngine;
 
     private KeyHandler keyHandler;
+
+
+    public Scene world;
 
 
     public ArrayList<Subject> entities;
@@ -76,6 +77,7 @@ public class Kernel implements Observer {
     }
 
     public void bindScene(Scene world) {
+        this.world = world;
         graphicalEngine.bindScene(world);
     }
 
@@ -96,42 +98,90 @@ public class Kernel implements Observer {
         graphicalEngine.refreshWindow();
     }
 
-    public void isCollide(Entity player, int i, int y, ArrayList<Entity> entitiesGame, Scene world) {
-        physicalEngine.isCollide(player,i,y,entitiesGame,world);
+    public ArrayList<PhysicalObject> getPhyObjectsEntities(ArrayList<Entity> entities){
+        ArrayList<PhysicalObject> physicalObjects = new ArrayList<>();
+        for (Entity e : entities) {
+            if(e.type == Entity.Type.Physical && e.physicalObject != null)
+                 physicalObjects.add(e.physicalObject);
+        }
+        return physicalObjects;
     }
 
-    public void move(Entity player, GamePlay.MoveDirection direction) {
-        if (player.physicalObject != null) physicalEngine.move(player, direction);
-    }
-    public void moveAliens(Entity alien, GamePlay.MoveDirection left) {
-        if (alien.aiObject != null) aiEngine.move(alien,left);
-    }
-    public boolean isCollideLeft(Entity entity, int i, int y, Scene world) {
-        return physicalEngine.isCollideLeft(entity,i,y,world);
-    }
-
-    public boolean isCollideRight(Entity entity, int i, int y, Scene world) {
-        return physicalEngine.isCollideRight(entity, i, y, world);
+    public ArrayList<AIObject> getaiObjects(ArrayList<Entity> entities){
+        ArrayList<AIObject> aiObjects = new ArrayList<>();
+        for (Entity e : entities) {
+            if(e.type == Entity.Type.Ai && e.aiObject != null)
+                 aiObjects.add(e.aiObject);
+        }
+        return aiObjects;
     }
 
-    public boolean collideObjectToObject(Entity entity, Entity entity1, int x, int i) {
-        return physicalEngine.collideObjectToObject(entity, entity1, x, i);
+    public ArrayList<PhysicalObject> setaiObjectsPositionementPhy(ArrayList<AIObject> entities){
+        ArrayList<PhysicalObject> aiObjectsPosi = new ArrayList<>();
+        int i =0;
+        for (AIObject e : entities) {
+            aiObjectsPosi.add(new PhysicalObject("Virtuel Object"+i, e.x, e.y, e.width, e.height, e.speed));
+            i++;
+        }
+        return aiObjectsPosi;
     }
 
-    public boolean isCollideWithLefdboard(List<List<Entity>> aliens, Scene world){
+    public void isCollide(int heightW, int widthW, Entity player, int newX, int newY, ArrayList<Entity> entitiesGame) {
+        boolean whithPhy = physicalEngine.isCollide(player.physicalObject, newX, newY, getPhyObjectsEntities(entitiesGame));
+        boolean whithAi = physicalEngine.isCollide(player.physicalObject, newX, newY, setaiObjectsPositionementPhy(getaiObjects(entitiesGame)));
+        player.setCollision( (whithPhy || whithAi) || !physicalEngine.isCollide(heightW, widthW, player.physicalObject, newX, newY));
+    }
+
+
+    public void move(Entity player, String direction) {
+        int newX = player.x;
+        int newY = player.y;
+        if (player.physicalObject != null && physicalEngine.move(player.physicalObject, direction) != null) {
+            newX = physicalEngine.move(player.physicalObject, direction)[0];
+            newY = physicalEngine.move(player.physicalObject, direction)[1];
+            player.setPyhsicalObjectPositions(newX, newY);
+        }
+    }
+    public void moveAliens(Entity alien, String direction) {
+        int newX = alien.x;
+        int newY = alien.y;
+        if (alien.aiObject != null && aiEngine.move(alien.aiObject, direction) != null)
+            newX = aiEngine.move(alien.aiObject, direction)[0];
+            newY = aiEngine.move(alien.aiObject, direction)[1];
+            alien.setAiObjectPositions(newX, newY);
+    }
+    public boolean isCollideLeft(int newX) {
+        return physicalEngine.isCollideLeft(newX);
+    }
+
+    public boolean isCollideRight(int widthW, int widthObject, int newX) {
+        return physicalEngine.isCollideRight(widthW, widthObject, newX);
+    }
+
+    public boolean collideObjectToObject(Entity entity, Entity entity1, int newX, int newY) {
+        if(entity1.type == Entity.Type.Ai )
+            return physicalEngine.collideObjectToObject(entity.physicalObject, entity1.aiObject.x, entity1.aiObject.y,
+                entity1.aiObject.height, entity1.aiObject.width, newX, newY);
+
+        else return physicalEngine.collideObjectToObject(entity.physicalObject, entity1.physicalObject.x, entity1.physicalObject.y,
+                entity1.physicalObject.height, entity1.physicalObject.width, newX, newY);
+    }
+
+    public boolean isCollideWithLefdboard(List<List<Entity>> aliens){
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !isCollideLeft(aliens.get(i).get(j), aliens.get(i).get(j).x - aliens.get(i).get(j).getAiObject().speed, aliens.get(i).get(j).y, world)){
+                if (aliens.get(i).get(j) != null && !isCollideLeft(aliens.get(i).get(j).x - aliens.get(i).get(j).getAiObject().speed)){
                     return true;
                 }
             }
         }
         return false;
     }
-    public boolean isCollideWithRightdboard(List<List<Entity>> aliens, Scene world){
+
+    public boolean isCollideWithRightdboard(List<List<Entity>> aliens, int widthW){
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && ! isCollideRight(aliens.get(i).get(j), aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed, aliens.get(i).get(j).y, world)){
+                if (aliens.get(i).get(j) != null && !isCollideRight(widthW, aliens.get(i).get(j).widthEntity, aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed)){
                     return true;
                 }
             }

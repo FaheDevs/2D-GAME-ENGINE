@@ -26,11 +26,11 @@ public class Bullet extends Entity {
     public void tick() {
         if(isPressed){
             int newY = y - this.physicalObject.speed;
-            setPositions(x,newY);
+            setPyhsicalObjectPositions(x,newY);
 
         } else{
             int newY = y + this.physicalObject.speed;
-            setPositions(x,newY);
+            setPyhsicalObjectPositions(x,newY);
         }
     }
 }

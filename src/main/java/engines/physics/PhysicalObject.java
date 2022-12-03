@@ -12,6 +12,12 @@ public class PhysicalObject {
 
     public String name;
 
+    public int width;
+
+    public int height;
+
+    public int speed ;
+
 
     public Point getPosition() {
         return position;
@@ -23,11 +29,10 @@ public class PhysicalObject {
         this.x=position.x;
         this.y=position.y;
     }
-
-    public int width;
-    public int height;
-    public int speed ;
-
+    public void setPosition(int x, int y) {
+        this.x=position.x;
+        this.y=position.y;
+    }
 
     public PhysicalObject(String name, int x, int y, int width, int height, int speed) {
         this.name = name;
