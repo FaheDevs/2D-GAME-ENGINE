@@ -1,8 +1,5 @@
 package engines.physics;
 
-import engines.graphics.Scene;
-import engines.kernel.Entity;
-import gamePlay.GamePlay;
 import java.util.ArrayList;
 
 public class PhysicalEngine {

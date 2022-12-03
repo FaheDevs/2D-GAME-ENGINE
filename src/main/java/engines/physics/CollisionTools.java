@@ -1,8 +1,5 @@
 package engines.physics;
 
-import engines.graphics.Scene;
-import engines.kernel.Entity;
-
 
 public class CollisionTools {
     static int margeX = 2;

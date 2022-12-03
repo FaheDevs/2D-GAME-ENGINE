@@ -1,10 +1,6 @@
 package gamePlay;
 
-
-import engines.graphics.GraphicalObject;
 import engines.kernel.Entity;
-import engines.kernel.Kernel;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,8 +13,8 @@ public class Player extends Entity {
         name = "Player";
         BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/Spacecraft/00.png"));
         graphicalObject.setImage(image);
-    }
 
+    }
 
 
 }

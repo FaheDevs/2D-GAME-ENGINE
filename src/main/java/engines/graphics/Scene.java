@@ -1,7 +1,6 @@
 package engines.graphics;
 
 import api.SwingScene;
-import engines.kernel.Entity;
 
 import java.awt.*;
 import java.util.ArrayList;

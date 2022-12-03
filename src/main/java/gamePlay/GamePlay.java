@@ -28,6 +28,11 @@ public class GamePlay implements Runnable {
     ArrayList<Bullet> shoots;
 
 
+    int score = 0;
+
+    int remaningLife = 3;
+
+
     boolean isShooted = false;
 
     boolean isKilled = false;
@@ -64,9 +69,7 @@ public class GamePlay implements Runnable {
         // je rajoute un objet a la scene
 
         for (Entity entity : entitiesGame) {
-
             kernel.addToScene(kernel.world, entity);
-
         }
 
 
@@ -105,7 +108,6 @@ public class GamePlay implements Runnable {
             y += 50;
             x = 760;
         }
-        System.out.println(entitiesGame.size());
         speedAliens = aliens.get(0).get(0).aiObject.speed;
 
         //----------------------------------------------------------------------------------------------------------//
@@ -260,6 +262,7 @@ public class GamePlay implements Runnable {
         if(killedAlienPostion[0] != -1){
             eliminateAlien(killedAlienPostion);
             killedAlienPostion[0] = -1;
+            score = score + 10;
         }
         if(leftFlag){
             for (int i = 0; i < aliens.size(); i++) {
