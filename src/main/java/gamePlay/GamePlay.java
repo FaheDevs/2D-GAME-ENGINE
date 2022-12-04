@@ -110,10 +110,10 @@ public class GamePlay implements Runnable {
             kernel.addToScene(scene, entity);
         }
 
-        greenBar = kernel.creatEntityToDraw(17, 555, Color.GREEN, scene);
+        greenBar = kernel.creatEntityToDrow(17, 555, Color.GREEN, scene);
         kernel.paintRectangle(greenBar, Color.GREEN, 566, 8);
 
-        scoreEntity = kernel.creatEntityToDraw(17, 30, Color.GREEN, scene);
+        scoreEntity = kernel.creatEntityToDrow(17, 30, Color.GREEN, scene);
         kernel.afficheTexte(scoreEntity, "SCORE : " + score);
 
 
