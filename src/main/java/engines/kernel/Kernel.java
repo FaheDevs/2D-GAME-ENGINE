@@ -76,6 +76,10 @@ public class Kernel implements Observer {
     public void paintRectangle(Entity entity, Color color, int height, int width){
         entity.graphicalObject.paintRectangle(entity.x, entity.y, height, width, color);
     }
+    public Color getColorRect(Entity entity){
+        return entity.graphicalObject.color;
+    }
+
     public Entity creatEntityToDrow(int x, int y, Color color, Scene scene){
         Entity entity = new Entity(new GraphicalObject(new Point(x, y)));
         entity.setGraphicalPositions(x, y);

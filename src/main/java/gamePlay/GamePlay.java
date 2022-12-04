@@ -310,18 +310,19 @@ public class GamePlay implements Runnable {
                     killBullet(bullet);
                 }else {
                     alienKilled(bullet, bullet.x, bullet.y - bullet.physicalObject.speed, aliens);
+                    getBrickToEliminate(bullet);
+                    destroySaucer(saucer, bullet);
                     if (isShooted) bullet.tick();
                 }
             }
             if (!bullet.isPressed){
                 if(bullet != null && bullet.y <= heightWorld - liminteHeightWorld){
                     killPlayer(bullet, bullet.x, bullet.y + bullet.physicalObject.speed, player);
+                    getBrickToEliminate(bullet);
                     bullet.tick();
                 }
                 else if (bullet != null) killBullet(bullet);
             }
-            getBrickToEliminate(bullet);
-            destroySaucer(saucer, bullet);
         }
         //if() kernel.spriteEntity(player, "src/main/resources/assets/images/Spacecraft/10.png");
     }
@@ -388,7 +389,7 @@ public class GamePlay implements Runnable {
                     aliens.get(i).get(j).killed = true;
                     killedAlienPostion[0] = i;
                     killedAlienPostion[1] = j;
-                    break;
+                    return;
                 }
             }
         }
@@ -516,22 +517,36 @@ public class GamePlay implements Runnable {
         for (int k = 0; k < 4; k++) {
             for (int i = 0; i < Castle.nbLines; i++) {
                 for (int j = 0; j < Castle.nbColumns; j++) {;
-                    if(castle.get(k)[i][j].isBrick != false &&
+                    if(castle.get(k)[i][j].isBrick && kernel.getColorRect((Entity)castle.get(k)[i][j]) != Color.BLACK &&
                             kernel.collideObjectToObject(bullet, castle.get(k)[i][j], bullet.x, bullet.y - bullet.physicalObject.speed)){
-                        castle.get(k)[i][j].isBrick = false;
                         destroyCastle(castle.get(k)[i][j]);
-                        /*if(bullet.isPressed && i + 5 < Castle.nbColumns) {
-                            for (int l = i; l < 6; l++) {
-                                castle.get(k)[l][j].isBrick = false;
-                                destroyCastle(castle.get(k)[l][j]);
-                            }
+                        castle.get(k)[i][j].isBrick = false;
+                        if(i + 1 < Castle.nbLines && castle.get(k)[i + 1][j].isBrick){
+                            destroyCastle(castle.get(k)[i + 1][j]);
+                            castle.get(k)[i][j].isBrick = false;
                         }
-                        else if(!bullet.isPressed && Castle.nbColumns - i - 5 > 0) {
-                            for (int l = Castle.nbColumns - i; l < 6; l++) {
-                                castle.get(k)[i][l].isBrick = false;
-                                destroyCastle(castle.get(k)[i][l]);
-                            }
-                        }*/
+                        if(j + 1 < Castle.nbColumns && castle.get(k)[i][j + 1].isBrick){
+                            destroyCastle(castle.get(k)[i][j + 1]);
+                            castle.get(k)[i][j].isBrick = false;
+                        }
+                        if((j + 1 < Castle.nbColumns && i + 1 < Castle.nbLines) && castle.get(k)[i + 1][j + 1].isBrick){
+                            destroyCastle(castle.get(k)[i + 1][j + 1]);
+                            castle.get(k)[i][j].isBrick = false;
+                        }
+
+
+                        if(i - 1 > 0 && castle.get(k)[i - 1][j].isBrick){
+                            destroyCastle(castle.get(k)[i - 1][j]);
+                            castle.get(k)[i][j].isBrick = false;
+                        }
+                        if(j - 1 > 0 && castle.get(k)[i][j - 1].isBrick){
+                            destroyCastle(castle.get(k)[i][j - 1]);
+                            castle.get(k)[i][j].isBrick = false;
+                        }
+                        if((j - 1 > 0 && i - 1 > 0) && castle.get(k)[i - 1][j - 1].isBrick){
+                            destroyCastle(castle.get(k)[i - 1][j - 1]);
+                            castle.get(k)[i][j].isBrick = false;
+                        }
                         killBullet(bullet);
                         entitiesGame.remove(castle.get(k)[i][j]);
                         break;
