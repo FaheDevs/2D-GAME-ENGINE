@@ -1,5 +1,7 @@
 package engines.physics;
 
+import engines.AI.AIObject;
+
 import java.util.ArrayList;
 
 public class PhysicalEngine {
@@ -28,6 +30,15 @@ public class PhysicalEngine {
         return CollisionTools.checkCollisionLeft(newX);
     }
     public boolean collideObjectToObject(PhysicalObject entity, int x2, int y2, int height2, int width2, int newX, int newY) {
+        PhysicalObject tempEntity;
+        if(entity != null){
+            tempEntity = new PhysicalObject("tempObject", newX, newY, entity.width, entity.height, 0);
+            return CollisionTools.checkCollisionObject
+                    (tempEntity.x, tempEntity.y,tempEntity.width,  x2, y2, height2, width2);
+        }
+        return false;
+    }
+    public boolean collideObjectToObject(AIObject entity, int x2, int y2, int height2, int width2, int newX, int newY) {
         PhysicalObject tempEntity;
         if(entity != null){
             tempEntity = new PhysicalObject("tempObject", newX, newY, entity.width, entity.height, 0);

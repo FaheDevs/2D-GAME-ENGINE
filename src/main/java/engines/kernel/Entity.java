@@ -219,6 +219,12 @@ public class Entity implements Subject{
         return observers;
     }
 
+    public int getSpeed(){
+        if (this.type == Type.Physical)
+             return this.physicalObject.getSpeed();
+        else return this.aiObject.getSpeed();
+    }
+
 
 }
 

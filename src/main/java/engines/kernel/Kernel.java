@@ -176,12 +176,18 @@ public class Kernel implements Observer {
     }
 
     public boolean collideObjectToObject(Entity entity, Entity entity1, int newX, int newY) {
-        if(entity1.type == Entity.Type.Ai )
+        if(entity.type == Entity.Type.Physical && entity1.type == Entity.Type.Ai)
             return physicalEngine.collideObjectToObject(entity.physicalObject, entity1.aiObject.x, entity1.aiObject.y,
-                entity1.aiObject.height, entity1.aiObject.width, newX, newY);
+                    entity1.aiObject.height, entity1.aiObject.width, newX, newY);
 
-        else return physicalEngine.collideObjectToObject(entity.physicalObject, entity1.physicalObject.x, entity1.physicalObject.y,
+        else if(entity.type == Entity.Type.Physical && entity1.type == Entity.Type.Physical) return physicalEngine.collideObjectToObject(entity.physicalObject, entity1.physicalObject.x, entity1.physicalObject.y,
                 entity1.physicalObject.height, entity1.physicalObject.width, newX, newY);
+
+        else if(entity.type == Entity.Type.Ai && entity1.type == Entity.Type.Physical) return physicalEngine.collideObjectToObject(entity.aiObject, entity1.physicalObject.x, entity1.physicalObject.y,
+                entity1.physicalObject.height, entity1.physicalObject.width, newX, newY);
+
+        else return physicalEngine.collideObjectToObject(entity.aiObject, entity1.aiObject.x, entity1.aiObject.y,
+                entity1.aiObject.height, entity1.aiObject.width, newX, newY);
     }
 
     public boolean isCollideWithLefdboard(List<List<Entity>> entities){
