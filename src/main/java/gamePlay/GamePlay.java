@@ -384,8 +384,8 @@ public class GamePlay implements Runnable {
             for (int j = 0; j < aliens.get(i).size(); j++) {;
                 if(aliens.get(i).get(j) != null &&
                         kernel.collideObjectToObject(bulletAlien, aliens.get(i).get(j), bulletAlien.x, bulletAlien.y - bulletAlien.physicalObject.speed)){
-                    aliens.get(i).get(j).killed = true;
                     killBullet((Bullet) bulletAlien);
+                    aliens.get(i).get(j).killed = true;
                     killedAlienPostion[0] = i;
                     killedAlienPostion[1] = j;
                     break;

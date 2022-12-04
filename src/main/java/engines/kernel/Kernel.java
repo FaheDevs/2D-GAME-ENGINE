@@ -180,10 +180,10 @@ public class Kernel implements Observer {
                 entity1.physicalObject.height, entity1.physicalObject.width, newX, newY);
     }
 
-    public boolean isCollideWithLefdboard(List<List<Entity>> aliens){
-        for (int i = 0; i < aliens.size(); i++) {
-            for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !isCollideLeft(aliens.get(i).get(j).x - aliens.get(i).get(j).getAiObject().speed)){
+    public boolean isCollideWithLefdboard(List<List<Entity>> entities){
+        for (int i = 0; i < entities.size(); i++) {
+            for (int j = 0; j < entities.get(i).size(); j++) {
+                if (entities.get(i).get(j) != null && !isCollideLeft(entities.get(i).get(j).x - entities.get(i).get(j).getAiObject().speed)){
                     return true;
                 }
             }
@@ -191,10 +191,10 @@ public class Kernel implements Observer {
         return false;
     }
 
-    public boolean isCollideWithRightdboard(List<List<Entity>> aliens, int widthW){
-        for (int i = 0; i < aliens.size(); i++) {
-            for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !isCollideRight(widthW, aliens.get(i).get(j).widthEntity, aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed)){
+    public boolean isCollideWithRightdboard(List<List<Entity>> entities, int widthW){
+        for (int i = 0; i < entities.size(); i++) {
+            for (int j = 0; j < entities.get(i).size(); j++) {
+                if (entities.get(i).get(j) != null && !isCollideRight(widthW, entities.get(i).get(j).widthEntity, entities.get(i).get(j).x + entities.get(i).get(j).getAiObject().speed)){
                     return true;
                 }
             }
