@@ -10,7 +10,7 @@ public class Bullet extends Entity {
 
     public boolean isPressed;
     public Bullet(int heightEntity, int widthEntity) {
-        super(heightEntity, widthEntity, Type.Physical, 5);
+        super(heightEntity, widthEntity, Type.Physical, 7);
         isPressed = false;
         name = "Bullet";
     }

@@ -20,13 +20,13 @@ public class AIEngine {
             return new int[]{newX, newY};
         }
         if (direction.equals("up")) {
-            newY = entity.y - 20*entity.speed;
+            newY = entity.y - entity.speed;
             newX = entity.x;
             entity.setPosition(newX, newY);
             return new int[]{newX, newY};
         }
         if (direction.equals("down")) {
-            newY = entity.y + entity.speed;
+            newY = entity.y + 3 * entity.speed;
             newX = entity.x;
             entity.setPosition(newX, newY);
             return new int[]{newX, newY};
