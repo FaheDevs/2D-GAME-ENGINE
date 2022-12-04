@@ -3,6 +3,7 @@ package gamePlay;
 import engines.kernel.Entity;
 import engines.kernel.Kernel;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,12 @@ public class GamePlay implements Runnable {
 
     boolean leftFlag = true;
 
-    private Entity GreenBar;
+
+    ArrayList<Castle[][]> castle;
+
+    Saucer saucer;
+
+    int ecartCastl = 95;
 
     public GamePlay() throws IOException {
         entitiesGame = new ArrayList<>();
@@ -60,6 +66,8 @@ public class GamePlay implements Runnable {
         kernel = new Kernel();
 
         shoots = new ArrayList<>();
+
+        castle = new ArrayList<>();
 
         initEntities();
 
@@ -96,6 +104,26 @@ public class GamePlay implements Runnable {
 
         //----------------------------------------------------------------------------------------------------------//
 
+        //-------------------------------Castel initialization-------------------------------------------------//
+
+        for(int i = 0; i <4; i++) {
+            castle.add(new Castle[Castle.nbLines][Castle.nbColumns]);
+        }
+        for(int k = 0; k <4; k++) {
+            for(int i=0; i < Castle.nbLines; i++) {
+                for(int j = 0; j < Castle.nbColumns; j++) {
+                    castle.get(k)[i][j] = new Castle(20 + k * (Castle.widthCastle + ecartCastl), 550);
+                    initEntity(castle.get(k)[i][j]);
+                    castle.get(k)[i][j].setPyhsicalObjectPositions(castle.get(k)[i][j].xPos, castle.get(k)[i][j].yPos);
+                }
+            }
+            initTabCastels(castle.get(k));
+            kernel.drowCastle(castle.get(k), Castle.nbLines, Castle.nbColumns);
+        }
+
+
+        //----------------------------------------------------------------------------------------------------------//
+
         //-------------------------------Aliens initialization-----------------------------------------------------//
 
         aliens = new ArrayList<>();
@@ -115,8 +143,7 @@ public class GamePlay implements Runnable {
         speedAliens = aliens.get(0).get(0).aiObject.speed;
 
         //----------------------------------------------------------------------------------------------------------//
-
-
+        generateSaucer();
     }
 
     public void startGameThread() {
@@ -132,10 +159,16 @@ public class GamePlay implements Runnable {
 
     }
 
+    public void generateSaucer(){
+        saucer = new Saucer(32, 32);
+        initEntity(saucer);
+        saucer.setPyhsicalObjectPositions(widthWorld + 32, 30);
+    }
+
     public void shoot(Entity entity, boolean isP) {
-        Bullet bullet =  generateBulletAliens(entity.x + (entity.widthEntity/2) - 2, entity.y);
+        Bullet bullet =  generateBulletAliens(entity.x + (entity.widthEntity/2) + 2, entity.y);
         bullet.isPressed = isP;
-        if(isP) bullet.setImage("src/main/resources/assets/images/Spacecraft/shot.png");
+        if(isP) bullet.setImage("src/main/resources/assets/images/shot.png");
         else bullet.setImage("src/main/resources/assets/images/shotAlien.png");
         shoots.add(bullet);
         kernel.addToScene(kernel.world, shoots.get(shoots.indexOf(bullet)));
@@ -186,6 +219,7 @@ public class GamePlay implements Runnable {
                 try {
                     updatePlayer();
                     updateAliens();
+                    updateSaucer();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -196,7 +230,8 @@ public class GamePlay implements Runnable {
             }
             if (timer >= 1000000000) {
                 System.out.println("FPS:" + drawCount);
-                if(shoots.isEmpty()) aliensShoot();
+                aliensShoot();
+                //generateSaucer();
                 drawCount = 0;
                 timer = 0;
             }
@@ -243,6 +278,8 @@ public class GamePlay implements Runnable {
                 }
                 else if (bullet != null) killBullet(bullet);
             }
+            getBrickToEliminate(bullet);
+            destroySaucer(saucer, bullet);
         }
     }
 
@@ -289,14 +326,11 @@ public class GamePlay implements Runnable {
     }
 
     public void alienKilled(Entity bulletAlien, int newX, int newY, List<List<Entity>> aliens){
-        Entity tempEntity = new Entity(bulletAlien.heightEntity, bulletAlien.widthEntity, Entity.Type.Physical, 0);
-        tempEntity.x = newX;
-        tempEntity.y = newY;
         killedAlienPostion[0] = -1;
         killedAlienPostion[1] = -1;
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {;
-                if(aliens.get(i).get(j) != null && kernel.collideObjectToObject(bulletAlien, aliens.get(i).get(j), tempEntity.x, tempEntity.y - bulletAlien.physicalObject.speed)){
+                if(aliens.get(i).get(j) != null && kernel.collideObjectToObject(bulletAlien, aliens.get(i).get(j), bulletAlien.x, bulletAlien.y - bulletAlien.physicalObject.speed)){
                     aliens.get(i).get(j).killed = true;
                     killBullet((Bullet) bulletAlien);
                     killedAlienPostion[0] = i;
@@ -346,6 +380,120 @@ public class GamePlay implements Runnable {
             kernel.entities.remove(player);
             isKilled = true;
         }
+    }
+
+
+    public void initTabCastels(Castle[][] castle) {
+        // On remplit toutes les cases du tableau avec true
+        for(int i=0; i < Castle.nbLines; i++) {
+            for(int j = 0; j < Castle.nbColumns; j++) {
+               castle[i][j].isBrick = true;
+                // castle.get(i).get(j). = true;
+            }
+        }
+        // On remplit toutes les cases sans brique du tableau avec false
+        // Biseautage du haut du château
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 6; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns - j - 1].isBrick = false;
+            }
+        }
+        for(int i = 2; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns- j - 1].isBrick = false;
+            }
+        }
+        for(int i = 4; i < 6; i++) {
+            for(int j = 0; j < 2; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns - j -1].isBrick = false;
+            }
+        }
+        // Entrée du château
+        for(int i = 18; i < Castle.nbLines; i++) {
+            for(int j = 10; j < Castle.nbColumns - 10; j++) {
+                castle[i][j].isBrick = false;
+            }
+        }
+        // Biseautage entrée du château
+        for(int i = 16; i < 18; i++) {
+            for(int j = 12; j < Castle.nbColumns-12; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns - j - 1].isBrick = false;
+            }
+        }
+        for(int i = 14; i < 16; i++) {
+            for(int j = 14; j < Castle.nbColumns-14; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns - j - 1].isBrick = false;
+            }
+        }
+        for(int i = 4; i < 6; i++) {
+            for(int j = 0; j < 2; j++) {
+                castle[i][j].isBrick = false;
+                castle[i][Castle.nbColumns - j -1].isBrick = false;
+            }
+        }
+    }
+   public void destroyCastle(Castle castle) {
+        kernel.recolorCastleBrick(castle, Color.BLACK);
+   }
+    public void getBrickToEliminate(Bullet bullet){
+        for (int k = 0; k < 4; k++) {
+            for (int i = 0; i < Castle.nbLines; i++) {
+                for (int j = 0; j < Castle.nbColumns; j++) {;
+                    if(castle.get(k)[i][j].isBrick != false &&
+                            kernel.collideObjectToObject(bullet, castle.get(k)[i][j], bullet.x, bullet.y - bullet.physicalObject.speed)){
+                        castle.get(k)[i][j].isBrick = false;
+                        destroyCastle(castle.get(k)[i][j]);
+                        /*if(bullet.isPressed && i + 5 < Castle.nbColumns) {
+                            for (int l = i; l < 6; l++) {
+                                castle.get(k)[l][j].isBrick = false;
+                                destroyCastle(castle.get(k)[l][j]);
+                            }
+                        }
+                        else if(!bullet.isPressed && Castle.nbColumns - i - 5 > 0) {
+                            for (int l = Castle.nbColumns - i; l < 6; l++) {
+                                castle.get(k)[i][l].isBrick = false;
+                                destroyCastle(castle.get(k)[i][l]);
+                            }
+                        }*/
+                        killBullet(bullet);
+                        entitiesGame.remove(castle.get(k)[i][j]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateSaucer(){
+        if(saucer != null){
+            kernel.isCollide(heightWorld, widthWorld, saucer, saucer.physicalObject.x + saucer.physicalObject.speed,
+                    saucer.physicalObject.y, this.entitiesGame);
+            if (!saucer.getAndResetCollision())
+                kernel.moveSaucer(saucer);
+
+            if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.physicalObject.x + saucer.physicalObject.speed)){
+                killSauser(saucer);
+            }
+        }
+    }
+
+    public void killSauser(Saucer saucer){
+        kernel.erase(saucer);
+        entitiesGame.remove(saucer);
+        kernel.entities.remove(saucer);
+    }
+
+    public void destroySaucer(Entity saucer, Bullet bullet){
+        if(kernel.collideObjectToObject(bullet, saucer, bullet.x, bullet.y - bullet.physicalObject.speed)){
+            killBullet(bullet);
+            killSauser((Saucer) saucer);
+        }
+
     }
 
     public static void main(String[] args) throws IOException {

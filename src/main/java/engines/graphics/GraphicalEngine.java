@@ -43,6 +43,18 @@ public class GraphicalEngine   {
         SwingRenderer.getInstance().renderImage(graphicalObject.getImage(),graphicalObject.position.x,graphicalObject.position.y);
     }
 
+    public void paintRect(GraphicalObject graphicalentity){
+        coverRect(graphicalentity);
+    }
+
+
+
+    public void coverRect(GraphicalObject graphicalObject){
+        if (graphicalObject.getColoredRectangle() != null)
+            SwingRenderer.getInstance().renderRect(graphicalObject.getColoredRectangle().height, graphicalObject.getColoredRectangle().width, graphicalObject.position.x, graphicalObject.position.y, graphicalObject.color);
+
+    }
+
     public void addToScene(Scene scene, GraphicalObject entity) {
         scene.addEntity(entity);
     }

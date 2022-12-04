@@ -1,6 +1,7 @@
 package engines.graphics;
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -14,9 +15,23 @@ public class GraphicalObject {
     public String name ;
     public Point position ;
 
+    public Color color;
+    public Rectangle coloredRectangle;
+    public JButton clickable;
+    public String text;
+
     public Scene scene ;
 
+    //GraphicalObject rectRouge = new GraphicalObject(new Reactangle(4,4) , COLOR.RED)
 
+
+    public void paintRectangle(int x, int y, int h, int w, Color color){
+        coloredRectangle = new Rectangle(x, y, h, w);
+        this.color = color;
+    }
+    public void rePaintRectangle(Color color){
+        this.color = color;
+    }
 
     public GraphicalObject(String name, Point position) {
         this.name = name;
@@ -67,5 +82,7 @@ public class GraphicalObject {
     }
 
 
-
+    public Rectangle getColoredRectangle() {
+        return coloredRectangle;
+    }
 }

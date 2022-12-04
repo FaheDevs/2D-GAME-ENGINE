@@ -58,7 +58,7 @@ public class Scene extends SwingScene {
         super.setBackgroundColor(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    @Override
+   /* @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         graphics = (Graphics2D) g.create();
@@ -67,7 +67,20 @@ public class Scene extends SwingScene {
         for (int i = 0; i < entities.size(); i++)
             graphicsEngine.paint(entities.get(i));
         graphics.dispose();
+    }*/
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        graphics = (Graphics2D) g.create();
+        graphics.setColor(backgroundColor);
+        graphics.fillRect(xLocation, yLocation, width, height);
+        for (int i = 0; i < entities.size(); i++){
+            graphicsEngine.paint(entities.get(i));
+            graphicsEngine.paintRect(entities.get(i));}
+        graphics.dispose();
     }
+
 
     // GETTERS //
 

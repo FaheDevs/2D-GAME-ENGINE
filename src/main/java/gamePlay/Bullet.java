@@ -8,9 +8,9 @@ import java.io.File;
 
 public class Bullet extends Entity {
 
-    boolean isPressed;
+    public boolean isPressed;
     public Bullet(int heightEntity, int widthEntity) {
-        super(heightEntity, widthEntity, Type.Physical, 3);
+        super(heightEntity, widthEntity, Type.Physical, 6);
         isPressed = false;
         name = "Bullet";
     }

@@ -4,7 +4,7 @@ package engines.physics;
 public class CollisionTools {
     static int margeX = 17;
     public static boolean checkCollisionWorld(int heightW, int widthW, PhysicalObject entity, int newX, int newY){
-        return  !((newY >= heightW - entity.height || newY < 0) || (newX > widthW - entity.width  || newX < margeX));
+        return  !((newY >= heightW - entity.height || newY < 0) || (newX > widthW - entity.width - margeX || newX < margeX));
     }
     public static boolean checkCollisionRight(int widthW, int widthObject, int newX){
         return  !(newX > widthW - widthObject - margeX);
