@@ -47,6 +47,14 @@ public class GraphicalEngine   {
         coverRect(graphicalentity);
     }
 
+    public void paintText(GraphicalObject graphicalentity){
+        coverTxt(graphicalentity);
+    }
+
+    public void coverTxt(GraphicalObject graphicalObject){
+        SwingRenderer.getInstance().renderText(graphicalObject.texte,graphicalObject.color, graphicalObject.fontTextSize,
+                graphicalObject.centerTexte, graphicalObject.position.x, graphicalObject.position.y, 20, 20);
+    }
 
 
     public void coverRect(GraphicalObject graphicalObject){

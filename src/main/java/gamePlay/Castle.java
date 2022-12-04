@@ -8,8 +8,8 @@ import java.awt.*;
 public class Castle extends Entity {
 
     static final int dimention = 2;
-    static final int widthCastle = 120;
-    static final int heightCastle = 94;
+    static final int widthCastle = 72;
+    static final int heightCastle = 54;
     static final int nbLines = heightCastle / dimention;
     static final int nbColumns = widthCastle / dimention;
 

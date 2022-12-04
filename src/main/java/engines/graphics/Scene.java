@@ -81,7 +81,9 @@ public class Scene extends SwingScene {
         graphics.fillRect(xLocation, yLocation, width, height);
         for (int i = 0; i < entities.size(); i++){
             graphicsEngine.paint(entities.get(i));
-            graphicsEngine.paintRect(entities.get(i));}
+            graphicsEngine.paintRect(entities.get(i));
+            graphicsEngine.paintText(entities.get(i));
+        }
         graphics.dispose();
     }
 

@@ -12,15 +12,24 @@ public class GraphicalObject {
      * the image representing the object
      */
     public BufferedImage image ;
+
     public String name ;
+
     public Point position ;
 
     public Color color;
+
     public Rectangle coloredRectangle;
-    public JButton clickable;
-    public String text;
+
+
+    public String texte = " ";
+
+    public boolean centerTexte;
+
+    public int fontTextSize;
 
     public Scene scene ;
+
 
 
 
@@ -28,6 +37,20 @@ public class GraphicalObject {
         coloredRectangle = new Rectangle(x, y, h, w);
         this.color = color;
     }
+
+    /*public void setAfficheTexte(String texte){
+        afficheScore = new Font("Arial", Font.PLAIN, 20);
+        scoreTexte = "SCORE : " + score;
+        centerTexte = false;
+        fontTextSize = 20;
+    }*/
+
+    public void setAfficheTexte(String texte){
+        this.texte = texte;
+        centerTexte = false;
+        fontTextSize = 20;
+    }
+
     public void rePaintRectangle(Color color){
         this.color = color;
     }
@@ -80,9 +103,6 @@ public class GraphicalObject {
         this.scene = scene;
     }
 
-    public Scene getScene() {
-        return scene;
-    }
 
     public Rectangle getColoredRectangle() {
         return coloredRectangle;

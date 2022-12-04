@@ -11,10 +11,7 @@ import engines.graphics.Scene;
 import engines.physics.*;
 import gamePlay.Castle;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,19 +26,10 @@ public class Kernel implements Observer {
 
     private AIEngine aiEngine;
 
-    private KeyHandler keyHandler;
-
-    private GraphicalObject greenBar;
-
-
-    public Scene world;
-
-
-
     public ArrayList<Subject> entities;
 
     public Kernel() {
-        entities = new ArrayList<>();
+        this.entities = new ArrayList<>();
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
         commandEngine = new CommandEngine();
@@ -65,14 +53,6 @@ public class Kernel implements Observer {
         entities.add(sub);
 
     }
-    public Entity generateEntity(GraphicalObject graphicalObject) {
-        return new Entity(graphicalObject);
-    }
-
-    public void removeEntity(Entity entity) {
-
-    }
-
 
 
 
@@ -84,9 +64,8 @@ public class Kernel implements Observer {
         return graphicalEngine.generateScene(height, width);
     }
 
-    public void bindScene(Scene world) {
-        this.world = world;
-        graphicalEngine.bindScene(world);
+    public void bindScene(Scene scene) {
+        graphicalEngine.bindScene(scene);
     }
 
     public void addToScene(Scene world, Entity graphicalObject) {
@@ -94,41 +73,22 @@ public class Kernel implements Observer {
 
     }
 
-    public void addToScene(Entity graphicalObject) {
-        graphicalEngine.addToScene(world,graphicalObject.graphicalObject);
+    public void paintRectangle(Entity entity, Color color, int height, int width){
+        entity.graphicalObject.paintRectangle(entity.x, entity.y, height, width, color);
+    }
+    public Entity creatEntityToDrow(int x, int y, Color color, Scene scene){
+        Entity entity = new Entity(new GraphicalObject(new Point(x, y)));
+        entity.setGraphicalPositions(x, y);
+        entity.graphicalObject.color = color;
+        entities.add(entity);
+        graphicalEngine.addToScene(scene, entity.graphicalObject);
+        return entity;
+    }
+    public void afficheTexte(Entity entity, String texte) {
+        entity.graphicalObject.setAfficheTexte(texte);
     }
 
-    public void creatGreenBarObject() {
-        try {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/greenBar.png"));
-            this.greenBar = new GraphicalObject(image, "GreenBar");
-            this.greenBar.setPosition(new Point(17, 740));
-            Entity greenBarEntity = new Entity(greenBar);
-            greenBarEntity.setGraphicalPositions(17, 740);
-            entities.add(greenBarEntity);
-            graphicalEngine.addToScene(world, greenBar);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    // Dessin du château
-    public void drowCastle (Castle[][] castles, int nbLines, int nbColumns) {
-        for(int i = 0; i < nbLines; i++) {
-            for(int j = 0; j < nbColumns; j++) {
-                if(castles[i][j].isBrick == true) {
-                    castles[i][j].graphicalObject.rePaintRectangle(Color.GREEN);
-                    castles[i][j].setPyhsicalObjectPositions(castles[i][j].xPos + 2 * j, castles[i][j].yPos + 2 * i);
-                } else {
-                    castles[i][j].graphicalObject.rePaintRectangle(Color.BLACK);
-                    castles[i][j].setPyhsicalObjectPositions(castles[i][j].xPos + 2 * j, castles[i][j].yPos + 2 * i);
-                }
-            }
-        }
-    }
-    //Tue Chateau
-    public void recolorCastleBrick (Castle castle, Color color) {
+    public void rePaintRectangle(Castle castle, Color color) {
         castle.graphicalObject.rePaintRectangle(color);
     }
 
@@ -179,21 +139,23 @@ public class Kernel implements Observer {
     }
 
 
-    public void move(Entity player, String direction) {
-        int[] newPos = {player.x, player.y};
-        if (player.physicalObject != null && physicalEngine.move(player.physicalObject, direction) != null) {
-            newPos = physicalEngine.move(player.physicalObject, direction);
-            player.setPyhsicalObjectPositions(newPos[0], newPos[1]);
+    public void move(Entity entity, String direction) {
+        int[] newPos = {entity.x, entity.y};
+        if(entity.type == Entity.Type.Physical){
+            if (entity.physicalObject != null && physicalEngine.move(entity.physicalObject, direction) != null) {
+                newPos = physicalEngine.move(entity.physicalObject, direction);
+                entity.setPyhsicalObjectPositions(newPos[0], newPos[1]);
+            }
         }
-    }
-    public void moveAliens(Entity alien, String direction) {
-        int[] newPos = {alien.x, alien.y};
-        if (alien.aiObject != null && aiEngine.move(alien.aiObject, direction) != null)
-            newPos = aiEngine.move(alien.aiObject, direction);
-            alien.setAiObjectPositions(newPos[0], newPos[1]);
+        else{
+            if (entity.aiObject != null && aiEngine.move(entity.aiObject, direction) != null)
+                newPos = aiEngine.move(entity.aiObject, direction);
+            entity.setAiObjectPositions(newPos[0], newPos[1]);
+        }
+
     }
 
-    public void moveSaucer(Entity saucer) {
+    public void move(Entity saucer) {
         int[] newPos = {saucer.x, saucer.y};
         if (saucer.physicalObject != null && !saucer.killed) {
             newPos = physicalEngine.move(saucer.physicalObject, "right");
