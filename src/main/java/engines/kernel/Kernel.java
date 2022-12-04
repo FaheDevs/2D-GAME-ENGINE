@@ -76,7 +76,8 @@ public class Kernel implements Observer {
     public void paintRectangle(Entity entity, Color color, int height, int width){
         entity.graphicalObject.paintRectangle(entity.x, entity.y, height, width, color);
     }
-    public Entity creatEntityToDrow(int x, int y, Color color, Scene scene){
+
+    public Entity creatEntityToDraw(int x, int y, Color color, Scene scene){
         Entity entity = new Entity(new GraphicalObject(new Point(x, y)));
         entity.setGraphicalPositions(x, y);
         entity.graphicalObject.color = color;
@@ -113,7 +114,7 @@ public class Kernel implements Observer {
         return physicalObjects;
     }
 
-    public ArrayList<AIObject> getaiObjects(ArrayList<Entity> entities){
+    public ArrayList<AIObject> getAiObjects(ArrayList<Entity> entities){
         ArrayList<AIObject> aiObjects = new ArrayList<>();
         for (Entity e : entities) {
             if(e.type == Entity.Type.Ai && e.aiObject != null)
@@ -134,7 +135,7 @@ public class Kernel implements Observer {
 
     public void isCollide(int heightW, int widthW, Entity player, int newX, int newY, ArrayList<Entity> entitiesGame) {
         boolean whithPhy = physicalEngine.isCollide(player.physicalObject, newX, newY, getPhyObjectsEntities(entitiesGame));
-        boolean whithAi = physicalEngine.isCollide(player.physicalObject, newX, newY, setaiObjectsPositionementPhy(getaiObjects(entitiesGame)));
+        boolean whithAi = physicalEngine.isCollide(player.physicalObject, newX, newY, setaiObjectsPositionementPhy(getAiObjects(entitiesGame)));
         player.setCollision( (whithPhy || whithAi) || !physicalEngine.isCollide(heightW, widthW, player.physicalObject, newX, newY));
     }
 
@@ -168,7 +169,7 @@ public class Kernel implements Observer {
     }
 
     public boolean isCollideRight(int widthW, int widthObject, int newX) {
-        return physicalEngine.isCollideRight(widthW, widthObject, newX);
+        return !physicalEngine.isCollideRight(widthW, widthObject, newX);
     }
 
     public boolean collideObjectToObject(Entity entity, Entity entity1, int newX, int newY) {
@@ -194,7 +195,7 @@ public class Kernel implements Observer {
     public boolean isCollideWithRightdboard(List<List<Entity>> aliens, int widthW){
         for (int i = 0; i < aliens.size(); i++) {
             for (int j = 0; j < aliens.get(i).size(); j++) {
-                if (aliens.get(i).get(j) != null && !isCollideRight(widthW, aliens.get(i).get(j).widthEntity, aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed)){
+                if (aliens.get(i).get(j) != null && isCollideRight(widthW, aliens.get(i).get(j).widthEntity, aliens.get(i).get(j).x + aliens.get(i).get(j).getAiObject().speed)){
                     return true;
                 }
             }

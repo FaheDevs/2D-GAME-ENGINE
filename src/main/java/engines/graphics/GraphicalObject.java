@@ -107,4 +107,8 @@ public class GraphicalObject {
     public Rectangle getColoredRectangle() {
         return coloredRectangle;
     }
+
+    public Scene getScene() {
+        return scene;
+    }
 }
