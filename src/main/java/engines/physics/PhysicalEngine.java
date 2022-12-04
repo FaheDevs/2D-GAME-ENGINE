@@ -9,7 +9,7 @@ public class PhysicalEngine {
     }
 
     public boolean isCollide(PhysicalObject entity, int newX, int newY, ArrayList<PhysicalObject> entitiesGame) {
-        PhysicalObject tempEntity = new PhysicalObject("tempObject",newX, newY, entity.height, entity.width, 0);
+        PhysicalObject tempEntity = new PhysicalObject("tempObject",newX, newY, entity.width, entity.height, 0);
         for (PhysicalObject e : entitiesGame) {
             if(e != entity && CollisionTools.checkCollisionObject
                     (tempEntity.x, tempEntity.y, tempEntity.width, e.x, e.y, e.height, e.width)){
@@ -30,7 +30,7 @@ public class PhysicalEngine {
     public boolean collideObjectToObject(PhysicalObject entity, int x2, int y2, int height2, int width2, int newX, int newY) {
         PhysicalObject tempEntity;
         if(entity != null){
-            tempEntity = new PhysicalObject("tempObject", newX, newY, entity.height, entity.width, 0);
+            tempEntity = new PhysicalObject("tempObject", newX, newY, entity.width, entity.height, 0);
             return CollisionTools.checkCollisionObject
                     (tempEntity.x, tempEntity.y,tempEntity.width,  x2, y2, height2, width2);
         }

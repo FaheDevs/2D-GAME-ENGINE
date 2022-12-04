@@ -3,7 +3,9 @@ package engines.graphics;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Point;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
