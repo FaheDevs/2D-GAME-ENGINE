@@ -231,7 +231,7 @@ public class GamePlay implements Runnable {
             if (timer >= 1000000000) {
                 System.out.println("FPS:" + drawCount);
                 aliensShoot();
-                generateSaucer();
+                //generateSaucer();
                 drawCount = 0;
                 timer = 0;
             }
