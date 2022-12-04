@@ -110,10 +110,10 @@ public class GamePlay implements Runnable {
             kernel.addToScene(scene, entity);
         }
 
-        greenBar = kernel.creatEntityToDrow(17, 555, Color.GREEN, scene);
+        greenBar = kernel.creatEntityToDraw(17, 555, Color.GREEN, scene);
         kernel.paintRectangle(greenBar, Color.GREEN, 566, 8);
 
-        scoreEntity = kernel.creatEntityToDrow(17, 30, Color.GREEN, scene);
+        scoreEntity = kernel.creatEntityToDraw(17, 30, Color.GREEN, scene);
         kernel.afficheTexte(scoreEntity, "SCORE : " + score);
 
 
@@ -548,7 +548,7 @@ public class GamePlay implements Runnable {
             if (!saucer.getAndResetCollision())
                 kernel.move(saucer);
 
-            if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.physicalObject.x + saucer.physicalObject.speed)){
+            if (kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.physicalObject.x + saucer.physicalObject.speed)){
                 killSauser(saucer);
             }
         }
