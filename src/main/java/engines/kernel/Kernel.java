@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +36,12 @@ public class Kernel implements Observer {
 
     public Scene world;
 
-    private Graphics g2;
 
 
     public ArrayList<Subject> entities;
 
     public Kernel() {
-        this.entities = new ArrayList<>();
+        entities = new ArrayList<>();
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
         commandEngine = new CommandEngine();

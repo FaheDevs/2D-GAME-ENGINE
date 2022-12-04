@@ -13,6 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SceneTest {
 
+    Random random = new Random();
+
+
     GraphicalEngine graphicalEngine = new GraphicalEngine();
 
     Scene scene = new Scene(graphicalEngine,100,100);
@@ -22,7 +25,6 @@ class SceneTest {
 
         GraphicalObject graphicalObject ;
 
-        Random random = new Random();
 
         for (int i = 0; i < 15; i++) {
 
@@ -43,7 +45,6 @@ class SceneTest {
     void removeEntity() {
         GraphicalObject graphicalObject ;
 
-        Random random = new Random();
 
         for (int i = 0; i < 15; i++) {
 
@@ -96,7 +97,6 @@ class SceneTest {
 
         ArrayList<GraphicalObject> graphicalObjectArrayList = new ArrayList<>();
 
-        Random random = new Random();
 
         for (int i = 0; i < 15; i++) {
             graphicalObject = new GraphicalObject(new Point(random.nextInt(),random.nextInt()));
@@ -117,9 +117,7 @@ class SceneTest {
 
     @Test
     void getGraphicsEngine() {
-
         Assertions.assertEquals(graphicalEngine,scene.getGraphicsEngine());
-
     }
 
     @Test

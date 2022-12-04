@@ -28,6 +28,14 @@ public class AIObject {
         this.position = new Point(x, y);
     }
 
+    public AIObject(Point position) {
+        this.x = position.x;
+        this.y = position.y;
+        this.name = "AiObject";
+        this.position = position;
+    }
+
+
     public Point getPosition() {
         return position;
     }

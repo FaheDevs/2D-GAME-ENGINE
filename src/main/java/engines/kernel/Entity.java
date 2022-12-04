@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Entity implements Subject{
-//    protected Point position ;
     public enum Type {Ai, Physical, Graphical}
 
-    //
     public GraphicalObject graphicalObject;
     public PhysicalObject physicalObject;
     public AIObject aiObject;
@@ -210,7 +208,9 @@ public class Entity implements Subject{
         }
     }
 
-//
+    public List<Observer> getObservers() {
+        return observers;
+    }
 }
 
 

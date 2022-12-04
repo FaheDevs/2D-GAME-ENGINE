@@ -1,12 +1,5 @@
 package engines.AI;
 
-import engines.graphics.Scene;
-import engines.kernel.Entity;
-import engines.physics.CollisionTools;
-import gamePlay.GamePlay;
-
-import java.util.ArrayList;
-
 public class AIEngine {
 
     public void movable(AIObject entity, int x , int y) {

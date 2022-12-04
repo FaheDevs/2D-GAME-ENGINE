@@ -18,6 +18,32 @@ public class PhysicalObject {
 
     public int speed ;
 
+    public PhysicalObject(String name, int x, int y, int width, int height, int speed) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.speed = speed;
+        this.position = new Point(x,y);
+    }
+
+    public PhysicalObject(int x , int y ){
+        this.x = x;
+        this.y = y ;
+        this.name = "physicalObject";
+        this.position = new Point(x,y);
+    }
+
+    public PhysicalObject(Point position){
+        this.x = position.x;
+        this.y = position.y ;
+        this.name = "physicalObject";
+        this.position =position;
+    }
+
+
+
 
     public Point getPosition() {
         return position;
@@ -36,23 +62,6 @@ public class PhysicalObject {
         this.position.y = y;
 
 
-    }
-
-    public PhysicalObject(String name, int x, int y, int width, int height, int speed) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.speed = speed;
-        this.position = new Point(x,y);
-    }
-
-    public PhysicalObject(int x , int y ){
-        this.x = x;
-        this.y = y ;
-        this.name = "physicalObject";
-        this.position = new Point(x,y);
     }
 
     @Override

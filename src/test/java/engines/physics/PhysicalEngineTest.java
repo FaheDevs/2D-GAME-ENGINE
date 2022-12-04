@@ -63,7 +63,18 @@ class PhysicalEngineTest {
 
     @Test
     void isCollideRight() {
-        physicalObject = new PhysicalObject(10,10);
+        physicalObject = new PhysicalObject(0,0);
+
+        assertFalse(physicalEngine.isCollideRight(64, 64, 100));
+
+        assertFalse(physicalEngine.isCollideRight(64, 64, 50));
+
+
+        assertFalse(physicalEngine.isCollideRight(64, 64, 200));
+
+        assertFalse(physicalEngine.isCollideRight(64, 64, 0));
+
+
 
     }
 
@@ -71,13 +82,22 @@ class PhysicalEngineTest {
     void isCollideLeft() {
         physicalObject = new PhysicalObject(10,10);
 
+        assertTrue(physicalEngine.isCollideLeft(100));
+
+        assertTrue(physicalEngine.isCollideLeft(100));
+
+        assertTrue(physicalEngine.isCollideLeft(500));
+
+        assertFalse(physicalEngine.isCollideLeft(10));
+
+        assertFalse(physicalEngine.isCollideLeft(0));
+
+        assertFalse(physicalEngine.isCollideLeft(-10));
+
+
+
     }
 
-    @Test
-    void collideObjectToObject() {
-        physicalObject = new PhysicalObject(10,10);
-
-    }
 
     @Test
     void move() {
@@ -87,5 +107,12 @@ class PhysicalEngineTest {
         assertEquals(new Point(100,100),physicalObject.position);
         assertEquals(100,physicalObject.x);
         assertEquals(100,physicalObject.y);
+
+
+        physicalEngine.movable(physicalObject,0,0);
+
+        assertEquals(new Point(0,0),physicalObject.position);
+        assertEquals(0,physicalObject.x);
+        assertEquals(0,physicalObject.y);
     }
 }
