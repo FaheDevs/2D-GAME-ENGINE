@@ -22,7 +22,6 @@ public class GraphicalObject {
 
     public Scene scene ;
 
-    //GraphicalObject rectRouge = new GraphicalObject(new Reactangle(4,4) , COLOR.RED)
 
 
     public void paintRectangle(int x, int y, int h, int w, Color color){
@@ -81,6 +80,9 @@ public class GraphicalObject {
         this.scene = scene;
     }
 
+    public Scene getScene() {
+        return scene;
+    }
 
     public Rectangle getColoredRectangle() {
         return coloredRectangle;

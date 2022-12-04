@@ -19,6 +19,9 @@ public class Scene extends SwingScene {
      */
     private final ArrayList<GraphicalObject> entities = new ArrayList<>();
 
+
+    private Color color;
+
     /**
      * Consctructeur par défaut
      * @param height hateur
@@ -55,6 +58,7 @@ public class Scene extends SwingScene {
      * @param color couleur
      */
     protected void setBackgroundColor(Color color) {
+        this.color = color;
         super.setBackgroundColor(color.getRed(), color.getGreen(), color.getBlue());
     }
 
@@ -98,5 +102,10 @@ public class Scene extends SwingScene {
 
     public GraphicalEngine getGraphicsEngine() {
         return graphicsEngine;
+    }
+
+
+    public Color getColor() {
+        return color;
     }
 }
