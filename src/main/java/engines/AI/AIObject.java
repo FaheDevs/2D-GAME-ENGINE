@@ -2,29 +2,12 @@ package engines.AI;
 
 import java.awt.Point;
 
-public class AIObject{
-    public int x ;
+public class AIObject {
+    public int x;
 
-    public int y ;
+    public int y;
 
     public Point position;
-
-
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point position) {
-        this.position = position;
-        this.x=position.x;
-        this.y=position.y;
-    }
-
-    public void setPosition(int x, int y) {
-        this.x=position.x;
-        this.y=position.y;
-    }
 
     public int width;
 
@@ -32,11 +15,9 @@ public class AIObject{
 
     public int height;
 
+    public int speed;
 
 
-    public int speed ;
-
-    public AIObject(){}
     public AIObject(String name, int x, int y, int width, int height, int speed) {
         this.x = x;
         this.y = y;
@@ -44,14 +25,23 @@ public class AIObject{
         this.width = width;
         this.height = height;
         this.speed = speed;
-        this.position = new Point(x,y);
+        this.position = new Point(x, y);
     }
 
-    @Override
-    public String toString() {
-        return "AIObject{" +
-                "position=" + position +
-                '}';
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+        this.x = position.x;
+        this.y = position.y;
+    }
+
+    public void setPosition(int x, int y) {
+        this.position = new Point(x, y);
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
@@ -60,6 +50,8 @@ public class AIObject{
 
     public void setX(int x) {
         this.x = x;
+        this.position.x = x;
+
     }
 
     public int getY() {
@@ -68,6 +60,7 @@ public class AIObject{
 
     public void setY(int y) {
         this.y = y;
+        this.position.y = y;
     }
 
     public int getWidth() {
@@ -94,6 +87,13 @@ public class AIObject{
         this.speed = speed;
     }
 
+
+    @Override
+    public String toString() {
+        return "AIObject{" +
+                "position=" + position +
+                '}';
+    }
 
 
 }

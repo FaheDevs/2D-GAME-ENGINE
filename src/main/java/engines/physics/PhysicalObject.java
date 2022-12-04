@@ -30,8 +30,12 @@ public class PhysicalObject {
         this.y=position.y;
     }
     public void setPosition(int x, int y) {
-        this.x=position.x;
-        this.y=position.y;
+        this.x= x;
+        this.y= y;
+        this.position.x = x;
+        this.position.y = y;
+
+
     }
 
     public PhysicalObject(String name, int x, int y, int width, int height, int speed) {
@@ -41,6 +45,13 @@ public class PhysicalObject {
         this.width = width;
         this.height = height;
         this.speed = speed;
+        this.position = new Point(x,y);
+    }
+
+    public PhysicalObject(int x , int y ){
+        this.x = x;
+        this.y = y ;
+        this.name = "physicalObject";
         this.position = new Point(x,y);
     }
 
