@@ -16,10 +16,9 @@ import java.util.List;
 public class Entity implements Subject{
 
 
-    //    protected Point position ;
     public enum Type {Ai, Physical, Graphical}
 
-    //
+
     public GraphicalObject graphicalObject;
     public PhysicalObject physicalObject;
     public AIObject aiObject;

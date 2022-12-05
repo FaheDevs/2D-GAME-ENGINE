@@ -7,13 +7,16 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
 
-    public boolean UpPressed, downPressed, rightPressed, leftPressed, STyped;
+    public boolean UpPressed, downPressed, rightPressed, leftPressed, STyped , enterPressed, Rtyped, spacePressed;
     @Override
     public void keyTyped(KeyEvent keyEvent) {
         char code = keyEvent.getKeyChar();
 
         if (code == 's'  || code == 'S' ) {
             STyped = true;
+        }
+        if (code == 'r'  || code == 'R' ) {
+            Rtyped = true;
         }
 
     }
@@ -33,8 +36,14 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_UP) {
             UpPressed = true;
         }
-
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
         }
+        if (code == KeyEvent.VK_SPACE) {
+            enterPressed = true;
+        }
+
+    }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
@@ -56,9 +65,17 @@ public class KeyHandler implements KeyListener {
         if (code == 's'  || code == 'S' ) {
             STyped = false;
         }
+        if (code == KeyEvent.VK_SPACE) {
+            enterPressed = false;
+        }
+        if (code == 'r'  || code == 'R' ) {
+            Rtyped = false;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
+        }
 
     }
-
 
 }
 

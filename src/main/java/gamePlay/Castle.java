@@ -20,7 +20,7 @@ public class Castle extends Entity {
 
 
     public Castle (int xPos, int yPos) {
-        super(dimention, dimention, Type.Physical, 0);
+        super(dimention, dimention, Type.Ai, 0);
         graphicalObject.paintRectangle(xPos, yPos, dimention, dimention, Color.GREEN);
         this.xPos = xPos;
         this.yPos = yPos;

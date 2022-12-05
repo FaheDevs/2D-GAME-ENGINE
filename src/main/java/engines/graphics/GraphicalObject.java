@@ -81,6 +81,13 @@ public class GraphicalObject {
         this.position = new Point();
     }
 
+    public GraphicalObject(Color color, String texte, boolean centerTexte, int fontTextSize) {
+        this.color = color;
+        this.texte = texte;
+        this.centerTexte = centerTexte;
+        this.fontTextSize = fontTextSize;
+    }
+
     public String getName() {
         return name;
     }

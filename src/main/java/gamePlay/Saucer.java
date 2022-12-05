@@ -11,7 +11,7 @@ public class Saucer extends Entity {
     public boolean killed;
 
     public Saucer(int heightEntity, int widthEntity){
-        super(heightEntity, widthEntity, Type.Physical, 1);
+        super(heightEntity, widthEntity, Type.Ai, 1);
         name = "Saucer";
         killed = false;
         try {
