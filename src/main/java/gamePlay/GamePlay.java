@@ -199,10 +199,6 @@ public class GamePlay implements Runnable {
         //----------------------------------------------------------------------------------------------------------//
     }
 
-    /*public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }*/
 
     public void startGameThread() {
         kernel.switchScene(menuView);
@@ -364,10 +360,10 @@ public class GamePlay implements Runnable {
             kernel.switchScene(scene);
             inGame = true;
         }
-        if (kernel.getKeyHandler().Rtyped && isKilled) {
+       /* if (kernel.getKeyHandler().Rtyped && isKilled) {
             kernel.switchScene(menuView);
             isKilled = false;
-        }
+        }*/
     }
 
     public void chooseDirection () throws IOException {

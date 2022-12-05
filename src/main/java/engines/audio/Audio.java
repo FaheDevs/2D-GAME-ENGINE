@@ -22,10 +22,10 @@ public class Audio {
     }
 
     public void play() {
-        clip.start();
+        if(clip != null)  clip.start();
     }
     public void stop() {
-        clip.stop();
+        if(clip != null) clip.stop();
     }
 
     public static void play(String son) {

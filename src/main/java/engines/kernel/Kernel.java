@@ -3,6 +3,7 @@ package engines.kernel;
 
 import engines.AI.AIEngine;
 import engines.AI.AIObject;
+import engines.audio.Audio;
 import engines.command.CommandEngine;
 import engines.command.KeyHandler;
 import engines.graphics.GraphicalEngine;
@@ -281,19 +282,19 @@ public class Kernel implements Observer {
         Image newResizedImage = image.getScaledInstance(250, 108, Image.SCALE_SMOOTH);
 
         GraphicalObject graphicalObject = new GraphicalObject(gameOverHelper(newResizedImage),"logo");
-        GraphicalObject texting = new GraphicalObject(Color.RED,"PRESS R TO RESTART THE GAME ",false,20);
+        GraphicalObject texting = new GraphicalObject(Color.RED,"PRESS << R >> TO RESTART THE GAME ",false,20);
         GraphicalObject scores = new GraphicalObject(Color.GREEN,"YOUR SCORE : "+score+"",false,20);
 
 
         Entity logo = new Entity(graphicalObject);
         Entity text = new Entity(texting);
         Entity scoring = new Entity(scores);
-        logo.setGraphicalPositions(170,200);
-        text.setGraphicalPositions(120,520);
-        scoring.setGraphicalPositions(120,590);
+        logo.setGraphicalPositions(180,200);
+        //text.setGraphicalPositions(120,480);
+        scoring.setGraphicalPositions(230,530);
 
         addToScene(looseView,logo);
-        addToScene(looseView,text);
+        //addToScene(looseView,text);
         addToScene(looseView,scoring);
 
 
@@ -323,5 +324,9 @@ public class Kernel implements Observer {
     }
     public KeyHandler getKeyHandler() {
         return commandEngine.keyHandler;
+    }
+
+    public void playSound(String sound){
+        Audio.play(sound);
     }
 }
