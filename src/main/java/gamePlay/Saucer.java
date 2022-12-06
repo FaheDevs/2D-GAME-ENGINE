@@ -14,6 +14,7 @@ public class Saucer extends Entity {
         super(heightEntity, widthEntity, Type.Ai, 1);
         name = "Saucer";
         killed = false;
+        value = 100;
         try {
             BufferedImage image = ImageIO.read(new File("src/main/resources/assets/images/soucoupe.png"));
             graphicalObject.setImage(image);

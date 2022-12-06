@@ -46,7 +46,9 @@ public class GamePlay implements Runnable {
 
     boolean pos1;
 
-    public boolean iCanDown;
+    boolean iCanDown;
+
+    boolean upLevel;
 
     boolean leftFlag;
 
@@ -203,7 +205,8 @@ public class GamePlay implements Runnable {
     public void initSaucer() {
         saucer = new Saucer(32, 32);
         initEntity(saucer);
-        saucer.setAiObjectPositions(widthWorld + 32, 40);
+        saucer.setAiObjectPositions(17, 40);
+        System.out.println("dddd");
         isSaucer = true;
     }
 
@@ -230,7 +233,7 @@ public class GamePlay implements Runnable {
     public void generateSaucer() {
         saucer = new Saucer(32, 32);
         initEntity(saucer);
-        saucer.setAiObjectPositions(widthWorld + 32, 30);
+        saucer.setAiObjectPositions( 18, 40);
         isSaucer = true;
     }
 
@@ -285,6 +288,7 @@ public class GamePlay implements Runnable {
                 try {
                     updatePlayer();
                     updateAliens();
+                    //updateSaucer();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -295,13 +299,13 @@ public class GamePlay implements Runnable {
                 if (ctpTours % 225 == 0) {
                     aliensShoot();
                 }
-                if (ctpTours % 100 == 0) {
-                    if (!isSaucer) generateSaucer();
+
+                if (!isSaucer && upLevel) {
+                    generateSaucer();
+                    upLevel = false;
                 }
 
-                if (ctpTours % 200 == 0) {
-                    updateSaucer();
-                }
+
 
                 kernel.updateEntities();
                 kernel.refreshWindow();
@@ -361,6 +365,7 @@ public class GamePlay implements Runnable {
                     if (bullet.y <= heightWorld - liminteHeightWorld) {
                         killPlayerBullet(bullet, bullet.x, bullet.y + bullet.getSpeed(), player);
                         getBrickToEliminate(bullet);
+                        destroySaucer(saucer, bullet);
                         bullet.tick();
                     } else killBullet(bullet);
                 }
@@ -440,6 +445,7 @@ public class GamePlay implements Runnable {
                             chooseImage(entity, pos1, pathsAliens);
                             if (entity.getSpeed() <= 3 && nbDown % 9 == 0) {
                                 entity.aiObject.speed += 1;
+                                upLevel = true;
                             }
                         }
 
@@ -669,11 +675,10 @@ public class GamePlay implements Runnable {
     }
 
     public void updateSaucer() {
-        if (saucer != null) {
-            if (!kernel.isCollideLeft(saucer.x + saucer.getSpeed()))
-                kernel.move(saucer, "right");
+        if (saucer != null && inGame) {
+            kernel.move(saucer, "right");
 
-            if (kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.x + saucer.getSpeed())) {
+            if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.x + saucer.getSpeed())) {
                 killSauser(saucer);
             }
         }
@@ -688,6 +693,14 @@ public class GamePlay implements Runnable {
 
     public void destroySaucer(Entity saucer, Bullet bullet) {
         if (kernel.collideObjectToObject(bullet, saucer, bullet.x, bullet.y - bullet.physicalObject.speed)) {
+            score += saucer.value;
+            Entity scoreAugmentationImage = kernel.creatEntity(100, 30, gameScene);
+            scoreAugmentationImage.setImage("src/main/resources/assets/images/soucoupe100.png");
+            try{
+                Thread.sleep(55);
+            }catch (Exception e){}
+            kernel.erase(scoreAugmentationImage);
+            kernel.afficheTexte(scoreEntity,"SCORE : " + score);
             killBullet(bullet);
             killSauser((Saucer) saucer);
         }
@@ -733,6 +746,8 @@ public class GamePlay implements Runnable {
         iCanDown = true;
 
         leftFlag = true;
+
+        upLevel = false;
 
         for (Entity entity : entitiesGame) {
             kernel.addToScene(gameScene, entity);
