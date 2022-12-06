@@ -33,12 +33,15 @@ public class Kernel implements Observer {
 
     public ArrayList<Subject> entities;
 
+    public Audio audioEngine;
+
     public Kernel() {
         this.entities = new ArrayList<>();
         graphicalEngine = new GraphicalEngine();
         physicalEngine = new PhysicalEngine();
         commandEngine = new CommandEngine();
         aiEngine = new AIEngine();
+        audioEngine = new Audio();
     }
 
 
@@ -325,7 +328,23 @@ public class Kernel implements Observer {
         return commandEngine.keyHandler;
     }
 
-    public void playSound(String sound){
-        Audio.play(sound);
+    public void playMusic(String path){
+        audioEngine.setFile(path);
+        audioEngine.play();
+        audioEngine.loop();
     }
+    public void stopMusic(){
+        audioEngine.stop();
+    }
+
+    public void playSE(String path){
+
+        audioEngine.setFile(path);
+        audioEngine.play();
+
+    }
+
+
+
+
 }

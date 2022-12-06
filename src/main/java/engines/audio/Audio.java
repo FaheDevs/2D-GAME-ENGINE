@@ -1,36 +1,40 @@
 package engines.audio;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Audio {
-    private Clip clip;
 
-    public Audio(String son) {
+    Clip clip;
+
+
+    public Audio(){
+
+    }
+
+
+    public void setFile(String path){
         try {
-            //handle
-            AudioInputStream clip = AudioSystem.getAudioInputStream(getClass().getResource(son));
-            this.clip = AudioSystem.getClip();
-            this.clip.open(clip);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path));
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public Clip getClip() {
-        return clip;
+    public void play(){
+        clip.start();
     }
 
-    public void play() {
-        if(clip != null)  clip.start();
+    public void loop(){
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    public void stop() {
-        if(clip != null) clip.stop();
-    }
-
-    public static void play(String son) {
-        Audio s = new Audio(son);
-        s.play();
+    public void stop(){
+        clip.stop();
     }
 
 

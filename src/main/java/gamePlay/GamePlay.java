@@ -8,6 +8,7 @@ import engines.kernel.Kernel;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -31,6 +32,8 @@ public class GamePlay implements Runnable {
 
     static int ctpTours = 0;
 
+    public HashMap<SONG , String > SongsMap;
+
     int score = 0;
 
     int remaningLife = 3;
@@ -53,7 +56,6 @@ public class GamePlay implements Runnable {
 
     int speedAliens;
 
-    public Scene gameScene;
 
     boolean leftFlag = true;
 
@@ -68,13 +70,13 @@ public class GamePlay implements Runnable {
 
     boolean isSaucer = false;
 
-    int ecartCastl = 55;
-
     Entity scoreEntity;
 
     Entity greenBar;
 
     int nbDown = 0;
+
+    public Scene gameScene;
 
     public Scene menuView;
 
@@ -85,6 +87,8 @@ public class GamePlay implements Runnable {
     public boolean iCanDown = true;
 
     public GamePlay() throws IOException {
+
+        SongsMap = new HashMap<>();
 
         killedAlienPostion[0] = -1;
 
@@ -105,6 +109,8 @@ public class GamePlay implements Runnable {
         pathsPlayer.add("src/main/resources/assets/images/Spacecraft/craft.png");
         pathsPlayer.add("src/main/resources/assets/images/Spacecraft/destroy.png");
 
+
+        initSongs();
 
         heightWorld = 600;
         widthWorld = 600;
@@ -174,7 +180,7 @@ public class GamePlay implements Runnable {
         for (int i = 0; i < 5; i++) {
             aliens.add(new ArrayList<>());
             for (int j = 0; j < 11; j++) {
-                aliens.get(i).add(new Aliens(32, 32));
+                aliens.get(i).add(new Alien(32, 32));
                 initEntity(aliens.get(i).get(j));
                 aliens.get(i).get(j).setAiObjectPositions(x, y);
                 x -= 40;
@@ -197,6 +203,8 @@ public class GamePlay implements Runnable {
     }
 
     public void initCastle() {
+        int ecartCastl = 55;
+
         for (int i = 0; i < 4; i++) {
             castle.add(new Castle[Castle.nbLines][Castle.nbColumns]);
         }
@@ -310,14 +318,14 @@ public class GamePlay implements Runnable {
         if (inGame) {
             if (kernel.getKeyHandler().leftPressed) {
                 kernel.isCollide(heightWorld, widthWorld, player, player.x - player.getSpeed(),
-                        player.y, this.entitiesGame);
+                        player.y, entitiesGame);
                 if (!player.getAndResetCollision())
                     kernel.move(player, "left");
             }
 
             if (kernel.getKeyHandler().rightPressed) {
                 kernel.isCollide(heightWorld, widthWorld, player, player.x + player.getSpeed(),
-                        player.y, this.entitiesGame);
+                        player.y, entitiesGame);
                 if (!player.getAndResetCollision())
                     kernel.move(player, "right");
 
@@ -327,6 +335,7 @@ public class GamePlay implements Runnable {
                 if (!isShooted && !isKilled) {
                     shoot(player, true);
                     isShooted = true;
+                    playSE(SongsMap.get(SONG.PLAYER_SHOOT));
                 }
             }
             Bullet bullet ;
@@ -457,10 +466,10 @@ public class GamePlay implements Runnable {
     public void eliminateAlien(int[] alienKilledPostion) {
         if (!aliens.isEmpty() && !aliens.get(alienKilledPostion[0]).isEmpty()) {
             chooseImage(aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]), false, pathsAliens);
-            score += this.aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]).value;
+            score += aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]).value;
             kernel.afficheTexte(scoreEntity,"SCORE : " + score);
             aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]).killed = true;
-            kernel.erase(this.aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]));
+            kernel.erase(aliens.get(alienKilledPostion[0]).get(alienKilledPostion[1]));
             aliens.get(alienKilledPostion[0]).set(alienKilledPostion[1], null);
         }
     }
@@ -487,6 +496,7 @@ public class GamePlay implements Runnable {
         if (!isKilled) {
             chooseAlien();
             shoot(aliens.get(choosedAlienPostion[0]).get(choosedAlienPostion[1]), false);
+            playSE(SongsMap.get(SONG.ALIEN_SHOOT));
         }
     }
 
@@ -692,7 +702,7 @@ public class GamePlay implements Runnable {
         aliens = new ArrayList<>();
         entitiesGame = new ArrayList<>();
         initGameEntities();
-        this.score = 0;
+        score = 0;
         for (Entity entity : entitiesGame) {
             kernel.addToScene(gameScene, entity);
         }
@@ -717,8 +727,21 @@ public class GamePlay implements Runnable {
         looseView = kernel.looseViewParams(score);
     }
 
-    public static void main(String[] args) throws IOException {
+    public void initSongs(){
+        SongsMap.put(SONG.MENU , "src/main/resources/assets/sounds/pausa.wav");
+        SongsMap.put(SONG.PLAYER_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
+        SongsMap.put(SONG.ALIEN_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
+    }
 
+    public void playMusic(String path){
+        kernel.playMusic(path);
+    }
+    public void playSE(String path){
+        kernel.playSE(path);
+
+    }
+
+    public static void main(String[] args) throws IOException {
         GamePlay game = new GamePlay();
         game.startGameThread();
 
