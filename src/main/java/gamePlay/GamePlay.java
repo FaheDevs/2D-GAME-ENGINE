@@ -32,6 +32,8 @@ public class GamePlay implements Runnable {
 
     static int ctpTours;
 
+    static int timeS;
+
     int score;
 
     int nbDown;
@@ -74,6 +76,8 @@ public class GamePlay implements Runnable {
     boolean isSaucer = false;
 
     Entity scoreEntity;
+
+    Entity timeEntity;
 
     Entity greenBar;
 
@@ -124,7 +128,7 @@ public class GamePlay implements Runnable {
         gameScene = kernel.generateScene(heightWorld, widthWorld);
         kernel.bindScene(gameScene);
 
-        initGamePlay();
+        //initGamePlay();
         kernel.enableKeyboardIO();
         kernel.start();
 
@@ -206,8 +210,8 @@ public class GamePlay implements Runnable {
         saucer = new Saucer(32, 32);
         initEntity(saucer);
         saucer.setAiObjectPositions(17, 40);
-        System.out.println("dddd");
         isSaucer = true;
+        playMusic(SongsMap.get(SONG.SAUCER_MOUVEMENT));
     }
 
     public void initCastle() {
@@ -235,6 +239,7 @@ public class GamePlay implements Runnable {
         initEntity(saucer);
         saucer.setAiObjectPositions( 18, 40);
         isSaucer = true;
+        playMusic(SongsMap.get(SONG.SAUCER_MOUVEMENT));
     }
 
     public void shoot(Entity entity, boolean isP) {
@@ -288,7 +293,7 @@ public class GamePlay implements Runnable {
                 try {
                     updatePlayer();
                     updateAliens();
-                    //updateSaucer();
+                    updateSaucer();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -318,6 +323,14 @@ public class GamePlay implements Runnable {
                 aliensShoot();
                 drawCount = 0;
                 timer = 0;
+                timeS += 1;
+                if(inGame){
+                    if(timeS > 99) {
+                        timeEntity.setGraphicalPositions(timeEntity.x - 10, timeEntity.y);
+                        kernel.afficheTexte(timeEntity,"TIME : " + timeS + " S");
+                    }
+                    else kernel.afficheTexte(timeEntity,"TIME : " + timeS + " S");
+                }
             }
         }
 
@@ -373,6 +386,7 @@ public class GamePlay implements Runnable {
         }
 
         if (kernel.getKeyHandler().enterPressed && !isKilled && !inGame) {
+            initGamePlay();
             kernel.switchScene(gameScene);
             inGame = true;
         }
@@ -677,8 +691,8 @@ public class GamePlay implements Runnable {
     public void updateSaucer() {
         if (saucer != null && inGame) {
             kernel.move(saucer, "right");
-
             if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.x + saucer.getSpeed())) {
+                kernel.stopMusic();
                 killSauser(saucer);
             }
         }
@@ -693,6 +707,7 @@ public class GamePlay implements Runnable {
 
     public void destroySaucer(Entity saucer, Bullet bullet) {
         if (kernel.collideObjectToObject(bullet, saucer, bullet.x, bullet.y - bullet.physicalObject.speed)) {
+            //kernel.stopMusic();
             score += saucer.value;
             Entity scoreAugmentationImage = kernel.creatEntity(100, 30, gameScene);
             scoreAugmentationImage.setImage("src/main/resources/assets/images/soucoupe100.png");
@@ -723,13 +738,11 @@ public class GamePlay implements Runnable {
     }
 
     public void initGamePlay() throws IOException {
-        gameScene = kernel.generateScene(heightWorld,widthWorld);
-        aliens = new ArrayList<>();
-        entitiesGame = new ArrayList<>();
-        initGameEntities();
         score = 0;
 
         ctpTours = 0;
+
+        timeS = 0;
 
         nbDown = 0;
 
@@ -749,6 +762,11 @@ public class GamePlay implements Runnable {
 
         upLevel = false;
 
+        gameScene = kernel.generateScene(heightWorld,widthWorld);
+        aliens = new ArrayList<>();
+        entitiesGame = new ArrayList<>();
+        initGameEntities();
+
         for (Entity entity : entitiesGame) {
             kernel.addToScene(gameScene, entity);
         }
@@ -758,7 +776,9 @@ public class GamePlay implements Runnable {
 
         scoreEntity = kernel.creatEntityToDrow(17, 30, Color.GREEN, gameScene);
         kernel.afficheTexte(scoreEntity, "SCORE : " + score);
-        kernel.creatEntityToDrow(18, 560, Color.GREEN, gameScene);
+
+        timeEntity = kernel.creatEntityToDrow(490, 30, Color.GREEN, gameScene);
+        kernel.afficheTexte(timeEntity, "TIME : " + timeS + "S");
 
         for (int i = 0; i < 3; i++) {
             Entity entity = kernel.creatEntity((i * 32 + 5) + 18, 560, gameScene);
@@ -783,6 +803,7 @@ public class GamePlay implements Runnable {
         SongsMap.put(SONG.MENU , "src/main/resources/assets/sounds/pausa.wav");
         SongsMap.put(SONG.PLAYER_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
         SongsMap.put(SONG.ALIEN_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
+        SongsMap.put(SONG.SAUCER_MOUVEMENT,"src/main/resources/assets/sounds/sonSoucoupePasse.wav");
     }
 
     public void playMusic(String path){
