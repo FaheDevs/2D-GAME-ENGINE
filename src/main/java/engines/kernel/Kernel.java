@@ -292,11 +292,11 @@ public class Kernel implements Observer {
         Entity text = new Entity(texting);
         Entity scoring = new Entity(scores);
         logo.setGraphicalPositions(180,200);
-        //text.setGraphicalPositions(120,480);
+        text.setGraphicalPositions(120,480);
         scoring.setGraphicalPositions(230,530);
 
         addToScene(looseView,logo);
-        //addToScene(looseView,text);
+        addToScene(looseView,text);
         addToScene(looseView,scoring);
 
 

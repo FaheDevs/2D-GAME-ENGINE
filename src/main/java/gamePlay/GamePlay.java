@@ -276,6 +276,9 @@ public class GamePlay implements Runnable {
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
+            if(inGame){
+
+            }
             if (delta >= 1) {
                 try {
                     updatePlayer();
@@ -493,7 +496,7 @@ public class GamePlay implements Runnable {
     }
 
     public void aliensShoot() {
-        if (!isKilled) {
+        if (!isKilled && inGame) {
             chooseAlien();
             shoot(aliens.get(choosedAlienPostion[0]).get(choosedAlienPostion[1]), false);
             playSE(SongsMap.get(SONG.ALIEN_SHOOT));
