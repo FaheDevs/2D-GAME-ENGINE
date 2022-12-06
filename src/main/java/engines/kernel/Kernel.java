@@ -96,6 +96,15 @@ public class Kernel implements Observer {
         graphicalEngine.addToScene(scene, entity.graphicalObject);
         return entity;
     }
+
+    public Entity creatEntity(int x, int y, Scene scene){
+        Entity entity = new Entity(new GraphicalObject(new Point(x, y)));
+        entity.setGraphicalPositions(x, y);
+        entities.add(entity);
+        graphicalEngine.addToScene(scene, entity.graphicalObject);
+        return entity;
+    }
+
     public void afficheTexte(Entity entity, String texte) {
         entity.graphicalObject.setAfficheTexte(texte);
     }
@@ -166,14 +175,6 @@ public class Kernel implements Observer {
         }
 
     }
-
-    /*public void move(Entity saucer) {
-        int[] newPos = {saucer.x, saucer.y};
-        if (saucer.physicalObject != null && !saucer.killed) {
-            newPos = physicalEngine.move(saucer.physicalObject, "right");
-            saucer.setPyhsicalObjectPositions(newPos[0], newPos[1]);
-        }
-    }*/
 
     public boolean isCollideLeft(int newX) {
         return physicalEngine.isCollideLeft(newX);

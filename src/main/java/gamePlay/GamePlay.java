@@ -7,10 +7,7 @@ import engines.kernel.Kernel;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class GamePlay implements Runnable {
@@ -30,21 +27,28 @@ public class GamePlay implements Runnable {
 
     ArrayList<Bullet> shoots;
 
-    static int ctpTours = 0;
 
     public HashMap<SONG , String > SongsMap;
 
-    int score = 0;
+    static int ctpTours;
 
-    int remaningLife = 3;
+    int score;
 
-    boolean isShooted = false;
+    int nbDown;
 
-    boolean isKilled = false;
+    int remaningLife;
 
-    boolean inGame = false;
+    boolean isShooted;
 
-    boolean pos1 = true;
+    boolean isKilled;
+
+    boolean inGame;
+
+    boolean pos1;
+
+    public boolean iCanDown;
+
+    boolean leftFlag;
 
     ArrayList<Entity> entitiesGame;
 
@@ -55,9 +59,6 @@ public class GamePlay implements Runnable {
     int widthWorld;
 
     int speedAliens;
-
-
-    boolean leftFlag = true;
 
 
     ArrayList<Castle[][]> castle;
@@ -74,7 +75,7 @@ public class GamePlay implements Runnable {
 
     Entity greenBar;
 
-    int nbDown = 0;
+    Deque<Entity> viewLife;
 
     public Scene gameScene;
 
@@ -83,8 +84,6 @@ public class GamePlay implements Runnable {
     private Scene winView;
 
     private Scene looseView;
-
-    public boolean iCanDown = true;
 
     public GamePlay() throws IOException {
 
@@ -108,6 +107,8 @@ public class GamePlay implements Runnable {
         pathsPlayer = new ArrayList<>();
         pathsPlayer.add("src/main/resources/assets/images/Spacecraft/craft.png");
         pathsPlayer.add("src/main/resources/assets/images/Spacecraft/destroy.png");
+
+        viewLife = new LinkedList<>();
 
 
         initSongs();
@@ -162,7 +163,7 @@ public class GamePlay implements Runnable {
         entity.register(kernel);
         kernel.setSubject(entity);
         entitiesGame.add(entity);
-
+        kernel.addToScene(gameScene, entity);
     }
 
     public void initPlayer() throws IOException {
@@ -171,6 +172,10 @@ public class GamePlay implements Runnable {
         initEntity(player);
 
         player.setPyhsicalObjectPositions(300, 500);
+
+        player.killed = false;
+
+        isKilled = false;
     }
 
     public void initAliens() {
@@ -276,9 +281,6 @@ public class GamePlay implements Runnable {
             delta += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime);
             lastTime = currentTime;
-            if(inGame){
-
-            }
             if (delta >= 1) {
                 try {
                     updatePlayer();
@@ -290,7 +292,7 @@ public class GamePlay implements Runnable {
                     pos1 = !pos1;
                 }
 
-                if (ctpTours % 250 == 0) {
+                if (ctpTours % 225 == 0) {
                     aliensShoot();
                 }
                 if (ctpTours % 100 == 0) {
@@ -506,13 +508,22 @@ public class GamePlay implements Runnable {
     public void killPlayerBullet(Entity bulletPlayer, int newX, int newY, Entity player) throws IOException {
         if (kernel.collideObjectToObject(bulletPlayer, player, newX, newY)) {
             killBullet((Bullet) bulletPlayer);
-            player.killed = true;
+            remaningLife --;
+            chooseImage(player, true, pathsPlayer);
+            kernel.erase(player);
             entitiesGame.remove(player);
             kernel.entities.remove(player);
-            isKilled = true;
-            inGame = false;
-            initLooseView();
-            kernel.switchScene(looseView);
+            if (remaningLife <= 0) {;
+                player.killed = true;
+                isKilled = true;
+                initLooseView();
+                kernel.switchScene(looseView);
+                inGame = false;
+            }
+            else {
+                kernel.erase(viewLife.pollLast());
+                initPlayer();
+            }
         }
     }
 
@@ -692,10 +703,8 @@ public class GamePlay implements Runnable {
             if (paths.size() > 2) {
                 System.out.println(paths.get(2));
                 entity.setImage(paths.get(2));
-            } else entity.setImage(paths.get(1));
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException e) {
+            } else {
+                entity.setImage(paths.get(1));
             }
         }
     }
@@ -706,16 +715,41 @@ public class GamePlay implements Runnable {
         entitiesGame = new ArrayList<>();
         initGameEntities();
         score = 0;
+
+        ctpTours = 0;
+
+        nbDown = 0;
+
+        remaningLife = 3;
+
+        isShooted = false;
+
+        isKilled = false;
+
+        inGame = false;
+
+        pos1 = true;
+
+        iCanDown = true;
+
+        leftFlag = true;
+
         for (Entity entity : entitiesGame) {
             kernel.addToScene(gameScene, entity);
         }
 
-        greenBar = kernel.creatEntityToDrow(17, 555, Color.GREEN, gameScene);
+        greenBar = kernel.creatEntityToDrow(17, 550, Color.GREEN, gameScene);
         kernel.paintRectangle(greenBar, Color.GREEN, 566, 8);
 
         scoreEntity = kernel.creatEntityToDrow(17, 30, Color.GREEN, gameScene);
         kernel.afficheTexte(scoreEntity, "SCORE : " + score);
+        kernel.creatEntityToDrow(18, 560, Color.GREEN, gameScene);
 
+        for (int i = 0; i < 3; i++) {
+            Entity entity = kernel.creatEntity((i * 32 + 5) + 18, 560, gameScene);
+            entity.setImage("src/main/resources/assets/images/Spacecraft/craft.png");
+            viewLife.add(entity);
+        }
     }
 
     public void initMenuView() throws IOException {
