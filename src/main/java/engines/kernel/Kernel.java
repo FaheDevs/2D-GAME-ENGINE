@@ -237,7 +237,6 @@ public class Kernel implements Observer {
         addToScene(menuView,logo);
         addToScene(menuView,text);
 
-
         return  menuView;
 
 

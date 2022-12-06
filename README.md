@@ -5,17 +5,20 @@ from software engineering.
 Develop graphical engine and physical as well as the artificial intelligence engine.
 working in Agile scrum environnement 
 
-Run project : Gradle run . 
+Run project : gradle run 
+<br>
+Test project : gradle test
+</br>
 
-Current state of the project (20/11/2022) : 
-    - the engines ( AI / COMMAND / GRAPHICS / PHYSICS ) implemented  . 
-    - collision working . 
-    - ai working .
-    -
-    
+Current state of the project (05/12/2022) : 
 
+<h3> Space invaders Game implemented </h3>
 
-</p>
+<div>Un tutoriel pour exécuter un fichier .jar</div>
+
+<h5><link> https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Run-JAR-file-example-windows-linux-ubuntu
+<br>
+<br>
 Group Members :
 <ul>
 <li>
