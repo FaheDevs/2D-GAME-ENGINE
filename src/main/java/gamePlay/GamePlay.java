@@ -811,8 +811,13 @@ public class GamePlay implements Runnable {
     }
     public void playSE(String path){
         kernel.playSE(path);
-
     }
+
+    public void stopMusic(){
+        kernel.stopMusic();
+    }
+
+
 
     public static void main(String[] args) throws IOException {
         GamePlay game = new GamePlay();
