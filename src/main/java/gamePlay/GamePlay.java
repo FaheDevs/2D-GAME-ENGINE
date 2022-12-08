@@ -54,6 +54,8 @@ public class GamePlay implements Runnable {
 
     boolean leftFlag;
 
+    boolean isplayed;
+
     ArrayList<Entity> entitiesGame;
 
     int heightWorld;
@@ -211,7 +213,6 @@ public class GamePlay implements Runnable {
         initEntity(saucer);
         saucer.setAiObjectPositions(17, 40);
         isSaucer = true;
-        playSE(SongsMap.get(SONG.SAUCER_MOUVEMENT));
     }
 
     public void initCastle() {
@@ -698,6 +699,10 @@ public class GamePlay implements Runnable {
             if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.x + saucer.getSpeed())) {
                 killSauser(saucer);
             }
+            if (!isplayed) {
+                playSE(SongsMap.get(SONG.SAUCER_MOUVEMENT));
+                isplayed = true;
+            }
         }
     }
 
@@ -765,6 +770,8 @@ public class GamePlay implements Runnable {
         leftFlag = true;
 
         upLevel = false;
+
+        isplayed = false;
 
         gameScene = kernel.generateScene(heightWorld,widthWorld);
         aliens = new ArrayList<>();
