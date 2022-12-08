@@ -12,31 +12,5 @@ Test project : gradle test
 
 Current state of the project (05/12/2022) : 
 
-<h3> Space invaders Game implemented </h3>
+<h3> Space invaders Game implemented with the Help of 2D GAME ENGINES DEVELOPPED </h3>
 
-<div>Un tutoriel pour exécuter un fichier .jar</div>
-
-<h5><link> https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/Run-JAR-file-example-windows-linux-ubuntu
-<br>
-<br>
-Group Members :
-<ul>
-<li>
-ZIDANI FAHED IMED 
-</li>
-<li>
-ADDOUCHE WALID 
-</li>
-<li>
-RIAZI IBRAHIM 
-</li>
-<li>
-AGHILAS ISMAIL 
-</li>
-<li>
-LEO RANGHEARD
-</li>
-<li>
-ELIE NICOLAS
-</li>
-</ul>
