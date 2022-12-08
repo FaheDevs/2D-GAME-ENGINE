@@ -1,10 +1,18 @@
 package engines.AI;
 
 public class AIEngine {
+    /**
+     *
+     * AIEngine
+     */
 
-    public void movable(AIObject entity, int x , int y) {
-        entity.setPosition(x, y);
-    }
+
+    /**
+     *
+     * @param entity
+     * @param direction
+     * @return un tableau [x, y] des nouvelles cordonnées de l'objet selon la direction
+     */
     public int[] move(AIObject entity,String direction){
         int newX, newY;
         if (direction.equals("left")) {

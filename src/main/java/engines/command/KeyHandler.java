@@ -6,12 +6,20 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    /**
+     * KeyHandler qui implémente KeyListenner
+     */
 
-    public boolean UpPressed, downPressed, rightPressed, leftPressed, STyped , enterPressed, Rtyped, spacePressed;
+
+    public boolean UpPressed, downPressed, rightPressed, leftPressed, STyped , enterPressed, Rtyped;
+
+    /**
+     *
+     * prend en parametre @param keyEvent et selon l'entrée tapée met le boolean correspondant à true
+     */
     @Override
     public void keyTyped(KeyEvent keyEvent) {
         char code = keyEvent.getKeyChar();
-
         if (code == 's'  || code == 'S' ) {
             STyped = true;
         }
@@ -20,6 +28,11 @@ public class KeyHandler implements KeyListener {
         }
 
     }
+
+    /**
+     *
+     * prend en parametre @param keyEvent et selon l'entrée pressed met le boolean correspondant à true
+     */
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -45,10 +58,13 @@ public class KeyHandler implements KeyListener {
 
     }
 
+    /**
+     *
+     * prend en parametre @param keyEvent et selon l'entrée relâchée  met le boolean correspondant à false
+     */
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         int code = keyEvent.getKeyCode();
-        int code_c = keyEvent.getKeyChar();
 
         if (code == KeyEvent.VK_RIGHT) {
             rightPressed = false;

@@ -3,6 +3,10 @@ package engines.AI;
 import java.awt.Point;
 
 public class AIObject {
+
+    /**
+     * AI OBJECT qui représente un PNJ (Personnage non jouable) dans le jeu
+     */
     public int x;
 
     public int y;
@@ -14,9 +18,17 @@ public class AIObject {
     public String name;
 
     public int height;
-
     public int speed;
 
+
+    /**
+     *
+     * @param name nom de l'objet
+     * @param x abscisse de l'objet
+     * @param y ordonné de l'objet
+     * @param width largeur de l'objet
+     * @param height hauteur de l'objet
+     */
 
     public AIObject(String name, int x, int y, int width, int height, int speed) {
         this.x = x;
@@ -36,15 +48,29 @@ public class AIObject {
     }
 
 
+    /**
+     * Position getter
+     * @return @param position
+     */
+
     public Point getPosition() {
         return position;
     }
+
+    /**
+     * Position setter
+     * @param position type of Point
+     */
+
 
     public void setPosition(Point position) {
         this.position = position;
         this.x = position.x;
         this.y = position.y;
     }
+
+
+
 
     public void setPosition(int x, int y) {
         this.position = new Point(x, y);
