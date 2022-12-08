@@ -211,7 +211,7 @@ public class GamePlay implements Runnable {
         initEntity(saucer);
         saucer.setAiObjectPositions(17, 40);
         isSaucer = true;
-        playMusic(SongsMap.get(SONG.SAUCER_MOUVEMENT));
+        playSE(SongsMap.get(SONG.SAUCER_MOUVEMENT));
     }
 
     public void initCastle() {
@@ -291,10 +291,13 @@ public class GamePlay implements Runnable {
             lastTime = currentTime;
             if (delta >= 1) {
                 try {
+
                     updatePlayer();
                     updateAliens();
                     updateSaucer();
                 } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
                 if (ctpTours % 20 == 0) {
@@ -336,7 +339,7 @@ public class GamePlay implements Runnable {
 
     }
 
-    public void updatePlayer() throws IOException {
+    public void updatePlayer() throws IOException, InterruptedException {
         if (inGame) {
             if (kernel.getKeyHandler().leftPressed) {
                 kernel.isCollide(heightWorld, widthWorld, player, player.x - player.getSpeed(),
@@ -525,10 +528,11 @@ public class GamePlay implements Runnable {
         }
     }
 
-    public void killPlayerBullet(Entity bulletPlayer, int newX, int newY, Entity player) throws IOException {
+    public void killPlayerBullet(Entity bulletPlayer, int newX, int newY, Entity player) throws IOException, InterruptedException {
         if (kernel.collideObjectToObject(bulletPlayer, player, newX, newY)) {
             killBullet((Bullet) bulletPlayer);
             remaningLife --;
+            playSE(SongsMap.get(SONG.PLAYER_KILLED));
             chooseImage(player, true, pathsPlayer);
             kernel.erase(player);
             entitiesGame.remove(player);
@@ -692,7 +696,6 @@ public class GamePlay implements Runnable {
         if (saucer != null && inGame) {
             kernel.move(saucer, "right");
             if (!kernel.isCollideRight(widthWorld, saucer.widthEntity, saucer.x + saucer.getSpeed())) {
-                kernel.stopMusic();
                 killSauser(saucer);
             }
         }
@@ -738,6 +741,7 @@ public class GamePlay implements Runnable {
     }
 
     public void initGamePlay() throws IOException {
+
         score = 0;
 
         ctpTours = 0;
@@ -788,7 +792,11 @@ public class GamePlay implements Runnable {
     }
 
     public void initMenuView() throws IOException {
+        if(isKilled) {
+            stopMusic();
+        }
         menuView = kernel.menuViewParams();
+        playMusic(SongsMap.get(SONG.MENU));
     }
 
     public void initWinView() throws IOException {
@@ -797,13 +805,15 @@ public class GamePlay implements Runnable {
 
     public void initLooseView() throws IOException {
         looseView = kernel.looseViewParams(score);
+        stopMusic();
     }
 
     public void initSongs(){
-        SongsMap.put(SONG.MENU , "src/main/resources/assets/sounds/pausa.wav");
+        SongsMap.put(SONG.MENU , "src/main/resources/assets/sounds/Menu.wav");
         SongsMap.put(SONG.PLAYER_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
         SongsMap.put(SONG.ALIEN_SHOOT,"src/main/resources/assets/sounds/shoot.wav");
         SongsMap.put(SONG.SAUCER_MOUVEMENT,"src/main/resources/assets/sounds/sonSoucoupePasse.wav");
+        SongsMap.put(SONG.PLAYER_KILLED,"src/main/resources/assets/sounds/invaderkilled.wav");
     }
 
     public void playMusic(String path){
@@ -817,13 +827,9 @@ public class GamePlay implements Runnable {
         kernel.stopMusic();
     }
 
-
-
     public static void main(String[] args) throws IOException {
         GamePlay game = new GamePlay();
         game.startGameThread();
-
-
     }
 }
 

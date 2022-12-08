@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Audio {
 
-    Clip clip;
+    public Clip clip;
 
 
     public Audio(){

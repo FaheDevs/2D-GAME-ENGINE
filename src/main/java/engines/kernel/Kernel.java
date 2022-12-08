@@ -330,16 +330,17 @@ public class Kernel implements Observer {
     }
 
     public void playMusic(String path){
+        stopMusic();
         audioEngine.setFile(path);
         audioEngine.play();
         audioEngine.loop();
     }
     public void stopMusic(){
-        audioEngine.stop();
+        if(audioEngine.clip != null) audioEngine.stop();
+
     }
 
     public void playSE(String path){
-
         audioEngine.setFile(path);
         audioEngine.play();
 

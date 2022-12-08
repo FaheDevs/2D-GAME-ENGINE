@@ -6,4 +6,8 @@ public enum SONG {
     ALIEN_SHOOT,
     SAUCER_MOUVEMENT,
 
+    PLAYER_KILLED
+
+
+
 }
