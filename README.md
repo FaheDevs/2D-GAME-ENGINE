@@ -1,4 +1,4 @@
-# PROJET GL GAME ENGINE  EQUIPE 21 
+# 2D GAME ENGINE   
 
 <p>The objective of this project is to produce quality software using the methods and techniques
 from software engineering. 
